@@ -7,7 +7,7 @@ ftmpl is a fast/compiled/typesafe templating "language" for golang.
 Every template must be saved in a file with extension `.tmpl`.
 The template file can be "compiled" in Go code (and this is typically done in the build procedure).
 
-If the file is names `my_template.tmpl` then the `ftmpl` utility will produce a function function `T__my_template()`.
+If the file is named `my_template.tmpl` then the `ftmpl` utility will produce a function function `T__my_template()`.
 
 Compiling the files is done my invoking:
 
