@@ -93,7 +93,7 @@ Basically every line starting with `!` (but not `!#`) will be translated as go c
 
 ...so by using {{! code }} you embed a go command in that place.
 
-Note that (unlike some other templating languages the `{{! code }}` notation *is not multiline*. It must contain only one go command/line.
+Note that (unlike some other templating languages) the `{{! code }}` notation *is not multiline*. It must contain only one go command/line.
 
 For `for` and `if` control structures you can ommit `{`, `}` or `} else {` (open and close block of code).
 Use `end` to close and `else` (with `if`) instead:
