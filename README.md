@@ -123,7 +123,7 @@ When you need a base website template, and pages "extending it":
         </body>
     </html>
 
-And then various pages can be:
+And then a typical page will be something like:
 
     !#extends base
     !#arg something int
@@ -141,7 +141,7 @@ If the extended template is names `my_page.tmpl` then the resulting template fun
 Typically you will have many template arguments, so the best way to deal with them is to pack them all into one "base page structure" and another struct for every page.
 The function will then be `func T__my_page(baseParams BasePageParams, pageParams MyPageParams)`
 
-## Throwing errors
+## Returning errors
 
 Every template will result in *two* methods. Both will execute the same code, but:
 
