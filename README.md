@@ -136,7 +136,7 @@ And then a typical page will be something like:
     !#sub body
     <h1>Body!</h1>
 
-If the extended template is names `my_page.tmpl` then the resulting template function will have both the arguments from *that template* and arguments from the *base template: `func T__my_page(title string, something int)`.
+If the extended template is names `my_page.tmpl` then the resulting template function will have both the arguments from *that template* and arguments from the *base template*: `func T__my_page(title string, something int)`.
 
 Typically you will have many template arguments, so the best way to deal with them is to pack them all into one "base page structure" and another struct for every page.
 The function will then be `func T__my_page(baseParams BasePageParams, pageParams MyPageParams)`
@@ -145,7 +145,7 @@ The function will then be `func T__my_page(baseParams BasePageParams, pageParams
 
 Every template will result in *two* template functions. Both will execute the same code, but:
 
- * Use `func TE__my_template(args) (string, error)` if you expect your template to return errors, use this one. Use `!return "", err` to prematurely exit from the template with a propper error value.
+ * Use `func TE__my_template(args) (string, error)` if you expect your template to return errors, use this one. Use `!return "", err` to prematurely exit from the template with a proper error value.
  * With `func T__my_template(args) string` if template returns an error, the result is an empty string, and the error will be written in `os.Syserr`.
 
 ## Special variables
