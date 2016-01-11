@@ -61,6 +61,71 @@ func T__base(title string) string {
 }
 
 // Generated code, do not edit!!!!
+func TE__base_embedded(title string) (string, error) {
+	__template__ := "base_embedded.tmpl"
+	_ = __template__
+	__escape__ := html.EscapeString
+	_ = __escape__
+	var result bytes.Buffer
+	/*  */
+	result.WriteString(``)
+	/*  */
+	result.WriteString(`
+`)
+	/* <html> */
+	result.WriteString(`<html>
+`)
+	/* <head> */
+	result.WriteString(`    <head>
+`)
+	/* <title>{{s title }}</title> */
+	result.WriteString(fmt.Sprintf(`        <title>%s</title>
+`, __escape__(title)))
+	/*  */
+	result.WriteString(``)
+	/* !#include head */
+	/*  */
+	result.WriteString(`
+`)
+	/* </head> */
+	result.WriteString(`    </head>
+`)
+	/* <body> */
+	result.WriteString(`    <body>
+`)
+	/*  */
+	result.WriteString(``)
+	/* !#include body */
+	/*  */
+	result.WriteString(`
+`)
+	/*  */
+	result.WriteString(``)
+	/* !#include footer */
+	/*  */
+	result.WriteString(`
+`)
+	/* </body> */
+	result.WriteString(`    </body>
+`)
+	/* </html> */
+	result.WriteString(`</html>
+`)
+	/*  */
+	result.WriteString(``)
+
+	return result.String(), nil
+}
+
+func T__base_embedded(title string) string {
+	html, err := TE__base_embedded(title)
+	if err != nil {
+		os.Stderr.WriteString("Error running template base_embedded.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// Generated code, do not edit!!!!
 func TE__basic(str string, num int) (string, error) {
 	__template__ := "basic.tmpl"
 	_ = __template__
@@ -269,6 +334,109 @@ func T__extends(title string, something int) string {
 	html, err := TE__extends(title, something)
 	if err != nil {
 		os.Stderr.WriteString("Error running template extends.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// Generated code, do not edit!!!!
+func TE__extends_embedded(title string, something int) (string, error) {
+	__template__ := "extends_embedded.tmpl"
+	_ = __template__
+	__escape__ := html.EscapeString
+	_ = __escape__
+	var result bytes.Buffer
+	/*  */
+	result.WriteString(``)
+	/* !#extends base_embedded */
+	/*  */
+	result.WriteString(`
+`)
+	/*  */
+	result.WriteString(``)
+	/*  */
+	result.WriteString(`
+`)
+	/*  */
+	result.WriteString(`
+`)
+	/*  */
+	result.WriteString(``)
+	/*  */
+	result.WriteString(``)
+	/*  */
+	result.WriteString(`
+`)
+	/* <html> */
+	result.WriteString(`<html>
+`)
+	/* <head> */
+	result.WriteString(`    <head>
+`)
+	/* <title>{{s title }}</title> */
+	result.WriteString(fmt.Sprintf(`        <title>%s</title>
+`, __escape__(title)))
+	/*  */
+	result.WriteString(``)
+	/*  */
+	result.WriteString(`
+`)
+	/* <script> */
+	result.WriteString(`<script>
+`)
+	/* alert("included") */
+	result.WriteString(`alert("included")
+`)
+	/* </script> */
+	result.WriteString(`</script>
+`)
+	/*  */
+	result.WriteString(`
+`)
+	/*  */
+	result.WriteString(``)
+	/*  */
+	result.WriteString(`
+`)
+	/* </head> */
+	result.WriteString(`    </head>
+`)
+	/* <body> */
+	result.WriteString(`    <body>
+`)
+	/*  */
+	result.WriteString(``)
+	/*  */
+	result.WriteString(`
+`)
+	/* <h1>Body!</h1> */
+	result.WriteString(`<h1>Body!</h1>
+`)
+	/*  */
+	result.WriteString(``)
+	/*  */
+	result.WriteString(`
+`)
+	/*  */
+	result.WriteString(``)
+	/*  */
+	result.WriteString(`
+`)
+	/* </body> */
+	result.WriteString(`    </body>
+`)
+	/* </html> */
+	result.WriteString(`</html>
+`)
+	/*  */
+	result.WriteString(``)
+
+	return result.String(), nil
+}
+
+func T__extends_embedded(title string, something int) string {
+	html, err := TE__extends_embedded(title, something)
+	if err != nil {
+		os.Stderr.WriteString("Error running template extends_embedded.tmpl:" + err.Error())
 	}
 	return html
 }

@@ -76,7 +76,7 @@ func TestBasicIfElse(t *testing.T) {
 	}
 }
 
-func TestExtends(t *testing.T) {
+func TestExtendsWithLinePlaceholders(t *testing.T) {
 	result := example.T__extends("naslov", 12)
 	expected := `<html>
     <head>
@@ -88,6 +88,34 @@ alert("included")
     </head>
     <body>
 <h1>Body!</h1>
+    </body>
+</html>`
+	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
+		t.Error("Expected:", expected, "was:", result)
+	}
+}
+
+func TestExtendsWithEmbeddedPlaceholders(t *testing.T) {
+	result := example.T__extends_embedded("naslov", 12)
+	expected := `
+
+
+
+<html>
+    <head>
+        <title>naslov</title>
+
+<script>
+alert("included")
+</script>
+
+
+    </head>
+    <body>
+
+<h1>Body!</h1>
+
+
     </body>
 </html>`
 	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
