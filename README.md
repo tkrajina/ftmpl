@@ -143,7 +143,7 @@ The function will then be `func T__my_page(baseParams BasePageParams, pageParams
 
 ## Returning errors
 
-Every template will result in *two* methods. Both will execute the same code, but:
+Every template will result in *two* template functions. Both will execute the same code, but:
 
  * Use `func TE__my_template(args) (string, error)` if you expect your template to return errors, use this one. Use `!return "", err` to prematurely exit from the template with a propper error value.
  * With `func T__my_template(args) string` if template returns an error, the result is an empty string, and the error will be written in `os.Syserr`.
