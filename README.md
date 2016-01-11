@@ -69,7 +69,7 @@ Note that `{{v expression }}` *is not escaped* even when the resulting expressio
 
 There are two ways to write go code in templates:
 
-## Lines starting with "!"
+### Lines starting with "!"
 
     !#arg n int
     <html>
@@ -82,7 +82,7 @@ There are two ways to write go code in templates:
 
 Basically every line starting with `!` (but not `!#`) will be translated as go code in the resulting function.
 
-## Embedded code
+### Embedded code
 
     !#arg n int
     <html>
@@ -106,6 +106,11 @@ For example `if`:
 ...or with `for`...
 
     {{! for i := 0; i < n; i++ }} i={{d i }} {{! end }}
+
+## Careful with Go code
+
+Ftmpl allows you to write go code (instead of templating "metalanguages", like other templating engines), but be careful to not write too much of it. 
+Ideally, the data should be prepared before the template function, and the only code in the template would be some basic formatting, a couple of `if`s and `for`loops.
 
 ## Base templates and extensions
 
