@@ -136,7 +136,7 @@ func main() {
 		appParams.targetDir = sourceDir
 	}
 
-	var compiledTemplates []compileTemplate
+	var compiledTemplates []compiledTemplate
 
 	fileInfos, err := ioutil.ReadDir(sourceDir)
 	handleError(err, "Error listing directory")
@@ -168,15 +168,14 @@ func main() {
 	}
 }
 
-func saveTemplates(destination string, compiled ...compileTemplate) {
+func saveTemplates(destination string, compiled ...compiledTemplate) {
 	fmt.Sprintln("destination=", destination)
 
 	imports := make([]string, 0)
 	for _, c := range compiled {
 		imports = append(imports, c.imports...)
 	}
-	imports = append(imports, "\"fmt\"")
-	imports = append(imports, "\"os\"")
+	imports = append(imports, "\"fmt\"", "\"os\"")
 	imports = rmDoubleImports(imports)
 
 	pathElem1, pathElem2 := getLastPathElements(destination)
@@ -313,17 +312,18 @@ func getLastPathElements(path string) (string, string) {
 	return elements[len(elements)-2], elements[len(elements)-1]
 }
 
-type compileTemplate struct {
+type compiledTemplate struct {
 	imports      []string
 	originalFile string
 	functionCode string
 }
 
+const RANDOM_STRING_CHARS = "qwertyuiopasdfghjklzxcvbnm1234567890"
+
 func getRandomString(length int) string {
 	result := ""
-	chars := "qwertyuiopasdfghjklzxcvbnm1234567890"
 	for i := 0; i < length; i++ {
-		result += string(chars[rand.Int()%len(chars)])
+		result += string(RANDOM_STRING_CHARS[rand.Int()%len(RANDOM_STRING_CHARS)])
 	}
 
 	return result
@@ -367,10 +367,10 @@ func loadTemplateAndGetLines(fileName string) []string {
 	return strings.Split(str, lineDelimiter)
 }
 
-func convertTemplate(packageDir, file string) compileTemplate {
+func convertTemplate(packageDir, file string) compiledTemplate {
 	lines := loadTemplateAndGetLines(path.Join(packageDir, file))
 
-	result := compileTemplate{}
+	result := compiledTemplate{}
 	result.originalFile = file
 
 	_, pckg := getLastPathElements(packageDir)
@@ -420,10 +420,7 @@ func convertTemplate(packageDir, file string) compileTemplate {
 		params.EscapeFunc = defaultQuoteTemplate
 	}
 
-	result.imports = append(result.imports, "\"bytes\"")
-	result.imports = append(result.imports, "\"errors\"")
-	result.imports = append(result.imports, "\"html\"")
-	result.imports = append(result.imports, "\"fmt\"")
+	result.imports = append(result.imports, "\"bytes\"", "\"errors\"", "\"html\"", "\"fmt\"")
 
 	params.Args = rmDoubleImports(params.Args)
 

@@ -2,6 +2,10 @@
 
 ftmpl is a fast/compiled/typesafe templating "language" for golang.
 
+## Installation
+
+    go get github.com/tkrajina/ftmpl
+
 ## Templating files and functions
 
 Every template must be saved in a file with extension `.tmpl`.
