@@ -276,6 +276,94 @@ func T__basic_if_else(n int) string {
 }
 
 // Generated code, do not edit!!!!
+func TE__comparison_with_gotemplates(params TemplateParam) (string, error) {
+	__template__ := "comparison_with_gotemplates.tmpl"
+	_ = __template__
+	__escape__ := html.EscapeString
+	_ = __escape__
+	var result bytes.Buffer
+	/* <html> */
+	result.WriteString(`<html>
+`)
+	/* <head> */
+	result.WriteString(`    <head>
+`)
+	/* <title>{{s params.Title }}</title> */
+	result.WriteString(fmt.Sprintf(`        <title>%s</title>
+`, __escape__(params.Title)))
+	/* </head> */
+	result.WriteString(`    </head>
+`)
+	/* <body> */
+	result.WriteString(`    <body>
+`)
+	/* <h1>{{s params.Title }}</h1> */
+	result.WriteString(fmt.Sprintf(`        <h1>%s</h1>
+`, __escape__(params.Title)))
+	/*  */
+	result.WriteString(`        `)
+	/* !if len(params.Subtitle) > 0{ */
+	if len(params.Subtitle) > 0 {
+		/* <h2>{{ params.Subtitle }}</h1> */
+		result.WriteString(fmt.Sprintf(`<h2>%v</h1>`, params.Subtitle))
+		/* !} */
+	}
+	/*  */
+	result.WriteString(`
+`)
+	/* <ul> */
+	result.WriteString(`        <ul>
+`)
+	/*  */
+	result.WriteString(`            `)
+	/* !for _, item := range params.Items{ */
+	for _, item := range params.Items {
+		/*  */
+		result.WriteString(`
+`)
+		/* <li> {{s item }} */
+		result.WriteString(fmt.Sprintf(`                <li> %s
+`, __escape__(item)))
+		/*  */
+		result.WriteString(`            `)
+		/* !} */
+	}
+	/*  */
+	result.WriteString(`
+`)
+	/* </ul> */
+	result.WriteString(`        </ul>
+`)
+	/* <p> */
+	result.WriteString(`        <p>
+`)
+	/* Written {{d len(params.Items) }} items */
+	result.WriteString(fmt.Sprintf(`            Written %d items
+`, len(params.Items)))
+	/* </p> */
+	result.WriteString(`        </p>
+`)
+	/* </body> */
+	result.WriteString(`    </body>
+`)
+	/* </html> */
+	result.WriteString(`</html>
+`)
+	/*  */
+	result.WriteString(``)
+
+	return result.String(), nil
+}
+
+func T__comparison_with_gotemplates(params TemplateParam) string {
+	html, err := TE__comparison_with_gotemplates(params)
+	if err != nil {
+		os.Stderr.WriteString("Error running template comparison_with_gotemplates.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// Generated code, do not edit!!!!
 func TE__extends(title string, something int) (string, error) {
 	__template__ := "extends.tmpl"
 	_ = __template__

@@ -1,0 +1,18 @@
+!#arg params TemplateParam
+<html>
+    <head>
+        <title>{{s params.Title }}</title>
+    </head>
+    <body>
+        <h1>{{s params.Title }}</h1>
+        {{! if len(params.Subtitle) > 0 }}<h2>{{ params.Subtitle }}</h1>{{! end }}
+        <ul>
+            {{! for _, item := range params.Items }}
+                <li> {{s item }}
+            {{! end }}
+        </ul>
+        <p>
+            Written {{d len(params.Items) }} items
+        </p>
+    </body>
+</html>
