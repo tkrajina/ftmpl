@@ -358,6 +358,9 @@ func loadTemplateAndGetLines(fileName string) []string {
 		if result == "end" {
 			result = "}"
 		}
+		if matches, _ := regexp.Match("else\\s+if.*", []byte(result)); matches && !strings.HasSuffix(result, "{") {
+			result = fmt.Sprintf("} %s {", result)
+		}
 
 		result = lineDelimiter + "!" + result + lineDelimiter
 

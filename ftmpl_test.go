@@ -81,6 +81,30 @@ func TestBasicIfElse(t *testing.T) {
 	}
 }
 
+func TestBasicIfElseIf(t *testing.T) {
+	{
+		result := example.T__basic_if_elseif(-5)
+		expected := `n less than 10`
+		if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
+			t.Error(explanation)
+		}
+	}
+	{
+		result := example.T__basic_if_elseif(25)
+		expected := `n less than 100`
+		if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
+			t.Error(explanation)
+		}
+	}
+	{
+		result := example.T__basic_if_elseif(2500)
+		expected := `n bigger than 100`
+		if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
+			t.Error(explanation)
+		}
+	}
+}
+
 func TestExtendsWithLinePlaceholders(t *testing.T) {
 	result := example.T__extends("naslov", 12)
 	expected := `<html>

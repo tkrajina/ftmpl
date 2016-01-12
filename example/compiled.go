@@ -276,6 +276,51 @@ func T__basic_if_else(n int) string {
 }
 
 // Generated code, do not edit!!!!
+func TE__basic_if_elseif(n int) (string, error) {
+	__template__ := "basic_if_elseif.tmpl"
+	_ = __template__
+	__escape__ := html.EscapeString
+	_ = __escape__
+	var result bytes.Buffer
+	/*  */
+	result.WriteString(``)
+	/*  */
+	result.WriteString(`
+`)
+	/*  */
+	result.WriteString(``)
+	/* !if n < 10{ */
+	if n < 10 {
+		/* n less than 10 */
+		result.WriteString(`n less than 10`)
+		/* !} else if n < 100 { */
+	} else if n < 100 {
+		/* n less than 100 */
+		result.WriteString(`n less than 100`)
+		/* !} else { */
+	} else {
+		/* n bigger than 100 */
+		result.WriteString(`n bigger than 100`)
+		/* !} */
+	}
+	/*  */
+	result.WriteString(`
+`)
+	/*  */
+	result.WriteString(``)
+
+	return result.String(), nil
+}
+
+func T__basic_if_elseif(n int) string {
+	html, err := TE__basic_if_elseif(n)
+	if err != nil {
+		os.Stderr.WriteString("Error running template basic_if_elseif.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// Generated code, do not edit!!!!
 func TE__comparison_with_gotemplates(params TemplateParam) (string, error) {
 	__template__ := "comparison_with_gotemplates.tmpl"
 	_ = __template__
