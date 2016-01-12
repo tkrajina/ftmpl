@@ -2,6 +2,12 @@
 
 ftmpl is a fast/compiled/typesafe templating "language" for golang.
 
+## Why ftmpl?
+
+ * It's faster (run `go test -v . -run=TestComparisonWithGolangTemplates` for a comparison). The builtin templates involve a lot of reflection, ftmpl "compiles" to simple Golang functions.
+ * No need to learn another templating "language" with, ftmpl is just plain Go
+ * Type safety (why have a typesafe language and a nontypesafe templating engine?)
+
 ## Installation
 
     go get github.com/tkrajina/ftmpl
