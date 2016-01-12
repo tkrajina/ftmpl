@@ -410,6 +410,10 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 			params.Lines = append(params.Lines, errBuffer.String())
 		} else if strings.HasPrefix(line, "!#") {
 			params.addComment(line)
+		} else if strings.HasPrefix(line, "!!") {
+			line = line[1:]
+			params.addComment(line)
+			params.Lines = append(params.Lines, handleTemplateLine(line))
 		} else if strings.HasPrefix(line, "!") {
 			params.addComment(line)
 			params.Lines = append(params.Lines, line[1:])

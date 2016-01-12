@@ -573,3 +573,33 @@ func T__extends_embedded(title string, something int) string {
 	}
 	return html
 }
+
+// Generated code, do not edit!!!!
+func TE__noncode_line_with_exclamation_mark() (string, error) {
+	__template__ := "noncode_line_with_exclamation_mark.tmpl"
+	_ = __template__
+	__escape__ := html.EscapeString
+	_ = __escape__
+	var result bytes.Buffer
+	/* !s1 := "This lins is not a code line" */
+	result.WriteString(`!s1 := "This lins is not a code line"
+`)
+	/* !s2 := "This *is* a line of code" */
+	s2 := "This *is* a line of code"
+
+	/* {{s s2 }} */
+	result.WriteString(fmt.Sprintf(`%s
+`, __escape__(s2)))
+	/*  */
+	result.WriteString(``)
+
+	return result.String(), nil
+}
+
+func T__noncode_line_with_exclamation_mark() string {
+	html, err := TE__noncode_line_with_exclamation_mark()
+	if err != nil {
+		os.Stderr.WriteString("Error running template noncode_line_with_exclamation_mark.tmpl:" + err.Error())
+	}
+	return html
+}

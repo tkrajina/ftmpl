@@ -92,6 +92,8 @@ There are two ways to write go code in templates:
 
 Basically every line starting with `!` (but not `!#`) will be translated as go code in the resulting function.
 
+If you (really?) need a non-golang line starting with `!` start it with `!!`.
+
 ### Embedded code
 
     !#arg n int

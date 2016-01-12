@@ -168,6 +168,15 @@ var golangTemplate = texttmpl.Must(texttmpl.New("").Parse(`
 </html>
 `))
 
+func TestNonCodeStartingWithExclamationMark(t *testing.T) {
+	result := example.T__noncode_line_with_exclamation_mark()
+	expected := `!s1 := "This lins is not a code line"
+This *is* a line of code`
+	if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
+		t.Error(explanation)
+	}
+}
+
 func TestComparisonWithGolangTemplates(t *testing.T) {
 	param := example.TemplateParam{
 		Title:    "titl",
