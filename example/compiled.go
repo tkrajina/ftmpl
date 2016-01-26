@@ -16,6 +16,7 @@ func init() {
 }
 
 // Generated code, do not edit!!!!
+
 func TE__base(title string) (string, error) {
 	__template__ := "base.tmpl"
 	_ = __template__
@@ -61,6 +62,7 @@ func T__base(title string) string {
 }
 
 // Generated code, do not edit!!!!
+
 func TE__base_embedded(title string) (string, error) {
 	__template__ := "base_embedded.tmpl"
 	_ = __template__
@@ -126,6 +128,7 @@ func T__base_embedded(title string) string {
 }
 
 // Generated code, do not edit!!!!
+
 func TE__basic(str string, num int) (string, error) {
 	__template__ := "basic.tmpl"
 	_ = __template__
@@ -156,6 +159,7 @@ func T__basic(str string, num int) string {
 }
 
 // Generated code, do not edit!!!!
+
 func TE__basic_code(s string, num int) (string, error) {
 	__template__ := "basic_code.tmpl"
 	_ = __template__
@@ -186,6 +190,7 @@ func T__basic_code(s string, num int) string {
 }
 
 // Generated code, do not edit!!!!
+
 func TE__basic_embedded_code(n int) (string, error) {
 	__template__ := "basic_embedded_code.tmpl"
 	_ = __template__
@@ -218,6 +223,7 @@ func T__basic_embedded_code(n int) string {
 }
 
 // Generated code, do not edit!!!!
+
 func TE__basic_if_else(n int) (string, error) {
 	__template__ := "basic_if_else.tmpl"
 	_ = __template__
@@ -276,6 +282,7 @@ func T__basic_if_else(n int) string {
 }
 
 // Generated code, do not edit!!!!
+
 func TE__basic_if_elseif(n int) (string, error) {
 	__template__ := "basic_if_elseif.tmpl"
 	_ = __template__
@@ -321,6 +328,7 @@ func T__basic_if_elseif(n int) string {
 }
 
 // Generated code, do not edit!!!!
+
 func TE__comparison_with_gotemplates(params TemplateParam) (string, error) {
 	__template__ := "comparison_with_gotemplates.tmpl"
 	_ = __template__
@@ -409,6 +417,7 @@ func T__comparison_with_gotemplates(params TemplateParam) string {
 }
 
 // Generated code, do not edit!!!!
+
 func TE__extends(title string, something int) (string, error) {
 	__template__ := "extends.tmpl"
 	_ = __template__
@@ -472,6 +481,7 @@ func T__extends(title string, something int) string {
 }
 
 // Generated code, do not edit!!!!
+
 func TE__extends_embedded(title string, something int) (string, error) {
 	__template__ := "extends_embedded.tmpl"
 	_ = __template__
@@ -575,6 +585,7 @@ func T__extends_embedded(title string, something int) string {
 }
 
 // Generated code, do not edit!!!!
+
 func TE__noncode_line_with_exclamation_mark() (string, error) {
 	__template__ := "noncode_line_with_exclamation_mark.tmpl"
 	_ = __template__
@@ -600,6 +611,38 @@ func T__noncode_line_with_exclamation_mark() string {
 	html, err := TE__noncode_line_with_exclamation_mark()
 	if err != nil {
 		os.Stderr.WriteString("Error running template noncode_line_with_exclamation_mark.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// Generated code, do not edit!!!!
+type Argument struct {
+	Aaa string
+	Bbb int
+}
+
+func TE__with_global_declaration(arg Argument) (string, error) {
+	__template__ := "with_global_declaration.tmpl"
+	_ = __template__
+	__escape__ := html.EscapeString
+	_ = __escape__
+	var result bytes.Buffer
+	/* Aaa={{s arg.Aaa }} */
+	result.WriteString(fmt.Sprintf(`Aaa=%s
+`, __escape__(arg.Aaa)))
+	/* Bbb={{d arg.Bbb }} */
+	result.WriteString(fmt.Sprintf(`Bbb=%d
+`, arg.Bbb))
+	/*  */
+	result.WriteString(``)
+
+	return result.String(), nil
+}
+
+func T__with_global_declaration(arg Argument) string {
+	html, err := TE__with_global_declaration(arg)
+	if err != nil {
+		os.Stderr.WriteString("Error running template with_global_declaration.tmpl:" + err.Error())
 	}
 	return html
 }

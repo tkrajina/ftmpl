@@ -31,10 +31,12 @@ const CMD_ERROIF = "!#errif"
 const CMD_SUB = "!#sub"
 const CMD_EXTENDS = "!#extends"
 const CMD_INCLUDE = "!#include"
+const CMD_GLOBAL = "!#global"
 
 var templateReplacementRegex = regexp.MustCompile("{{.*?}}")
 
 var generatorTemplate = texttmpl.Must(texttmpl.New("").Parse(`// Generated code, do not edit!!!!
+{{ .GlobalCode }}
 func {{ .ErrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) (string, error) {
 	__template__ := "{{ .TemplateFile }}"
 	_ = __template__
@@ -56,6 +58,7 @@ func {{ .NoerrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) string {
 }`))
 
 type TemplateParams struct {
+	GlobalCode      string
 	ErrFuncPrefix   string
 	NoerrFuncPrefix string
 	TemplateFile    string
@@ -392,6 +395,8 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 		_ = n
 		if strings.HasPrefix(line, CMD_ARG) {
 			params.Args = append(params.Args, strings.TrimSpace(line[len(CMD_ARG):]))
+		} else if strings.HasPrefix(line, CMD_GLOBAL) {
+			params.GlobalCode += strings.TrimSpace(line[len(CMD_ESCAPE):]) + "\n"
 		} else if strings.HasPrefix(line, CMD_ESCAPE) {
 			params.EscapeFunc = strings.TrimSpace(line[len(CMD_ESCAPE):])
 		} else if strings.HasPrefix(line, CMD_IMPORT) {

@@ -177,6 +177,15 @@ This *is* a line of code`
 	}
 }
 
+func TestWithGLobalDeclaration(t *testing.T) {
+	result := example.T__with_global_declaration(example.Argument{Aaa: "a", Bbb: 10})
+	expected := `Aaa=a
+Bbb=10`
+	if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
+		t.Error(explanation)
+	}
+}
+
 func TestComparisonWithGolangTemplates(t *testing.T) {
 	param := example.TemplateParam{
 		Title:    "titl",

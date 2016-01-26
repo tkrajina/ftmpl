@@ -165,6 +165,16 @@ Every template will result in *two* template functions. Both will execute the sa
  * Use `func TE__my_template(args) (string, error)` if you expect your template to return errors, use this one. Use `!return "", err` to prematurely exit from the template with a proper error value.
  * With `func T__my_template(args) string` if template returns an error, the result is an empty string, and the error will be written in `os.Syserr`.
 
+## Global declarations
+
+In case you need a global declaration (outside of the template function), it can be done with `!#global`:
+
+    !#global type Argument struct { Aaa string; Bbb int }
+    !#arg arg Argument
+    Aaa is {{s arg.Aaa }}, and Bbb is {{d arg.Bbb }}
+
+The `Argument` struct will be declared outside the function body, and the function is now `T_my_template(Argument)`.
+
 ## Special variables
 
 `__template__` is defined in the function and contains the current template name.
