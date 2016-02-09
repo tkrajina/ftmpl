@@ -1,4 +1,4 @@
-# FTMPL a fast (and typesafe) templating for Golang
+# FTMPL: fast (and typesafe) templating for Golang
 
 ftmpl is a fast/compiled/typesafe templating "language" for golang.
 
@@ -19,7 +19,7 @@ The template file can be "compiled" in Go code (and this is typically done in th
 
 If the file is named `my_template.tmpl` then the `ftmpl` utility will produce a function function `T__my_template()`.
 
-Compiling the files is done my invoking:
+Compiling files is done my invoking:
 
     ftmpl -targetgo target_dir/templates_generated.go source_dir
 
