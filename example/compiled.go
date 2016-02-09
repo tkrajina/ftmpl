@@ -646,3 +646,28 @@ func T__with_global_declaration(arg Argument) string {
 	}
 	return html
 }
+
+// Generated code, do not edit!!!!
+
+func TE__with_percentage(str string) (string, error) {
+	__template__ := "with_percentage.tmpl"
+	_ = __template__
+	__escape__ := html.EscapeString
+	_ = __escape__
+	var result bytes.Buffer
+	/* %, str={{s str }} */
+	result.WriteString(fmt.Sprintf(`%%, str=%s
+`, __escape__(str)))
+	/*  */
+	result.WriteString(``)
+
+	return result.String(), nil
+}
+
+func T__with_percentage(str string) string {
+	html, err := TE__with_percentage(str)
+	if err != nil {
+		os.Stderr.WriteString("Error running template with_percentage.tmpl:" + err.Error())
+	}
+	return html
+}

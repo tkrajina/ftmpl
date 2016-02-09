@@ -22,6 +22,14 @@ Num:10`
 	}
 }
 
+func TestWithPercentage(t *testing.T) {
+	result := example.T__with_percentage("something")
+	expected := `%, str=something`
+	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
+		t.Error("Expected:", expected, "was:", result)
+	}
+}
+
 func TestBasicEscaped(t *testing.T) {
 	result := example.T__basic("<aaa&...", 10)
 	expected := `String:&lt;aaa&amp;...

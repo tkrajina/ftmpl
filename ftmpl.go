@@ -451,6 +451,10 @@ func handleTemplateLine(line string) string {
 		return buf.String()
 	}
 
+	// We need to change "%" to "%%" (otherwise it messes with replacements) but we need to leave them in the template
+	// expressions {{d 15 % 3 }}!
+	percentageCharReplacement := getRandomString(10)
+
 	params := PatternTemplateParam{}
 	str := templateReplacementRegex.ReplaceAllStringFunc(line, func(s string) string {
 		placeholder := "%v"
@@ -479,7 +483,7 @@ func handleTemplateLine(line string) string {
 		}
 
 		params.Args = append(params.Args, valueExpr)
-		return placeholder
+		return strings.Replace(placeholder, "%", percentageCharReplacement, -1)
 	})
 	params.Template = quote(str)
 
@@ -487,7 +491,10 @@ func handleTemplateLine(line string) string {
 	err := patternTemplate.Execute(&buf, params)
 	handleLineError(err, line)
 
-	return buf.String()
+	result := buf.String()
+	result = strings.Replace(result, "%", "%%", -1)
+	result = strings.Replace(result, percentageCharReplacement, "%", -1)
+	return result
 }
 
 func quote(s string) string {
