@@ -24,7 +24,8 @@ Num:10`
 
 func TestWithPercentage(t *testing.T) {
 	result := example.T__with_percentage("something")
-	expected := `%, str=something`
+	expected := `%, str=something
+%, str=aaabbbccc`
 	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
 		t.Error("Expected:", expected, "was:", result)
 	}

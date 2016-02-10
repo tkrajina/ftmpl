@@ -482,7 +482,7 @@ func handleTemplateLine(line string) string {
 			return ""
 		}
 
-		params.Args = append(params.Args, valueExpr)
+		params.Args = append(params.Args, strings.Replace(valueExpr, "%", percentageCharReplacement, -1))
 		return strings.Replace(placeholder, "%", percentageCharReplacement, -1)
 	})
 	params.Template = quote(str)

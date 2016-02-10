@@ -658,6 +658,9 @@ func TE__with_percentage(str string) (string, error) {
 	/* %, str={{s str }} */
 	result.WriteString(fmt.Sprintf(`%%, str=%s
 `, __escape__(str)))
+	/* %, str={{s fmt.Sprintf("aaa%sccc", "bbb") }} */
+	result.WriteString(fmt.Sprintf(`%%, str=%s
+`, __escape__(fmt.Sprintf("aaa%sccc", "bbb"))))
 	/*  */
 	result.WriteString(``)
 
