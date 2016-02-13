@@ -61,7 +61,7 @@ Now the compiled function will be `func T__show_time(time.Time)`
 
 ## Placeholders
 
-Placeholders are expressions to be executed and shown when calling the template. 
+Placeholders are expressions to be executed and written when calling the template. 
 Since ftmpl is a typesafe templating it needs to know of which type is the expression, and based on that to properly format it:
 
 Use:
