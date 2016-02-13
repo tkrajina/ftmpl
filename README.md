@@ -26,7 +26,13 @@ Compiling files is done my invoking:
 The resulting code is pretty straightforward, and you will probably need to check (but not edit!) it in case of errors.
 
 For template examples see [here](example/) (`.tmpl` files).
-For the "compiled" golang code from those examples [see here](example/compiled.go).
+For the "compiled" golang code from those examples [see here](example/compiled.go). The resulting code is always formatted using `go fmt`.
+
+If you prefer using `go generate` add a comment...
+
+    //go:generate ftmpl -targetgo target_dir/templates_generated.go source_dir
+
+...anywhere in your code.
 
 ## Arguments
 
