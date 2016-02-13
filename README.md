@@ -79,7 +79,7 @@ It's simple, when compiled `{{s expression }}` will end up as `fmt.Sprintf("...%
 
 If you use `{{s expresssion }}` the result will be escaped using `html.EscapeString()`. If you want to write *the exact same string* (without escaping), use `{{=s expression }}`.
 
-Note that `{{v expression }}` *is not escaped* even when the resulting expression is a string!
+**Important** that `{{v expression }}` *is not escaped* even when the resulting expression is a string!
 
 ## Code
 
@@ -159,7 +159,7 @@ And then a typical page will be something like:
     !#sub body
     <h1>Body!</h1>
 
-If the extended template is names `my_page.tmpl` then the resulting template function will have both the arguments from *that template* and arguments from the *base template*: `func T__my_page(title string, something int)`.
+If the name of the extended template is `my_page.tmpl` then the resulting template function will have both the arguments from *that template* and arguments from the *base template*: `func T__my_page(title string, something int)`.
 
 Typically you will have many template arguments, so the best way to deal with them is to pack them all into one "base page structure" and another struct for every page.
 The function will then be `func T__my_page(baseParams BasePageParams, pageParams MyPageParams)`
