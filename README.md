@@ -105,7 +105,7 @@ If you (really?) need a non-golang line starting with `!` start it with `!!`.
     !#arg n int
     <html>
         <body>
-    {{! for i := 0; i < n; i++ { }}i is now {{d i }}{{! } }}
+            {{! for i := 0; i < n; i++ { }}i is now {{d i }}{{! } }}
         </body>
     </html>
 
