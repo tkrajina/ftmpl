@@ -24,10 +24,12 @@ type AppParams struct {
 	targetGoFile string
 }
 
+const CMD_PREFIX = "!#"
 const CMD_ARG = "!#arg"
 const CMD_ESCAPE = "!#escape"
 const CMD_IMPORT = "!#import"
 const CMD_ERROIF = "!#errif"
+const CMD_RETURN = "!#return"
 const CMD_SUB = "!#sub"
 const CMD_EXTENDS = "!#extends"
 const CMD_INCLUDE = "!#include"
@@ -393,6 +395,12 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 
 	for n, line := range lines {
 		_ = n
+
+		if strings.HasPrefix(line, CMD_PREFIX) {
+			// Remove spaces after !#
+			line = CMD_PREFIX + strings.TrimSpace(line[len(CMD_PREFIX):])
+		}
+
 		if strings.HasPrefix(line, CMD_ARG) {
 			params.Args = append(params.Args, strings.TrimSpace(line[len(CMD_ARG):]))
 		} else if strings.HasPrefix(line, CMD_GLOBAL) {
@@ -401,6 +409,8 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 			params.EscapeFunc = strings.TrimSpace(line[len(CMD_ESCAPE):])
 		} else if strings.HasPrefix(line, CMD_IMPORT) {
 			result.imports = append(result.imports, strings.TrimSpace(line[len(CMD_IMPORT):]))
+		} else if strings.HasPrefix(line, CMD_RETURN) {
+			params.Lines = append(params.Lines, "return result.String(), nil")
 		} else if strings.HasPrefix(line, CMD_ERROIF) {
 			params.addComment(line)
 			parts := strings.Split(line[len(CMD_ERROIF):], "???")

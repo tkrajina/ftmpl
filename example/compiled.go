@@ -616,6 +616,40 @@ func T__noncode_line_with_exclamation_mark() string {
 }
 
 // Generated code, do not edit!!!!
+
+func TE__return(a int) (string, error) {
+	__template__ := "return.tmpl"
+	_ = __template__
+	__escape__ := html.EscapeString
+	_ = __escape__
+	var result bytes.Buffer
+	/* a is {{d a }} */
+	result.WriteString(fmt.Sprintf(`a is %d
+`, a))
+	/*  */
+	result.WriteString(``)
+	return result.String(), nil
+	/*  */
+	result.WriteString(`
+`)
+	/* This line is ignored */
+	result.WriteString(`This line is ignored
+`)
+	/*  */
+	result.WriteString(``)
+
+	return result.String(), nil
+}
+
+func T__return(a int) string {
+	html, err := TE__return(a)
+	if err != nil {
+		os.Stderr.WriteString("Error running template return.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// Generated code, do not edit!!!!
 type Argument struct {
 	Aaa string
 	Bbb int

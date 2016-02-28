@@ -195,6 +195,15 @@ Bbb=10`
 	}
 }
 
+func TestWithReturn(t *testing.T) {
+	result := example.T__return(17)
+	expected := `a is 17
+`
+	if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
+		t.Error(explanation)
+	}
+}
+
 func TestComparisonWithGolangTemplates(t *testing.T) {
 	param := example.TemplateParam{
 		Title:    "titl",
@@ -237,6 +246,11 @@ func linesEquals(str1, str2 string) (explanation string, equals bool) {
 	lines2 := strings.Split(strings.TrimSpace(str2), "\n")
 
 	if len(lines1) != len(lines2) {
+		fmt.Println("----------------------------------------------------------------------------------------------------")
+		fmt.Println(str1)
+		fmt.Println("----------------------------------------------------------------------------------------------------")
+		fmt.Println(str2)
+		fmt.Println("----------------------------------------------------------------------------------------------------")
 		return fmt.Sprintf("Lines count don't match %d!=%d", len(lines1), len(lines2)), false
 	}
 

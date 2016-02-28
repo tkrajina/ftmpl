@@ -127,6 +127,16 @@ For example `if`:
 
 ## Careful with Go code
 
+To prematurely end the execution with an error (depending on an expression), you can use:
+
+    !#errif <expression>, "<error_message>"
+
+...or...
+
+    !#return
+
+## Careful with Go code
+
 Ftmpl allows you to write go code (instead of templating "metalanguages", like other templating engines), but be careful to not write too much of it. 
 Ideally, the data should be prepared before the template function, and the only code in the template would be some basic formatting, a couple of `if`s and `for`loops.
 
