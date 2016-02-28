@@ -127,7 +127,7 @@ For example `if`:
 
 ## Directives
 
-Like Go code, special "directive" commands like `!#arg` or `!#import` can also be used as lines starting with `!` or embedded in the code: `{{!#import "time" }}`, `{{!#return }}`, ...
+Like Go code, special "directive" commands like `!#arg` or `!#import` can also be used as lines starting with `!#` or embedded in the code: `{{!#import "time" }}`, `{{!#return }}`, ...
 
 ## Careful with Go code
 
