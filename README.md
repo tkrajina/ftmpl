@@ -121,9 +121,15 @@ For example `if`:
     {{! if n > 0 }}{{d n}} biger than 0{{! end }}
     {{! if n > 5 }}{{d n}} biger than 5{{! else }}{{d n}} smaller than 5{{! end }}
 
-...or with `for`...
+With `for`...
 
     {{! for i := 0; i < n; i++ }} i={{d i }} {{! end }}
+
+...or as `!` lines:
+
+    !for i:=0; i < 5; i++
+        i is now {{d i }}
+    !end
 
 ## Directives
 
