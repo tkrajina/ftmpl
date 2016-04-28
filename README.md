@@ -135,7 +135,7 @@ With `for`...
 
 Like Go code, special "directive" commands like `!#arg` or `!#import` can also be used as lines starting with `!#` or embedded in the code: `{{!#import "time" }}`, `{{!#return }}`, ...
 
-## Careful with Go code
+## Exit from template
 
 To prematurely end the execution with an error (depending on an expression), you can use:
 
