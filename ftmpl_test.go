@@ -232,6 +232,18 @@ func TestComparisonWithGolangTemplates(t *testing.T) {
 	}
 }
 
+func TestNoBrackets(t *testing.T) {
+	expected := `i=0
+i=1
+i=2
+i=3
+i=4`
+
+	if explanation, ok := linesEquals(expected, example.T__with_end_instead_of_brackets()); !ok {
+		t.Error(explanation)
+	}
+}
+
 func linesEquals(str1, str2 string) (explanation string, equals bool) {
 	if str1 == str2 {
 		return "", true

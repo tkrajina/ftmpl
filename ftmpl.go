@@ -354,19 +354,6 @@ func loadTemplateAndGetLines(fileName string) []string {
 		// In this case there is no \n before the line delimiter:
 		result := strings.TrimSpace(s[3 : len(s)-2])
 
-		if (strings.HasPrefix(result, "if ") || strings.HasPrefix(result, "for ")) && !strings.HasSuffix(result, "{") {
-			result += "{"
-		}
-		if result == "else" {
-			result = "} else {"
-		}
-		if result == "end" {
-			result = "}"
-		}
-		if matches, _ := regexp.Match("else\\s+if.*", []byte(result)); matches && !strings.HasSuffix(result, "{") {
-			result = fmt.Sprintf("} %s {", result)
-		}
-
 		result = lineDelimiter + "!" + result + lineDelimiter
 
 		return result
@@ -431,7 +418,7 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 			params.Lines = append(params.Lines, handleTemplateLine(line))
 		} else if strings.HasPrefix(line, "!") {
 			params.addComment(line)
-			params.Lines = append(params.Lines, line[1:])
+			params.Lines = append(params.Lines, prepareCommandLine(line[1:]))
 		} else {
 			params.addComment(line)
 			params.Lines = append(params.Lines, handleTemplateLine(line))
@@ -451,6 +438,23 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 	result.functionCode = buf.String()
 
 	return result
+}
+
+func prepareCommandLine(line string) string {
+	line = strings.TrimSpace(line)
+	if (strings.HasPrefix(line, "if ") || strings.HasPrefix(line, "for ")) && !strings.HasSuffix(line, "{") {
+		line += "{"
+	}
+	if line == "else" {
+		line = "} else {"
+	}
+	if line == "end" {
+		line = "}"
+	}
+	if matches, _ := regexp.Match("else\\s+if.*", []byte(line)); matches && !strings.HasSuffix(line, "{") {
+		line = fmt.Sprintf("} %s {", line)
+	}
+	return line
 }
 
 func handleTemplateLine(line string) string {

@@ -168,13 +168,11 @@ func TE__basic_code(s string, num int) (string, error) {
 	var result bytes.Buffer
 	/* !for i := 0; i < num; i++ { */
 	for i := 0; i < num; i++ {
-
 		/* {{d i}} */
 		result.WriteString(fmt.Sprintf(`%d
 `, i))
 		/* !} */
 	}
-
 	/*  */
 	result.WriteString(``)
 
@@ -199,11 +197,11 @@ func TE__basic_embedded_code(n int) (string, error) {
 	var result bytes.Buffer
 	/*  */
 	result.WriteString(``)
-	/* !for i := 0; i < n; i++{ */
+	/* !for i := 0; i < n; i++ */
 	for i := 0; i < n; i++ {
 		/* i={{d i }} */
 		result.WriteString(fmt.Sprintf(`i=%d `, i))
-		/* !} */
+		/* !end */
 	}
 	/*  */
 	result.WriteString(`
@@ -243,26 +241,26 @@ func TE__basic_if_else(n int) (string, error) {
 `)
 	/*  */
 	result.WriteString(``)
-	/* !if n > 0{ */
+	/* !if n > 0 */
 	if n > 0 {
 		/* {{d n}} biger than 0 */
 		result.WriteString(fmt.Sprintf(`%d biger than 0`, n))
-		/* !} */
+		/* !end */
 	}
 	/*  */
 	result.WriteString(`
 `)
 	/*  */
 	result.WriteString(``)
-	/* !if n > 5{ */
+	/* !if n > 5 */
 	if n > 5 {
 		/* {{d n}} biger than 5 */
 		result.WriteString(fmt.Sprintf(`%d biger than 5`, n))
-		/* !} else { */
+		/* !else */
 	} else {
 		/* {{d n}} smaller than 5 */
 		result.WriteString(fmt.Sprintf(`%d smaller than 5`, n))
-		/* !} */
+		/* !end */
 	}
 	/*  */
 	result.WriteString(`
@@ -296,19 +294,19 @@ func TE__basic_if_elseif(n int) (string, error) {
 `)
 	/*  */
 	result.WriteString(``)
-	/* !if n < 10{ */
+	/* !if n < 10 */
 	if n < 10 {
 		/* n less than 10 */
 		result.WriteString(`n less than 10`)
-		/* !} else if n < 100 { */
+		/* !else if n < 100 */
 	} else if n < 100 {
 		/* n less than 100 */
 		result.WriteString(`n less than 100`)
-		/* !} else { */
+		/* !else */
 	} else {
 		/* n bigger than 100 */
 		result.WriteString(`n bigger than 100`)
-		/* !} */
+		/* !end */
 	}
 	/*  */
 	result.WriteString(`
@@ -355,11 +353,11 @@ func TE__comparison_with_gotemplates(params TemplateParam) (string, error) {
 `, __escape__(params.Title)))
 	/*  */
 	result.WriteString(`        `)
-	/* !if len(params.Subtitle) > 0{ */
+	/* !if len(params.Subtitle) > 0 */
 	if len(params.Subtitle) > 0 {
 		/* <h2>{{ params.Subtitle }}</h1> */
 		result.WriteString(fmt.Sprintf(`<h2>%v</h1>`, params.Subtitle))
-		/* !} */
+		/* !end */
 	}
 	/*  */
 	result.WriteString(`
@@ -369,7 +367,7 @@ func TE__comparison_with_gotemplates(params TemplateParam) (string, error) {
 `)
 	/*  */
 	result.WriteString(`            `)
-	/* !for _, item := range params.Items{ */
+	/* !for _, item := range params.Items */
 	for _, item := range params.Items {
 		/*  */
 		result.WriteString(`
@@ -379,7 +377,7 @@ func TE__comparison_with_gotemplates(params TemplateParam) (string, error) {
 `, __escape__(item)))
 		/*  */
 		result.WriteString(`            `)
-		/* !} */
+		/* !end */
 	}
 	/*  */
 	result.WriteString(`
@@ -597,7 +595,6 @@ func TE__noncode_line_with_exclamation_mark() (string, error) {
 `)
 	/* !s2 := "This *is* a line of code" */
 	s2 := "This *is* a line of code"
-
 	/* {{s s2 }} */
 	result.WriteString(fmt.Sprintf(`%s
 `, __escape__(s2)))
@@ -645,6 +642,35 @@ func T__return(a int) string {
 	html, err := TE__return(a)
 	if err != nil {
 		os.Stderr.WriteString("Error running template return.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// Generated code, do not edit!!!!
+
+func TE__with_end_instead_of_brackets() (string, error) {
+	__template__ := "with_end_instead_of_brackets.tmpl"
+	_ = __template__
+	__escape__ := html.EscapeString
+	_ = __escape__
+	var result bytes.Buffer
+	/* !for i:=0; i < 5; i++ */
+	for i := 0; i < 5; i++ {
+		/* i={{d i }} */
+		result.WriteString(fmt.Sprintf(`i=%d
+`, i))
+		/* !end */
+	}
+	/*  */
+	result.WriteString(``)
+
+	return result.String(), nil
+}
+
+func T__with_end_instead_of_brackets() string {
+	html, err := TE__with_end_instead_of_brackets()
+	if err != nil {
+		os.Stderr.WriteString("Error running template with_end_instead_of_brackets.tmpl:" + err.Error())
 	}
 	return html
 }
