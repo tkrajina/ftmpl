@@ -368,8 +368,7 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 	result := compiledTemplate{}
 	result.originalFile = file
 
-	_, pckg := getLastPathElements(packageDir)
-	lines = processExtending(pckg, lines)
+	lines = processExtending(packageDir, lines)
 
 	funcName := strings.Replace(file, ".tmpl", "", -1)
 	params := TemplateParams{
