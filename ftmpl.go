@@ -254,7 +254,7 @@ func printTemplateErrDetails(filename string, line, column int, msg string) {
 		if i+1 == line {
 			currLine = "-->"
 		}
-		prefix := fmt.Sprintf("%s %5d:    ", currLine, i)
+		prefix := fmt.Sprintf("%s %5d:    ", currLine, i+1)
 		fmt.Fprintln(os.Stderr, prefix+lines[i])
 		if i+1 == line {
 			fmt.Fprintln(os.Stderr, strings.Repeat(" ", len(prefix)+column-1)+"^")

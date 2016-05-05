@@ -195,17 +195,17 @@ Some errors in your templates will be reported immediately:
     Cannot format example/invalid/invalid.go: exit status 1
 
     example/invalid/invalid.go:42:18: unknown escape sequence
-           37:    result.WriteString(`    <body>
-           38:    `)
-           39:    //invalid.tmpl:         {{s "\ " }}
-           40:    result.WriteString(fmt.Sprintf(`        %s
-    -->    41:    `, __escape__( "\ ")))
+           38:    result.WriteString(`    <body>
+           39:    `)
+           40:    //invalid.tmpl:         {{s "\ " }}
+           41:    result.WriteString(fmt.Sprintf(`        %s
+    -->    42:    `, __escape__( "\ ")))
                                    ^
-           42:    //invalid.tmpl:     </body>
-           43:    result.WriteString(`    </body>
-           44:    `)
-           45:    //invalid.tmpl: </html>
-           46:    result.WriteString(`</html>
+           43:    //invalid.tmpl:     </body>
+           44:    result.WriteString(`    </body>
+           45:    `)
+           46:    //invalid.tmpl: </html>
+           47:    result.WriteString(`</html>
     exit status 2
 
 For others, you'll need to debug the Go code (every Go line is preceded with a Go comment with the original .tmpl file and tmpl code).
