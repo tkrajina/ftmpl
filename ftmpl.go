@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"math/rand"
 	"os"
 	"os/exec"
@@ -12,6 +13,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 	texttmpl "text/template"
 )
@@ -83,7 +85,7 @@ func (tp TemplateParams) ArgNamesJoined() string {
 }
 
 func (tp *TemplateParams) addComment(filename, line string) {
-	comment := fmt.Sprintf("//%s: %s", filename, line)
+	comment := fmt.Sprintf("//%s: %s", filename, strings.TrimRight(line, "\n\r \t"))
 	tp.Lines = append(tp.Lines, comment)
 }
 
@@ -214,8 +216,49 @@ func saveTemplates(destination string, compiled ...compiledTemplate) {
 	bytes, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, strings.Join(cmd.Args, " "))
-		fmt.Fprintln(os.Stderr, string(bytes))
-		handleError(err, "Error formatting resulting go file")
+		fmt.Fprintf(os.Stderr, "Cannot format %s: %s\n\n", destination, err.Error())
+		parseGoFmtErrorOutput(bytes)
+	}
+}
+
+func parseGoFmtErrorOutput(out []byte) {
+	lines := strings.Split(string(out), "\n")
+	for _, line := range lines {
+		r := regexp.MustCompile("^(.*?):(\\d+):(\\d+):(.*)$")
+		groups := r.FindStringSubmatch(line)
+		fmt.Fprint(os.Stderr, line, "\n")
+		if len(groups) > 0 {
+			filename := groups[1]
+			line, _ := strconv.ParseInt(groups[2], 10, 64)
+			column, _ := strconv.ParseInt(groups[3], 10, 64)
+			msg := strings.TrimSpace(groups[4])
+			printTemplateErrDetails(filename, int(line), int(column), msg)
+		}
+	}
+}
+
+func printTemplateErrDetails(filename string, line, column int, msg string) {
+	contents, err := loadFile(filename)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "> Cannot open %s: %s", filename, err.Error())
+		return
+	}
+
+	lines := strings.Split(contents, "\n")
+
+	context := 5
+	fromLine := int(math.Max(float64(0), float64(line-context)))
+	toLine := int(math.Min(float64(line+context), float64(len(lines)-1)))
+	for i := fromLine; i < toLine; i++ {
+		currLine := "   "
+		if i+1 == line {
+			currLine = "-->"
+		}
+		prefix := fmt.Sprintf("%s %5d:    ", currLine, i)
+		fmt.Fprintln(os.Stderr, prefix+lines[i])
+		if i+1 == line {
+			fmt.Fprintln(os.Stderr, strings.Repeat(" ", len(prefix)+column-1)+"^")
+		}
 	}
 }
 
@@ -339,13 +382,8 @@ func getRandomString(length int) string {
 //
 // Note that "line" is not always a line from the template it is part of the template which will be converted to a line of code.
 func loadTemplateAndGetLines(fileName string) []string {
-	f, err := os.Open(path.Join(fileName))
-	handleError(err, "Error opening "+fileName)
-	defer f.Close()
-
-	byts, err := ioutil.ReadAll(f)
+	str, err := loadFile(fileName)
 	handleError(err, "Error reading "+fileName)
-	str := string(byts)
 
 	lineDelimiter := getRandomString(15)
 	str = strings.Replace(str, "\n", "\n"+lineDelimiter, -1)
@@ -380,8 +418,7 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 		EscapeFunc:      "html.EscapeString",
 	}
 
-	for n, line := range lines {
-		_ = n
+	for _, line := range lines {
 
 		if strings.HasPrefix(line, CMD_PREFIX) {
 			// Remove spaces after !#
@@ -543,4 +580,19 @@ func rmDoubleImports(list []string) []string {
 		existing[i] = true
 	}
 	return result
+}
+
+func loadFile(filename string) (string, error) {
+	f, err := os.Open(path.Join(filename))
+	if err != nil {
+		return "", fmt.Errorf("Error reading %s: %s", filename, err.Error())
+	}
+	defer f.Close()
+
+	byts, err := ioutil.ReadAll(f)
+	if err != nil {
+		return "", fmt.Errorf("Error reading %s: %s", filename, err.Error())
+	}
+
+	return string(byts), nil
 }
