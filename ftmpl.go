@@ -19,13 +19,17 @@ import (
 )
 
 const (
-	cmdlineTargetGo  = "targetgo"
-	cmdlineTargetDir = "targetdir"
+	cmdlineTargetGo      = "targetgo"
+	cmdlineTargetDir     = "targetdir"
+	cmdlineFuncPrefix    = "prefix"
+	cmdlineFuncPrefixErr = "prefixerr"
 )
 
 type appParams struct {
-	targetDir    string
-	targetGoFile string
+	targetDir     string
+	targetGoFile  string
+	funcPrefix    string
+	funcPrefixErr string
 }
 
 const (
@@ -133,6 +137,8 @@ func main() {
 	var ap appParams
 	flag.StringVar(&(ap.targetGoFile), cmdlineTargetGo, "", "Merge the result in this go file")
 	flag.StringVar(&(ap.targetDir), cmdlineTargetDir, "", "Save the result in this directory")
+	flag.StringVar(&(ap.funcPrefix), cmdlineFuncPrefix, "TMPL", "Prefix to be used with generated functions")
+	flag.StringVar(&(ap.funcPrefixErr), cmdlineFuncPrefixErr, "TMPLERR", "Prefix to be used with generated functions (returning error)")
 	flag.Parse()
 
 	if len(flag.Args()) != 1 {
@@ -163,7 +169,12 @@ func main() {
 
 	for _, fileName := range files {
 		if strings.HasSuffix(fileName, ".tmpl") {
-			compiled := convertTemplate(sourceDir, fileName, convertTemplateParams{})
+
+			params := convertTemplateParams{
+				NoerrFuncPrefix: ap.funcPrefix,
+				ErrFuncPrefix:   ap.funcPrefixErr,
+			}
+			compiled := convertTemplate(sourceDir, fileName, params)
 			if len(ap.targetDir) > 0 {
 				_, fileName := getLastPathElements(fileName)
 				fileName = strings.Replace(fileName, ".tmpl", ".go", -1)
