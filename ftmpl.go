@@ -18,24 +18,24 @@ import (
 	texttmpl "text/template"
 )
 
-const CMDLINE_TARGETGO = "targetgo"
-const CMDLINE_TARGETDIR = "targetdir"
+const cmdlineTargetGo = "targetgo"
+const cmdlineTargetDir = "targetdir"
 
 type AppParams struct {
 	targetDir    string
 	targetGoFile string
 }
 
-const CMD_PREFIX = "!#"
-const CMD_ARG = "!#arg"
-const CMD_ESCAPE = "!#escape"
-const CMD_IMPORT = "!#import"
-const CMD_ERROIF = "!#errif"
-const CMD_RETURN = "!#return"
-const CMD_SUB = "!#sub"
-const CMD_EXTENDS = "!#extends"
-const CMD_INCLUDE = "!#include"
-const CMD_GLOBAL = "!#global"
+const cmdPrefix = "!#"
+const cmdArg = "!#arg"
+const cmdEscape = "!#escape"
+const cmdImport = "!#import"
+const cmdErrorif = "!#errif"
+const cmdReturn = "!#return"
+const cmdSub = "!#sub"
+const cmdExtends = "!#extends"
+const cmdInclude = "!#include"
+const cmdGlobal = "!#global"
 
 var templateReplacementRegex = regexp.MustCompile("{{.*?}}")
 
@@ -125,8 +125,8 @@ func (ptp PatternTemplateParam) ArgsJoined() string {
 
 func main() {
 	var appParams AppParams
-	flag.StringVar(&(appParams.targetGoFile), CMDLINE_TARGETGO, "", "Merge the result in this go file")
-	flag.StringVar(&(appParams.targetDir), CMDLINE_TARGETDIR, "", "Save the result in this directory")
+	flag.StringVar(&(appParams.targetGoFile), cmdlineTargetGo, "", "Merge the result in this go file")
+	flag.StringVar(&(appParams.targetDir), cmdlineTargetDir, "", "Save the result in this directory")
 	flag.Parse()
 
 	if len(flag.Args()) != 1 {
@@ -136,7 +136,7 @@ func main() {
 	sourceDir := flag.Arg(0)
 
 	if len(appParams.targetDir) > 0 && len(appParams.targetGoFile) > 0 {
-		fmt.Fprintln(os.Stderr, fmt.Sprintf("Only %s or %s (or none) can be used, not both", CMDLINE_TARGETGO, CMDLINE_TARGETDIR))
+		fmt.Fprintln(os.Stderr, fmt.Sprintf("Only %s or %s (or none) can be used, not both", cmdlineTargetGo, cmdlineTargetDir))
 		os.Exit(1)
 	}
 
@@ -265,8 +265,8 @@ func printTemplateErrDetails(filename string, line, column int, msg string) {
 func processExtending(pckg string, lines []string) []string {
 	extendingTemplate := ""
 	for _, line := range lines {
-		if strings.HasPrefix(line, CMD_EXTENDS) {
-			extendingTemplate = strings.TrimSpace(line[len(CMD_EXTENDS):])
+		if strings.HasPrefix(line, cmdExtends) {
+			extendingTemplate = strings.TrimSpace(line[len(cmdExtends):])
 		}
 	}
 
@@ -285,7 +285,7 @@ func processExtending(pckg string, lines []string) []string {
 
 	subTemplateArgsCode := make([]string, 0)
 	for _, line := range subTemplateCode {
-		if strings.HasPrefix(line, CMD_ARG) {
+		if strings.HasPrefix(line, cmdArg) {
 			subTemplateArgsCode = append(subTemplateArgsCode, line)
 		} else {
 			result = append(result, line)
@@ -293,8 +293,8 @@ func processExtending(pckg string, lines []string) []string {
 	}
 
 	for _, line := range mainTemplateLines {
-		if strings.HasPrefix(line, CMD_INCLUDE) {
-			subName := strings.TrimSpace(line[len(CMD_INCLUDE):])
+		if strings.HasPrefix(line, cmdInclude) {
+			subName := strings.TrimSpace(line[len(cmdInclude):])
 			if subLines, found := subTemplateChunks[subName]; found {
 				for _, subLine := range subLines {
 					result = append(result, subLine)
@@ -321,9 +321,9 @@ func loadTemplateSubChunks(lines []string) (general []string, subsections map[st
 	subsections = make(map[string][]string)
 
 	for _, line := range lines {
-		if strings.Contains(line, CMD_SUB) {
+		if strings.Contains(line, cmdSub) {
 			subReached = true
-			currentSubName = strings.TrimSpace(line[len(CMD_SUB):])
+			currentSubName = strings.TrimSpace(line[len(cmdSub):])
 		} else if subReached {
 			if _, found := subsections[currentSubName]; !found {
 				subsections[currentSubName] = make([]string, 0)
@@ -431,24 +431,24 @@ func convertTemplate(packageDir, file string, params ConvertTemplateParams) comp
 
 	for _, line := range lines {
 
-		if strings.HasPrefix(line, CMD_PREFIX) {
+		if strings.HasPrefix(line, cmdPrefix) {
 			// Remove spaces after !#
-			line = CMD_PREFIX + strings.TrimSpace(line[len(CMD_PREFIX):])
+			line = cmdPrefix + strings.TrimSpace(line[len(cmdPrefix):])
 		}
 
-		if strings.HasPrefix(line, CMD_ARG) {
-			tmplParams.Args = append(tmplParams.Args, strings.TrimSpace(line[len(CMD_ARG):]))
-		} else if strings.HasPrefix(line, CMD_GLOBAL) {
-			tmplParams.GlobalCode += strings.TrimSpace(line[len(CMD_ESCAPE):]) + "\n"
-		} else if strings.HasPrefix(line, CMD_ESCAPE) {
-			tmplParams.EscapeFunc = strings.TrimSpace(line[len(CMD_ESCAPE):])
-		} else if strings.HasPrefix(line, CMD_IMPORT) {
-			result.imports = append(result.imports, strings.TrimSpace(line[len(CMD_IMPORT):]))
-		} else if strings.HasPrefix(line, CMD_RETURN) {
+		if strings.HasPrefix(line, cmdArg) {
+			tmplParams.Args = append(tmplParams.Args, strings.TrimSpace(line[len(cmdArg):]))
+		} else if strings.HasPrefix(line, cmdGlobal) {
+			tmplParams.GlobalCode += strings.TrimSpace(line[len(cmdEscape):]) + "\n"
+		} else if strings.HasPrefix(line, cmdEscape) {
+			tmplParams.EscapeFunc = strings.TrimSpace(line[len(cmdEscape):])
+		} else if strings.HasPrefix(line, cmdImport) {
+			result.imports = append(result.imports, strings.TrimSpace(line[len(cmdImport):]))
+		} else if strings.HasPrefix(line, cmdReturn) {
 			tmplParams.Lines = append(tmplParams.Lines, "return result.String(), nil")
-		} else if strings.HasPrefix(line, CMD_ERROIF) {
+		} else if strings.HasPrefix(line, cmdErrorif) {
 			tmplParams.addComment(file, line)
-			parts := strings.Split(line[len(CMD_ERROIF):], "???")
+			parts := strings.Split(line[len(cmdErrorif):], "???")
 			expression := parts[0]
 			message := fmt.Sprintf("Error checking %s", expression)
 			if len(parts) > 1 {
