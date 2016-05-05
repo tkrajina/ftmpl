@@ -52,10 +52,10 @@ var templateReplacementRegex = regexp.MustCompile("{{.*?}}")
 var generatorTemplate = texttmpl.Must(texttmpl.New("").Parse(`// Generated code, do not edit!!!!
 {{ .GlobalCode }}
 func {{ .ErrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) (string, error) {
-	__template__ := "{{ .TemplateFile }}"
-	_ = __template__
-	__escape__ := {{ .EscapeFunc }}
-	_ = __escape__
+	_template := "{{ .TemplateFile }}"
+	_ = _template
+	_escape := {{ .EscapeFunc }}
+	_ = _escape
 	var result bytes.Buffer
 {{ range .Lines }}{{ . }}
 {{ end }}
@@ -555,7 +555,7 @@ func handleTemplateLine(line string) string {
 		}
 
 		if !forceUnquoted && placeholder == "%s" {
-			valueExpr = "__escape__(" + valueExpr + ")"
+			valueExpr = "_escape(" + valueExpr + ")"
 		}
 
 		if strings.HasPrefix(s, "/*") && strings.HasSuffix(s, "*/") {

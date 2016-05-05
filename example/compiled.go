@@ -18,10 +18,10 @@ func init() {
 // Generated code, do not edit!!!!
 
 func TMPLERRbase(title string) (string, error) {
-	__template__ := "base.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "base.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//base.tmpl: <html>
 	result.WriteString(`<html>
@@ -31,7 +31,7 @@ func TMPLERRbase(title string) (string, error) {
 `)
 	//base.tmpl:         <title>{{s title }}</title>
 	result.WriteString(fmt.Sprintf(`        <title>%s</title>
-`, __escape__(title)))
+`, _escape(title)))
 	//base.tmpl: !#include head
 	//base.tmpl:     </head>
 	result.WriteString(`    </head>
@@ -64,10 +64,10 @@ func TMPLbase(title string) string {
 // Generated code, do not edit!!!!
 
 func TMPLERRbase_embedded(title string) (string, error) {
-	__template__ := "base_embedded.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "base_embedded.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//base_embedded.tmpl:
 	result.WriteString(``)
@@ -82,7 +82,7 @@ func TMPLERRbase_embedded(title string) (string, error) {
 `)
 	//base_embedded.tmpl:         <title>{{s title }}</title>
 	result.WriteString(fmt.Sprintf(`        <title>%s</title>
-`, __escape__(title)))
+`, _escape(title)))
 	//base_embedded.tmpl:
 	result.WriteString(``)
 	//base_embedded.tmpl: !#include head
@@ -130,14 +130,14 @@ func TMPLbase_embedded(title string) string {
 // Generated code, do not edit!!!!
 
 func TMPLERRbasic(str string, num int) (string, error) {
-	__template__ := "basic.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "basic.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//basic.tmpl: String:{{s str}}
 	result.WriteString(fmt.Sprintf(`String:%s
-`, __escape__(str)))
+`, _escape(str)))
 	//basic.tmpl: Unescaped:{{=s str}}
 	result.WriteString(fmt.Sprintf(`Unescaped:%s
 `, str))
@@ -161,10 +161,10 @@ func TMPLbasic(str string, num int) string {
 // Generated code, do not edit!!!!
 
 func TMPLERRbasic_code(s string, num int) (string, error) {
-	__template__ := "basic_code.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "basic_code.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//basic_code.tmpl: !for i := 0; i < num; i++ {
 	for i := 0; i < num; i++ {
@@ -190,10 +190,10 @@ func TMPLbasic_code(s string, num int) string {
 // Generated code, do not edit!!!!
 
 func TMPLERRbasic_embedded_code(n int) (string, error) {
-	__template__ := "basic_embedded_code.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "basic_embedded_code.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//basic_embedded_code.tmpl:
 	result.WriteString(``)
@@ -223,10 +223,10 @@ func TMPLbasic_embedded_code(n int) string {
 // Generated code, do not edit!!!!
 
 func TMPLERRbasic_if_else(n int) (string, error) {
-	__template__ := "basic_if_else.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "basic_if_else.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//basic_if_else.tmpl:
 	result.WriteString(``)
@@ -282,10 +282,10 @@ func TMPLbasic_if_else(n int) string {
 // Generated code, do not edit!!!!
 
 func TMPLERRbasic_if_elseif(n int) (string, error) {
-	__template__ := "basic_if_elseif.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "basic_if_elseif.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//basic_if_elseif.tmpl:
 	result.WriteString(``)
@@ -328,10 +328,10 @@ func TMPLbasic_if_elseif(n int) string {
 // Generated code, do not edit!!!!
 
 func TMPLERRcomparison_with_gotemplates(params TemplateParam) (string, error) {
-	__template__ := "comparison_with_gotemplates.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "comparison_with_gotemplates.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//comparison_with_gotemplates.tmpl: <html>
 	result.WriteString(`<html>
@@ -341,7 +341,7 @@ func TMPLERRcomparison_with_gotemplates(params TemplateParam) (string, error) {
 `)
 	//comparison_with_gotemplates.tmpl:         <title>{{s params.Title }}</title>
 	result.WriteString(fmt.Sprintf(`        <title>%s</title>
-`, __escape__(params.Title)))
+`, _escape(params.Title)))
 	//comparison_with_gotemplates.tmpl:     </head>
 	result.WriteString(`    </head>
 `)
@@ -350,7 +350,7 @@ func TMPLERRcomparison_with_gotemplates(params TemplateParam) (string, error) {
 `)
 	//comparison_with_gotemplates.tmpl:         <h1>{{s params.Title }}</h1>
 	result.WriteString(fmt.Sprintf(`        <h1>%s</h1>
-`, __escape__(params.Title)))
+`, _escape(params.Title)))
 	//comparison_with_gotemplates.tmpl:
 	result.WriteString(`        `)
 	//comparison_with_gotemplates.tmpl: !if len(params.Subtitle) > 0
@@ -374,7 +374,7 @@ func TMPLERRcomparison_with_gotemplates(params TemplateParam) (string, error) {
 `)
 		//comparison_with_gotemplates.tmpl:                 <li> {{s item }}
 		result.WriteString(fmt.Sprintf(`                <li> %s
-`, __escape__(item)))
+`, _escape(item)))
 		//comparison_with_gotemplates.tmpl:
 		result.WriteString(`            `)
 		//comparison_with_gotemplates.tmpl: !end
@@ -417,10 +417,10 @@ func TMPLcomparison_with_gotemplates(params TemplateParam) string {
 // Generated code, do not edit!!!!
 
 func TMPLERRextends(title string, something int) (string, error) {
-	__template__ := "extends.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "extends.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//extends.tmpl: !#extends base
 	//extends.tmpl:
@@ -434,7 +434,7 @@ func TMPLERRextends(title string, something int) (string, error) {
 `)
 	//extends.tmpl:         <title>{{s title }}</title>
 	result.WriteString(fmt.Sprintf(`        <title>%s</title>
-`, __escape__(title)))
+`, _escape(title)))
 	//extends.tmpl: <script>
 	result.WriteString(`<script>
 `)
@@ -481,10 +481,10 @@ func TMPLextends(title string, something int) string {
 // Generated code, do not edit!!!!
 
 func TMPLERRextends_embedded(title string, something int) (string, error) {
-	__template__ := "extends_embedded.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "extends_embedded.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//extends_embedded.tmpl:
 	result.WriteString(``)
@@ -515,7 +515,7 @@ func TMPLERRextends_embedded(title string, something int) (string, error) {
 `)
 	//extends_embedded.tmpl:         <title>{{s title }}</title>
 	result.WriteString(fmt.Sprintf(`        <title>%s</title>
-`, __escape__(title)))
+`, _escape(title)))
 	//extends_embedded.tmpl:
 	result.WriteString(``)
 	//extends_embedded.tmpl:
@@ -585,10 +585,10 @@ func TMPLextends_embedded(title string, something int) string {
 // Generated code, do not edit!!!!
 
 func TMPLERRnoncode_line_with_exclamation_mark() (string, error) {
-	__template__ := "noncode_line_with_exclamation_mark.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "noncode_line_with_exclamation_mark.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//noncode_line_with_exclamation_mark.tmpl: !s1 := "This lins is not a code line"
 	result.WriteString(`!s1 := "This lins is not a code line"
@@ -597,7 +597,7 @@ func TMPLERRnoncode_line_with_exclamation_mark() (string, error) {
 	s2 := "This *is* a line of code"
 	//noncode_line_with_exclamation_mark.tmpl: {{s s2 }}
 	result.WriteString(fmt.Sprintf(`%s
-`, __escape__(s2)))
+`, _escape(s2)))
 	//noncode_line_with_exclamation_mark.tmpl:
 	result.WriteString(``)
 
@@ -615,10 +615,10 @@ func TMPLnoncode_line_with_exclamation_mark() string {
 // Generated code, do not edit!!!!
 
 func TMPLERRreturn(a int) (string, error) {
-	__template__ := "return.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "return.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//return.tmpl: a is {{d a }}
 	result.WriteString(fmt.Sprintf(`a is %d
@@ -649,10 +649,10 @@ func TMPLreturn(a int) string {
 // Generated code, do not edit!!!!
 
 func TMPLERRwith_end_instead_of_brackets() (string, error) {
-	__template__ := "with_end_instead_of_brackets.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "with_end_instead_of_brackets.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//with_end_instead_of_brackets.tmpl: !for i:=0; i < 5; i++
 	for i := 0; i < 5; i++ {
@@ -682,14 +682,14 @@ type Argument struct {
 }
 
 func TMPLERRwith_global_declaration(arg Argument) (string, error) {
-	__template__ := "with_global_declaration.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "with_global_declaration.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//with_global_declaration.tmpl: Aaa={{s arg.Aaa }}
 	result.WriteString(fmt.Sprintf(`Aaa=%s
-`, __escape__(arg.Aaa)))
+`, _escape(arg.Aaa)))
 	//with_global_declaration.tmpl: Bbb={{d arg.Bbb }}
 	result.WriteString(fmt.Sprintf(`Bbb=%d
 `, arg.Bbb))
@@ -710,17 +710,17 @@ func TMPLwith_global_declaration(arg Argument) string {
 // Generated code, do not edit!!!!
 
 func TMPLERRwith_percentage(str string) (string, error) {
-	__template__ := "with_percentage.tmpl"
-	_ = __template__
-	__escape__ := html.EscapeString
-	_ = __escape__
+	_template := "with_percentage.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
 	var result bytes.Buffer
 	//with_percentage.tmpl: %, str={{s str }}
 	result.WriteString(fmt.Sprintf(`%%, str=%s
-`, __escape__(str)))
+`, _escape(str)))
 	//with_percentage.tmpl: %, str={{s fmt.Sprintf("aaa%sccc", "bbb") }}
 	result.WriteString(fmt.Sprintf(`%%, str=%s
-`, __escape__(fmt.Sprintf("aaa%sccc", "bbb"))))
+`, _escape(fmt.Sprintf("aaa%sccc", "bbb"))))
 	//with_percentage.tmpl:
 	result.WriteString(``)
 

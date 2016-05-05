@@ -199,7 +199,7 @@ Some errors in your templates will be reported immediately:
            39:    `)
            40:    //invalid.tmpl:         {{s "\ " }}
            41:    result.WriteString(fmt.Sprintf(`        %s
-    -->    42:    `, __escape__( "\ ")))
+    -->    42:    `, _escape( "\ ")))
                                    ^
            43:    //invalid.tmpl:     </body>
            44:    result.WriteString(`    </body>
@@ -229,7 +229,7 @@ The `Argument` struct will be declared outside the function body, and the functi
 
 ## Special variables
 
-`__template__` is defined in the function and contains the current template name.
+`_template` is defined in the function and contains the current template name.
 
 # License
 
