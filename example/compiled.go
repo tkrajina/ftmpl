@@ -23,31 +23,38 @@ func TE__base(title string) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/* <html> */
+	//base.tmpl: <html>
+
 	result.WriteString(`<html>
 `)
-	/* <head> */
+	//base.tmpl:     <head>
+
 	result.WriteString(`    <head>
 `)
-	/* <title>{{s title }}</title> */
+	//base.tmpl:         <title>{{s title }}</title>
+
 	result.WriteString(fmt.Sprintf(`        <title>%s</title>
 `, __escape__(title)))
-	/* !#include head */
-	/* </head> */
+	//base.tmpl: !#include head
+	//base.tmpl:     </head>
+
 	result.WriteString(`    </head>
 `)
-	/* <body> */
+	//base.tmpl:     <body>
+
 	result.WriteString(`    <body>
 `)
-	/* !#include body */
-	/* !#include footer */
-	/* </body> */
+	//base.tmpl: !#include body
+	//base.tmpl: !#include footer
+	//base.tmpl:     </body>
+
 	result.WriteString(`    </body>
 `)
-	/* </html> */
+	//base.tmpl: </html>
+
 	result.WriteString(`</html>
 `)
-	/*  */
+	//base.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -69,51 +76,62 @@ func TE__base_embedded(title string) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/*  */
+	//base_embedded.tmpl:
 	result.WriteString(``)
-	/*  */
+	//base_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/* <html> */
+	//base_embedded.tmpl: <html>
+
 	result.WriteString(`<html>
 `)
-	/* <head> */
+	//base_embedded.tmpl:     <head>
+
 	result.WriteString(`    <head>
 `)
-	/* <title>{{s title }}</title> */
+	//base_embedded.tmpl:         <title>{{s title }}</title>
+
 	result.WriteString(fmt.Sprintf(`        <title>%s</title>
 `, __escape__(title)))
-	/*  */
+	//base_embedded.tmpl:
 	result.WriteString(``)
-	/* !#include head */
-	/*  */
+	//base_embedded.tmpl: !#include head
+	//base_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/* </head> */
+	//base_embedded.tmpl:     </head>
+
 	result.WriteString(`    </head>
 `)
-	/* <body> */
+	//base_embedded.tmpl:     <body>
+
 	result.WriteString(`    <body>
 `)
-	/*  */
+	//base_embedded.tmpl:
 	result.WriteString(``)
-	/* !#include body */
-	/*  */
+	//base_embedded.tmpl: !#include body
+	//base_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/*  */
+	//base_embedded.tmpl:
 	result.WriteString(``)
-	/* !#include footer */
-	/*  */
+	//base_embedded.tmpl: !#include footer
+	//base_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/* </body> */
+	//base_embedded.tmpl:     </body>
+
 	result.WriteString(`    </body>
 `)
-	/* </html> */
+	//base_embedded.tmpl: </html>
+
 	result.WriteString(`</html>
 `)
-	/*  */
+	//base_embedded.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -135,16 +153,19 @@ func TE__basic(str string, num int) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/* String:{{s str}} */
+	//basic.tmpl: String:{{s str}}
+
 	result.WriteString(fmt.Sprintf(`String:%s
 `, __escape__(str)))
-	/* Unescaped:{{=s str}} */
+	//basic.tmpl: Unescaped:{{=s str}}
+
 	result.WriteString(fmt.Sprintf(`Unescaped:%s
 `, str))
-	/* Num:{{d num}} */
+	//basic.tmpl: Num:{{d num}}
+
 	result.WriteString(fmt.Sprintf(`Num:%d
 `, num))
-	/*  */
+	//basic.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -166,14 +187,17 @@ func TE__basic_code(s string, num int) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/* !for i := 0; i < num; i++ { */
+	//basic_code.tmpl: !for i := 0; i < num; i++ {
+
 	for i := 0; i < num; i++ {
-		/* {{d i}} */
+		//basic_code.tmpl: {{d i}}
+
 		result.WriteString(fmt.Sprintf(`%d
 `, i))
-		/* !} */
+		//basic_code.tmpl: !}
+
 	}
-	/*  */
+	//basic_code.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -195,18 +219,19 @@ func TE__basic_embedded_code(n int) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/*  */
+	//basic_embedded_code.tmpl:
 	result.WriteString(``)
-	/* !for i := 0; i < n; i++ */
+	//basic_embedded_code.tmpl: !for i := 0; i < n; i++
 	for i := 0; i < n; i++ {
-		/* i={{d i }} */
+		//basic_embedded_code.tmpl: i={{d i }}
 		result.WriteString(fmt.Sprintf(`i=%d `, i))
-		/* !end */
+		//basic_embedded_code.tmpl: !end
 	}
-	/*  */
+	//basic_embedded_code.tmpl:
+
 	result.WriteString(`
 `)
-	/*  */
+	//basic_embedded_code.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -228,44 +253,47 @@ func TE__basic_if_else(n int) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/*  */
+	//basic_if_else.tmpl:
 	result.WriteString(``)
-	/* !if n < 10 { */
+	//basic_if_else.tmpl: !if n < 10 {
 	if n < 10 {
-		/* {{d n }} less than 10 */
+		//basic_if_else.tmpl: {{d n }} less than 10
 		result.WriteString(fmt.Sprintf(`%d less than 10`, n))
-		/* !} */
+		//basic_if_else.tmpl: !}
 	}
-	/*  */
+	//basic_if_else.tmpl:
+
 	result.WriteString(`
 `)
-	/*  */
+	//basic_if_else.tmpl:
 	result.WriteString(``)
-	/* !if n > 0 */
+	//basic_if_else.tmpl: !if n > 0
 	if n > 0 {
-		/* {{d n}} biger than 0 */
+		//basic_if_else.tmpl: {{d n}} biger than 0
 		result.WriteString(fmt.Sprintf(`%d biger than 0`, n))
-		/* !end */
+		//basic_if_else.tmpl: !end
 	}
-	/*  */
+	//basic_if_else.tmpl:
+
 	result.WriteString(`
 `)
-	/*  */
+	//basic_if_else.tmpl:
 	result.WriteString(``)
-	/* !if n > 5 */
+	//basic_if_else.tmpl: !if n > 5
 	if n > 5 {
-		/* {{d n}} biger than 5 */
+		//basic_if_else.tmpl: {{d n}} biger than 5
 		result.WriteString(fmt.Sprintf(`%d biger than 5`, n))
-		/* !else */
+		//basic_if_else.tmpl: !else
 	} else {
-		/* {{d n}} smaller than 5 */
+		//basic_if_else.tmpl: {{d n}} smaller than 5
 		result.WriteString(fmt.Sprintf(`%d smaller than 5`, n))
-		/* !end */
+		//basic_if_else.tmpl: !end
 	}
-	/*  */
+	//basic_if_else.tmpl:
+
 	result.WriteString(`
 `)
-	/*  */
+	//basic_if_else.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -287,31 +315,33 @@ func TE__basic_if_elseif(n int) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/*  */
+	//basic_if_elseif.tmpl:
 	result.WriteString(``)
-	/*  */
+	//basic_if_elseif.tmpl:
+
 	result.WriteString(`
 `)
-	/*  */
+	//basic_if_elseif.tmpl:
 	result.WriteString(``)
-	/* !if n < 10 */
+	//basic_if_elseif.tmpl: !if n < 10
 	if n < 10 {
-		/* n less than 10 */
+		//basic_if_elseif.tmpl: n less than 10
 		result.WriteString(`n less than 10`)
-		/* !else if n < 100 */
+		//basic_if_elseif.tmpl: !else if n < 100
 	} else if n < 100 {
-		/* n less than 100 */
+		//basic_if_elseif.tmpl: n less than 100
 		result.WriteString(`n less than 100`)
-		/* !else */
+		//basic_if_elseif.tmpl: !else
 	} else {
-		/* n bigger than 100 */
+		//basic_if_elseif.tmpl: n bigger than 100
 		result.WriteString(`n bigger than 100`)
-		/* !end */
+		//basic_if_elseif.tmpl: !end
 	}
-	/*  */
+	//basic_if_elseif.tmpl:
+
 	result.WriteString(`
 `)
-	/*  */
+	//basic_if_elseif.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -333,74 +363,91 @@ func TE__comparison_with_gotemplates(params TemplateParam) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/* <html> */
+	//comparison_with_gotemplates.tmpl: <html>
+
 	result.WriteString(`<html>
 `)
-	/* <head> */
+	//comparison_with_gotemplates.tmpl:     <head>
+
 	result.WriteString(`    <head>
 `)
-	/* <title>{{s params.Title }}</title> */
+	//comparison_with_gotemplates.tmpl:         <title>{{s params.Title }}</title>
+
 	result.WriteString(fmt.Sprintf(`        <title>%s</title>
 `, __escape__(params.Title)))
-	/* </head> */
+	//comparison_with_gotemplates.tmpl:     </head>
+
 	result.WriteString(`    </head>
 `)
-	/* <body> */
+	//comparison_with_gotemplates.tmpl:     <body>
+
 	result.WriteString(`    <body>
 `)
-	/* <h1>{{s params.Title }}</h1> */
+	//comparison_with_gotemplates.tmpl:         <h1>{{s params.Title }}</h1>
+
 	result.WriteString(fmt.Sprintf(`        <h1>%s</h1>
 `, __escape__(params.Title)))
-	/*  */
+	//comparison_with_gotemplates.tmpl:
 	result.WriteString(`        `)
-	/* !if len(params.Subtitle) > 0 */
+	//comparison_with_gotemplates.tmpl: !if len(params.Subtitle) > 0
 	if len(params.Subtitle) > 0 {
-		/* <h2>{{ params.Subtitle }}</h1> */
+		//comparison_with_gotemplates.tmpl: <h2>{{ params.Subtitle }}</h1>
 		result.WriteString(fmt.Sprintf(`<h2>%v</h1>`, params.Subtitle))
-		/* !end */
+		//comparison_with_gotemplates.tmpl: !end
 	}
-	/*  */
+	//comparison_with_gotemplates.tmpl:
+
 	result.WriteString(`
 `)
-	/* <ul> */
+	//comparison_with_gotemplates.tmpl:         <ul>
+
 	result.WriteString(`        <ul>
 `)
-	/*  */
+	//comparison_with_gotemplates.tmpl:
 	result.WriteString(`            `)
-	/* !for _, item := range params.Items */
+	//comparison_with_gotemplates.tmpl: !for _, item := range params.Items
 	for _, item := range params.Items {
-		/*  */
+		//comparison_with_gotemplates.tmpl:
+
 		result.WriteString(`
 `)
-		/* <li> {{s item }} */
+		//comparison_with_gotemplates.tmpl:                 <li> {{s item }}
+
 		result.WriteString(fmt.Sprintf(`                <li> %s
 `, __escape__(item)))
-		/*  */
+		//comparison_with_gotemplates.tmpl:
 		result.WriteString(`            `)
-		/* !end */
+		//comparison_with_gotemplates.tmpl: !end
 	}
-	/*  */
+	//comparison_with_gotemplates.tmpl:
+
 	result.WriteString(`
 `)
-	/* </ul> */
+	//comparison_with_gotemplates.tmpl:         </ul>
+
 	result.WriteString(`        </ul>
 `)
-	/* <p> */
+	//comparison_with_gotemplates.tmpl:         <p>
+
 	result.WriteString(`        <p>
 `)
-	/* Written {{d len(params.Items) }} items */
+	//comparison_with_gotemplates.tmpl:             Written {{d len(params.Items) }} items
+
 	result.WriteString(fmt.Sprintf(`            Written %d items
 `, len(params.Items)))
-	/* </p> */
+	//comparison_with_gotemplates.tmpl:         </p>
+
 	result.WriteString(`        </p>
 `)
-	/* </body> */
+	//comparison_with_gotemplates.tmpl:     </body>
+
 	result.WriteString(`    </body>
 `)
-	/* </html> */
+	//comparison_with_gotemplates.tmpl: </html>
+
 	result.WriteString(`</html>
 `)
-	/*  */
+	//comparison_with_gotemplates.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -422,49 +469,62 @@ func TE__extends(title string, something int) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/* !#extends base */
-	/*  */
+	//extends.tmpl: !#extends base
+	//extends.tmpl:
+
 	result.WriteString(`
 `)
-	/* <html> */
+	//extends.tmpl: <html>
+
 	result.WriteString(`<html>
 `)
-	/* <head> */
+	//extends.tmpl:     <head>
+
 	result.WriteString(`    <head>
 `)
-	/* <title>{{s title }}</title> */
+	//extends.tmpl:         <title>{{s title }}</title>
+
 	result.WriteString(fmt.Sprintf(`        <title>%s</title>
 `, __escape__(title)))
-	/* <script> */
+	//extends.tmpl: <script>
+
 	result.WriteString(`<script>
 `)
-	/* alert("included") */
+	//extends.tmpl: alert("included")
+
 	result.WriteString(`alert("included")
 `)
-	/* </script> */
+	//extends.tmpl: </script>
+
 	result.WriteString(`</script>
 `)
-	/*  */
+	//extends.tmpl:
+
 	result.WriteString(`
 `)
-	/* </head> */
+	//extends.tmpl:     </head>
+
 	result.WriteString(`    </head>
 `)
-	/* <body> */
+	//extends.tmpl:     <body>
+
 	result.WriteString(`    <body>
 `)
-	/* <h1>Body!</h1> */
+	//extends.tmpl: <h1>Body!</h1>
+
 	result.WriteString(`<h1>Body!</h1>
 `)
-	/*  */
+	//extends.tmpl:
 	result.WriteString(``)
-	/* </body> */
+	//extends.tmpl:     </body>
+
 	result.WriteString(`    </body>
 `)
-	/* </html> */
+	//extends.tmpl: </html>
+
 	result.WriteString(`</html>
 `)
-	/*  */
+	//extends.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -486,89 +546,110 @@ func TE__extends_embedded(title string, something int) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/*  */
+	//extends_embedded.tmpl:
 	result.WriteString(``)
-	/* !#extends base_embedded */
-	/*  */
+	//extends_embedded.tmpl: !#extends base_embedded
+	//extends_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/*  */
+	//extends_embedded.tmpl:
 	result.WriteString(``)
-	/*  */
+	//extends_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/*  */
+	//extends_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/*  */
+	//extends_embedded.tmpl:
 	result.WriteString(``)
-	/*  */
+	//extends_embedded.tmpl:
 	result.WriteString(``)
-	/*  */
+	//extends_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/* <html> */
+	//extends_embedded.tmpl: <html>
+
 	result.WriteString(`<html>
 `)
-	/* <head> */
+	//extends_embedded.tmpl:     <head>
+
 	result.WriteString(`    <head>
 `)
-	/* <title>{{s title }}</title> */
+	//extends_embedded.tmpl:         <title>{{s title }}</title>
+
 	result.WriteString(fmt.Sprintf(`        <title>%s</title>
 `, __escape__(title)))
-	/*  */
+	//extends_embedded.tmpl:
 	result.WriteString(``)
-	/*  */
+	//extends_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/* <script> */
+	//extends_embedded.tmpl: <script>
+
 	result.WriteString(`<script>
 `)
-	/* alert("included") */
+	//extends_embedded.tmpl: alert("included")
+
 	result.WriteString(`alert("included")
 `)
-	/* </script> */
+	//extends_embedded.tmpl: </script>
+
 	result.WriteString(`</script>
 `)
-	/*  */
+	//extends_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/*  */
+	//extends_embedded.tmpl:
 	result.WriteString(``)
-	/*  */
+	//extends_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/* </head> */
+	//extends_embedded.tmpl:     </head>
+
 	result.WriteString(`    </head>
 `)
-	/* <body> */
+	//extends_embedded.tmpl:     <body>
+
 	result.WriteString(`    <body>
 `)
-	/*  */
+	//extends_embedded.tmpl:
 	result.WriteString(``)
-	/*  */
+	//extends_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/* <h1>Body!</h1> */
+	//extends_embedded.tmpl: <h1>Body!</h1>
+
 	result.WriteString(`<h1>Body!</h1>
 `)
-	/*  */
+	//extends_embedded.tmpl:
 	result.WriteString(``)
-	/*  */
+	//extends_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/*  */
+	//extends_embedded.tmpl:
 	result.WriteString(``)
-	/*  */
+	//extends_embedded.tmpl:
+
 	result.WriteString(`
 `)
-	/* </body> */
+	//extends_embedded.tmpl:     </body>
+
 	result.WriteString(`    </body>
 `)
-	/* </html> */
+	//extends_embedded.tmpl: </html>
+
 	result.WriteString(`</html>
 `)
-	/*  */
+	//extends_embedded.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -590,15 +671,18 @@ func TE__noncode_line_with_exclamation_mark() (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/* !s1 := "This lins is not a code line" */
+	//noncode_line_with_exclamation_mark.tmpl: !s1 := "This lins is not a code line"
+
 	result.WriteString(`!s1 := "This lins is not a code line"
 `)
-	/* !s2 := "This *is* a line of code" */
+	//noncode_line_with_exclamation_mark.tmpl: !s2 := "This *is* a line of code"
+
 	s2 := "This *is* a line of code"
-	/* {{s s2 }} */
+	//noncode_line_with_exclamation_mark.tmpl: {{s s2 }}
+
 	result.WriteString(fmt.Sprintf(`%s
 `, __escape__(s2)))
-	/*  */
+	//noncode_line_with_exclamation_mark.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -620,19 +704,22 @@ func TE__return(a int) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/* a is {{d a }} */
+	//return.tmpl: a is {{d a }}
+
 	result.WriteString(fmt.Sprintf(`a is %d
 `, a))
-	/*  */
+	//return.tmpl:
 	result.WriteString(``)
 	return result.String(), nil
-	/*  */
+	//return.tmpl:
+
 	result.WriteString(`
 `)
-	/* This line is ignored */
+	//return.tmpl: This line is ignored
+
 	result.WriteString(`This line is ignored
 `)
-	/*  */
+	//return.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -654,14 +741,17 @@ func TE__with_end_instead_of_brackets() (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/* !for i:=0; i < 5; i++ */
+	//with_end_instead_of_brackets.tmpl: !for i:=0; i < 5; i++
+
 	for i := 0; i < 5; i++ {
-		/* i={{d i }} */
+		//with_end_instead_of_brackets.tmpl: i={{d i }}
+
 		result.WriteString(fmt.Sprintf(`i=%d
 `, i))
-		/* !end */
+		//with_end_instead_of_brackets.tmpl: !end
+
 	}
-	/*  */
+	//with_end_instead_of_brackets.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -687,13 +777,15 @@ func TE__with_global_declaration(arg Argument) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/* Aaa={{s arg.Aaa }} */
+	//with_global_declaration.tmpl: Aaa={{s arg.Aaa }}
+
 	result.WriteString(fmt.Sprintf(`Aaa=%s
 `, __escape__(arg.Aaa)))
-	/* Bbb={{d arg.Bbb }} */
+	//with_global_declaration.tmpl: Bbb={{d arg.Bbb }}
+
 	result.WriteString(fmt.Sprintf(`Bbb=%d
 `, arg.Bbb))
-	/*  */
+	//with_global_declaration.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil
@@ -715,13 +807,15 @@ func TE__with_percentage(str string) (string, error) {
 	__escape__ := html.EscapeString
 	_ = __escape__
 	var result bytes.Buffer
-	/* %, str={{s str }} */
+	//with_percentage.tmpl: %, str={{s str }}
+
 	result.WriteString(fmt.Sprintf(`%%, str=%s
 `, __escape__(str)))
-	/* %, str={{s fmt.Sprintf("aaa%sccc", "bbb") }} */
+	//with_percentage.tmpl: %, str={{s fmt.Sprintf("aaa%sccc", "bbb") }}
+
 	result.WriteString(fmt.Sprintf(`%%, str=%s
 `, __escape__(fmt.Sprintf("aaa%sccc", "bbb"))))
-	/*  */
+	//with_percentage.tmpl:
 	result.WriteString(``)
 
 	return result.String(), nil

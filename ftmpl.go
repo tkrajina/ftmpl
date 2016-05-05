@@ -82,8 +82,9 @@ func (tp TemplateParams) ArgNamesJoined() string {
 	return strings.Join(argNames, ", ")
 }
 
-func (tp *TemplateParams) addComment(line string) {
-	tp.Lines = append(tp.Lines, "/* "+strings.TrimSpace(strings.Replace(line, "*/", "* /", -1))+" */")
+func (tp *TemplateParams) addComment(filename, line string) {
+	comment := fmt.Sprintf("//%s: %s", filename, line)
+	tp.Lines = append(tp.Lines, comment)
 }
 
 var initFunctionTemplate = `func init() {
@@ -398,7 +399,7 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 		} else if strings.HasPrefix(line, CMD_RETURN) {
 			params.Lines = append(params.Lines, "return result.String(), nil")
 		} else if strings.HasPrefix(line, CMD_ERROIF) {
-			params.addComment(line)
+			params.addComment(file, line)
 			parts := strings.Split(line[len(CMD_ERROIF):], "???")
 			expression := parts[0]
 			message := fmt.Sprintf("Error checking %s", expression)
@@ -410,16 +411,16 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 			handleLineError(err, line)
 			params.Lines = append(params.Lines, errBuffer.String())
 		} else if strings.HasPrefix(line, "!#") {
-			params.addComment(line)
+			params.addComment(file, line)
 		} else if strings.HasPrefix(line, "!!") {
 			line = line[1:]
-			params.addComment(line)
+			params.addComment(file, line)
 			params.Lines = append(params.Lines, handleTemplateLine(line))
 		} else if strings.HasPrefix(line, "!") {
-			params.addComment(line)
+			params.addComment(file, line)
 			params.Lines = append(params.Lines, prepareCommandLine(line[1:]))
 		} else {
-			params.addComment(line)
+			params.addComment(file, line)
 			params.Lines = append(params.Lines, handleTemplateLine(line))
 		}
 	}
