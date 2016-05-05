@@ -21,7 +21,7 @@ import (
 const cmdlineTargetGo = "targetgo"
 const cmdlineTargetDir = "targetdir"
 
-type AppParams struct {
+type appParams struct {
 	targetDir    string
 	targetGoFile string
 }
@@ -124,9 +124,9 @@ func (ptp PatternTemplateParam) ArgsJoined() string {
 }
 
 func main() {
-	var appParams AppParams
-	flag.StringVar(&(appParams.targetGoFile), cmdlineTargetGo, "", "Merge the result in this go file")
-	flag.StringVar(&(appParams.targetDir), cmdlineTargetDir, "", "Save the result in this directory")
+	var ap appParams
+	flag.StringVar(&(ap.targetGoFile), cmdlineTargetGo, "", "Merge the result in this go file")
+	flag.StringVar(&(ap.targetDir), cmdlineTargetDir, "", "Save the result in this directory")
 	flag.Parse()
 
 	if len(flag.Args()) != 1 {
@@ -135,13 +135,13 @@ func main() {
 	}
 	sourceDir := flag.Arg(0)
 
-	if len(appParams.targetDir) > 0 && len(appParams.targetGoFile) > 0 {
+	if len(ap.targetDir) > 0 && len(ap.targetGoFile) > 0 {
 		fmt.Fprintln(os.Stderr, fmt.Sprintf("Only %s or %s (or none) can be used, not both", cmdlineTargetGo, cmdlineTargetDir))
 		os.Exit(1)
 	}
 
-	if len(appParams.targetDir) == 0 && len(appParams.targetGoFile) == 0 {
-		appParams.targetDir = sourceDir
+	if len(ap.targetDir) == 0 && len(ap.targetGoFile) == 0 {
+		ap.targetDir = sourceDir
 	}
 
 	var compiledTemplates []compiledTemplate
@@ -158,10 +158,10 @@ func main() {
 	for _, fileName := range files {
 		if strings.HasSuffix(fileName, ".tmpl") {
 			compiled := convertTemplate(sourceDir, fileName, ConvertTemplateParams{})
-			if len(appParams.targetDir) > 0 {
+			if len(ap.targetDir) > 0 {
 				_, fileName := getLastPathElements(fileName)
 				fileName = strings.Replace(fileName, ".tmpl", ".go", -1)
-				fileName = path.Join(appParams.targetDir, fileName)
+				fileName = path.Join(ap.targetDir, fileName)
 				if len(compiled.functionCode) > 0 {
 					saveTemplates(fileName, compiled)
 				}
@@ -171,8 +171,8 @@ func main() {
 		}
 	}
 
-	if len(appParams.targetGoFile) > 0 {
-		saveTemplates(appParams.targetGoFile, compiledTemplates...)
+	if len(ap.targetGoFile) > 0 {
+		saveTemplates(ap.targetGoFile, compiledTemplates...)
 	}
 }
 
