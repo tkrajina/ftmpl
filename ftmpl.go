@@ -18,24 +18,30 @@ import (
 	texttmpl "text/template"
 )
 
-const cmdlineTargetGo = "targetgo"
-const cmdlineTargetDir = "targetdir"
+const (
+	cmdlineTargetGo  = "targetgo"
+	cmdlineTargetDir = "targetdir"
+)
 
 type appParams struct {
 	targetDir    string
 	targetGoFile string
 }
 
-const cmdPrefix = "!#"
-const cmdArg = "!#arg"
-const cmdEscape = "!#escape"
-const cmdImport = "!#import"
-const cmdErrorif = "!#errif"
-const cmdReturn = "!#return"
-const cmdSub = "!#sub"
-const cmdExtends = "!#extends"
-const cmdInclude = "!#include"
-const cmdGlobal = "!#global"
+const (
+	cmdPrefix  = "!#"
+	cmdArg     = "!#arg"
+	cmdEscape  = "!#escape"
+	cmdImport  = "!#import"
+	cmdErrorif = "!#errif"
+	cmdReturn  = "!#return"
+	cmdSub     = "!#sub"
+	cmdExtends = "!#extends"
+	cmdInclude = "!#include"
+	cmdGlobal  = "!#global"
+)
+
+const randomStringChars = "qwertyuiopasdfghjklzxcvbnm1234567890"
 
 var templateReplacementRegex = regexp.MustCompile("{{.*?}}")
 
@@ -61,7 +67,7 @@ func {{ .NoerrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) string {
 	return html
 }`))
 
-type TemplateParams struct {
+type templateParams struct {
 	GlobalCode      string
 	ErrFuncPrefix   string
 	NoerrFuncPrefix string
@@ -72,19 +78,19 @@ type TemplateParams struct {
 	Lines           []string
 }
 
-func (tp TemplateParams) ArgsJoined() string {
+func (tp templateParams) ArgsJoined() string {
 	return strings.Join(tp.Args, ", ")
 }
 
-func (tp TemplateParams) ArgNamesJoined() string {
-	argNames := make([]string, 0)
+func (tp templateParams) ArgNamesJoined() string {
+	var argNames []string
 	for _, arg := range tp.Args {
 		argNames = append(argNames, strings.Split(arg, " ")[0])
 	}
 	return strings.Join(argNames, ", ")
 }
 
-func (tp *TemplateParams) addComment(filename, line string) {
+func (tp *templateParams) addComment(filename, line string) {
 	comment := fmt.Sprintf("//%s: %s", filename, strings.TrimRight(line, "\n\r \t"))
 	tp.Lines = append(tp.Lines, comment)
 }
@@ -104,7 +110,7 @@ var errorTemplate = texttmpl.Must(texttmpl.New("").Parse(`if {{.Expression}} {
 	return "", errors.New({{.Message}})
 }`))
 
-type ErrParams struct {
+type errParams struct {
 	Expression, Message string
 }
 
@@ -114,12 +120,12 @@ var patternTemplate = texttmpl.Must(texttmpl.New("").Parse(`result.WriteString(f
 
 var newlineTemplate = `result.WriteString("\\n")`
 
-type PatternTemplateParam struct {
+type patternTemplateParam struct {
 	Template string
 	Args     []string
 }
 
-func (ptp PatternTemplateParam) ArgsJoined() string {
+func (ptp patternTemplateParam) ArgsJoined() string {
 	return strings.Join(ptp.Args, ", ")
 }
 
@@ -149,7 +155,7 @@ func main() {
 	fileInfos, err := ioutil.ReadDir(sourceDir)
 	handleError(err, "Error listing directory")
 
-	files := make([]string, 0)
+	var files []string
 	for _, fileInfo := range fileInfos {
 		files = append(files, fileInfo.Name())
 	}
@@ -157,7 +163,7 @@ func main() {
 
 	for _, fileName := range files {
 		if strings.HasSuffix(fileName, ".tmpl") {
-			compiled := convertTemplate(sourceDir, fileName, ConvertTemplateParams{})
+			compiled := convertTemplate(sourceDir, fileName, convertTemplateParams{})
 			if len(ap.targetDir) > 0 {
 				_, fileName := getLastPathElements(fileName)
 				fileName = strings.Replace(fileName, ".tmpl", ".go", -1)
@@ -179,7 +185,7 @@ func main() {
 func saveTemplates(destination string, compiled ...compiledTemplate) {
 	fmt.Sprintln("destination=", destination)
 
-	imports := make([]string, 0)
+	var imports []string
 	for _, c := range compiled {
 		imports = append(imports, c.imports...)
 	}
@@ -281,9 +287,9 @@ func processExtending(pckg string, lines []string) []string {
 	subTemplateCode, subTemplateChunks := loadTemplateSubChunks(lines)
 
 	// Merge them together:
-	result := make([]string, 0)
+	var result []string
 
-	subTemplateArgsCode := make([]string, 0)
+	var subTemplateArgsCode []string
 	for _, line := range subTemplateCode {
 		if strings.HasPrefix(line, cmdArg) {
 			subTemplateArgsCode = append(subTemplateArgsCode, line)
@@ -342,7 +348,7 @@ func getLastPathElements(path string) (string, string) {
 	handleError(err, "Error getting absolute path from "+path)
 	pathParts := strings.Split(absPath, string(os.PathSeparator))
 
-	elements := make([]string, 0)
+	var elements []string
 	for _, part := range pathParts {
 		part = strings.TrimSpace(part)
 		if len(part) > 0 {
@@ -367,12 +373,10 @@ type compiledTemplate struct {
 	functionCode string
 }
 
-const RANDOM_STRING_CHARS = "qwertyuiopasdfghjklzxcvbnm1234567890"
-
 func getRandomString(length int) string {
 	result := ""
 	for i := 0; i < length; i++ {
-		result += string(RANDOM_STRING_CHARS[rand.Int()%len(RANDOM_STRING_CHARS)])
+		result += string(randomStringChars[rand.Int()%len(randomStringChars)])
 	}
 
 	return result
@@ -401,11 +405,11 @@ func loadTemplateAndGetLines(fileName string) []string {
 	return strings.Split(str, lineDelimiter)
 }
 
-type ConvertTemplateParams struct {
+type convertTemplateParams struct {
 	ErrFuncPrefix, NoerrFuncPrefix string
 }
 
-func convertTemplate(packageDir, file string, params ConvertTemplateParams) compiledTemplate {
+func convertTemplate(packageDir, file string, params convertTemplateParams) compiledTemplate {
 	lines := loadTemplateAndGetLines(path.Join(packageDir, file))
 
 	result := compiledTemplate{}
@@ -421,7 +425,7 @@ func convertTemplate(packageDir, file string, params ConvertTemplateParams) comp
 	}
 
 	funcName := strings.Replace(file, ".tmpl", "", -1)
-	tmplParams := TemplateParams{
+	tmplParams := templateParams{
 		ErrFuncPrefix:   params.ErrFuncPrefix,
 		NoerrFuncPrefix: params.NoerrFuncPrefix,
 		FuncName:        funcName,
@@ -455,7 +459,7 @@ func convertTemplate(packageDir, file string, params ConvertTemplateParams) comp
 				message = strings.TrimSpace(parts[1])
 			}
 			var errBuffer bytes.Buffer
-			err := errorTemplate.Execute(&errBuffer, ErrParams{Expression: expression, Message: message})
+			err := errorTemplate.Execute(&errBuffer, errParams{Expression: expression, Message: message})
 			handleLineError(err, line)
 			tmplParams.Lines = append(tmplParams.Lines, errBuffer.String())
 		} else if strings.HasPrefix(line, "!#") {
@@ -517,7 +521,7 @@ func handleTemplateLine(line string) string {
 	// expressions {{d 15 % 3 }}!
 	percentageCharReplacement := getRandomString(10)
 
-	params := PatternTemplateParam{}
+	params := patternTemplateParam{}
 	str := templateReplacementRegex.ReplaceAllStringFunc(line, func(s string) string {
 		s = strings.TrimSpace(s[2 : len(s)-2])
 		if len(s) == 0 {
@@ -582,7 +586,7 @@ func handleLineError(err error, line string) {
 }
 
 func rmDoubleImports(list []string) []string {
-	result := make([]string, 0)
+	var result []string
 	existing := make(map[string]bool)
 	for _, i := range list {
 		if _, ok := existing[i]; !ok {
