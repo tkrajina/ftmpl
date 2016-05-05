@@ -157,7 +157,7 @@ func main() {
 
 	for _, fileName := range files {
 		if strings.HasSuffix(fileName, ".tmpl") {
-			compiled := convertTemplate(sourceDir, fileName)
+			compiled := convertTemplate(sourceDir, fileName, ConvertTemplateParams{})
 			if len(appParams.targetDir) > 0 {
 				_, fileName := getLastPathElements(fileName)
 				fileName = strings.Replace(fileName, ".tmpl", ".go", -1)
@@ -401,7 +401,11 @@ func loadTemplateAndGetLines(fileName string) []string {
 	return strings.Split(str, lineDelimiter)
 }
 
-func convertTemplate(packageDir, file string) compiledTemplate {
+type ConvertTemplateParams struct {
+	ErrFuncPrefix, NoerrFuncPrefix string
+}
+
+func convertTemplate(packageDir, file string, params ConvertTemplateParams) compiledTemplate {
 	lines := loadTemplateAndGetLines(path.Join(packageDir, file))
 
 	result := compiledTemplate{}
@@ -409,10 +413,17 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 
 	lines = processExtending(packageDir, lines)
 
+	if len(params.ErrFuncPrefix) == 0 {
+		params.ErrFuncPrefix = "TEMPLATEERR"
+	}
+	if len(params.NoerrFuncPrefix) == 0 {
+		params.NoerrFuncPrefix = "TEMPLATE"
+	}
+
 	funcName := strings.Replace(file, ".tmpl", "", -1)
-	params := TemplateParams{
-		ErrFuncPrefix:   "TE__",
-		NoerrFuncPrefix: "T__",
+	tmplParams := TemplateParams{
+		ErrFuncPrefix:   params.ErrFuncPrefix,
+		NoerrFuncPrefix: params.NoerrFuncPrefix,
 		FuncName:        funcName,
 		TemplateFile:    file,
 		EscapeFunc:      "html.EscapeString",
@@ -426,17 +437,17 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 		}
 
 		if strings.HasPrefix(line, CMD_ARG) {
-			params.Args = append(params.Args, strings.TrimSpace(line[len(CMD_ARG):]))
+			tmplParams.Args = append(tmplParams.Args, strings.TrimSpace(line[len(CMD_ARG):]))
 		} else if strings.HasPrefix(line, CMD_GLOBAL) {
-			params.GlobalCode += strings.TrimSpace(line[len(CMD_ESCAPE):]) + "\n"
+			tmplParams.GlobalCode += strings.TrimSpace(line[len(CMD_ESCAPE):]) + "\n"
 		} else if strings.HasPrefix(line, CMD_ESCAPE) {
-			params.EscapeFunc = strings.TrimSpace(line[len(CMD_ESCAPE):])
+			tmplParams.EscapeFunc = strings.TrimSpace(line[len(CMD_ESCAPE):])
 		} else if strings.HasPrefix(line, CMD_IMPORT) {
 			result.imports = append(result.imports, strings.TrimSpace(line[len(CMD_IMPORT):]))
 		} else if strings.HasPrefix(line, CMD_RETURN) {
-			params.Lines = append(params.Lines, "return result.String(), nil")
+			tmplParams.Lines = append(tmplParams.Lines, "return result.String(), nil")
 		} else if strings.HasPrefix(line, CMD_ERROIF) {
-			params.addComment(file, line)
+			tmplParams.addComment(file, line)
 			parts := strings.Split(line[len(CMD_ERROIF):], "???")
 			expression := parts[0]
 			message := fmt.Sprintf("Error checking %s", expression)
@@ -446,32 +457,32 @@ func convertTemplate(packageDir, file string) compiledTemplate {
 			var errBuffer bytes.Buffer
 			err := errorTemplate.Execute(&errBuffer, ErrParams{Expression: expression, Message: message})
 			handleLineError(err, line)
-			params.Lines = append(params.Lines, errBuffer.String())
+			tmplParams.Lines = append(tmplParams.Lines, errBuffer.String())
 		} else if strings.HasPrefix(line, "!#") {
-			params.addComment(file, line)
+			tmplParams.addComment(file, line)
 		} else if strings.HasPrefix(line, "!!") {
 			line = line[1:]
-			params.addComment(file, line)
-			params.Lines = append(params.Lines, handleTemplateLine(line))
+			tmplParams.addComment(file, line)
+			tmplParams.Lines = append(tmplParams.Lines, handleTemplateLine(line))
 		} else if strings.HasPrefix(line, "!") {
-			params.addComment(file, line)
-			params.Lines = append(params.Lines, prepareCommandLine(line[1:]))
+			tmplParams.addComment(file, line)
+			tmplParams.Lines = append(tmplParams.Lines, prepareCommandLine(line[1:]))
 		} else {
-			params.addComment(file, line)
-			params.Lines = append(params.Lines, handleTemplateLine(line))
+			tmplParams.addComment(file, line)
+			tmplParams.Lines = append(tmplParams.Lines, handleTemplateLine(line))
 		}
 	}
 
-	if len(params.EscapeFunc) == 0 {
-		params.EscapeFunc = defaultQuoteTemplate
+	if len(tmplParams.EscapeFunc) == 0 {
+		tmplParams.EscapeFunc = defaultQuoteTemplate
 	}
 
 	result.imports = append(result.imports, "\"bytes\"", "\"errors\"", "\"html\"", "\"fmt\"")
 
-	params.Args = rmDoubleImports(params.Args)
+	tmplParams.Args = rmDoubleImports(tmplParams.Args)
 
 	var buf bytes.Buffer
-	generatorTemplate.Execute(&buf, params)
+	generatorTemplate.Execute(&buf, tmplParams)
 	result.functionCode = buf.String()
 
 	return result

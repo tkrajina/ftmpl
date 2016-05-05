@@ -18,7 +18,7 @@ ftmpl is a fast/compiled/typesafe templating "language" for golang.
 Every template must be saved in a file with extension `.tmpl`.
 The template file can be "compiled" in Go code (and this is typically done in the build procedure).
 
-If the file is named `my_template.tmpl` then the `ftmpl` utility will produce a function `T__my_template()`.
+If the file is named `my_template.tmpl` then the `ftmpl` utility will produce a function `TEMPLATEmy_template()`.
 
 Compiling files is done my invoking:
 
@@ -46,7 +46,7 @@ An example template `show_time.tmpl`
         </body>
     </html>
 
-It will be compiled to the function `func T__show_time()`
+It will be compiled to the function `func TEMPLATEshow_time()`
 
 If you want your template function to have arguments:
 
@@ -58,7 +58,7 @@ If you want your template function to have arguments:
         </body>
     </html>
 
-Now the compiled function will be `func T__show_time(time.Time)`
+Now the compiled function will be `func TEMPLATEshow_time(time.Time)`
 
 ## Placeholders
 
@@ -180,10 +180,10 @@ And then a typical page will be something like:
     !#sub body
     <h1>Body!</h1>
 
-If the name of the extended template is `my_page.tmpl` then the resulting template function will have both the arguments from *that template* and arguments from the *base template*: `func T__my_page(title string, something int)`.
+If the name of the extended template is `my_page.tmpl` then the resulting template function will have both the arguments from *that template* and arguments from the *base template*: `func TEMPLATEmy_page(title string, something int)`.
 
 Typically you will have many template arguments, so the best way to deal with them is to pack them all into one "base page structure" and another struct for every page.
-The function will then be `func T__my_page(baseParams BasePageParams, pageParams MyPageParams)`
+The function will then be `func TEMPLATEmy_page(baseParams BasePageParams, pageParams MyPageParams)`
 
 ## Invalid code
 
@@ -214,8 +214,8 @@ For others, you'll need to debug the Go code (every Go line is preceded with a G
 
 Every template will result in *two* template functions. Both will execute the same code, but:
 
- * Use `func TE__my_template(args) (string, error)` if you expect your template to return errors, use this one. Use `!return "", err` to prematurely exit from the template with a proper error value.
- * With `func T__my_template(args) string` if template returns an error, the result is an empty string, and the error will be written in `os.Syserr`.
+ * Use `func TEMPLATEERRmy_template(args) (string, error)` if you expect your template to return errors, use this one. Use `!return "", err` to prematurely exit from the template with a proper error value.
+ * With `func TEMPLATEmy_template(args) string` if template returns an error, the result is an empty string, and the error will be written in `os.Syserr`.
 
 ## Global declarations
 

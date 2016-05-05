@@ -17,7 +17,7 @@ func init() {
 
 // Generated code, do not edit!!!!
 
-func TE__base(title string) (string, error) {
+func TEMPLATEERRbase(title string) (string, error) {
 	__template__ := "base.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -53,8 +53,8 @@ func TE__base(title string) (string, error) {
 	return result.String(), nil
 }
 
-func T__base(title string) string {
-	html, err := TE__base(title)
+func TEMPLATEbase(title string) string {
+	html, err := TEMPLATEERRbase(title)
 	if err != nil {
 		os.Stderr.WriteString("Error running template base.tmpl:" + err.Error())
 	}
@@ -63,7 +63,7 @@ func T__base(title string) string {
 
 // Generated code, do not edit!!!!
 
-func TE__base_embedded(title string) (string, error) {
+func TEMPLATEERRbase_embedded(title string) (string, error) {
 	__template__ := "base_embedded.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -119,8 +119,8 @@ func TE__base_embedded(title string) (string, error) {
 	return result.String(), nil
 }
 
-func T__base_embedded(title string) string {
-	html, err := TE__base_embedded(title)
+func TEMPLATEbase_embedded(title string) string {
+	html, err := TEMPLATEERRbase_embedded(title)
 	if err != nil {
 		os.Stderr.WriteString("Error running template base_embedded.tmpl:" + err.Error())
 	}
@@ -129,7 +129,7 @@ func T__base_embedded(title string) string {
 
 // Generated code, do not edit!!!!
 
-func TE__basic(str string, num int) (string, error) {
+func TEMPLATEERRbasic(str string, num int) (string, error) {
 	__template__ := "basic.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -150,8 +150,8 @@ func TE__basic(str string, num int) (string, error) {
 	return result.String(), nil
 }
 
-func T__basic(str string, num int) string {
-	html, err := TE__basic(str, num)
+func TEMPLATEbasic(str string, num int) string {
+	html, err := TEMPLATEERRbasic(str, num)
 	if err != nil {
 		os.Stderr.WriteString("Error running template basic.tmpl:" + err.Error())
 	}
@@ -160,7 +160,7 @@ func T__basic(str string, num int) string {
 
 // Generated code, do not edit!!!!
 
-func TE__basic_code(s string, num int) (string, error) {
+func TEMPLATEERRbasic_code(s string, num int) (string, error) {
 	__template__ := "basic_code.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -179,8 +179,8 @@ func TE__basic_code(s string, num int) (string, error) {
 	return result.String(), nil
 }
 
-func T__basic_code(s string, num int) string {
-	html, err := TE__basic_code(s, num)
+func TEMPLATEbasic_code(s string, num int) string {
+	html, err := TEMPLATEERRbasic_code(s, num)
 	if err != nil {
 		os.Stderr.WriteString("Error running template basic_code.tmpl:" + err.Error())
 	}
@@ -189,7 +189,7 @@ func T__basic_code(s string, num int) string {
 
 // Generated code, do not edit!!!!
 
-func TE__basic_embedded_code(n int) (string, error) {
+func TEMPLATEERRbasic_embedded_code(n int) (string, error) {
 	__template__ := "basic_embedded_code.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -212,8 +212,8 @@ func TE__basic_embedded_code(n int) (string, error) {
 	return result.String(), nil
 }
 
-func T__basic_embedded_code(n int) string {
-	html, err := TE__basic_embedded_code(n)
+func TEMPLATEbasic_embedded_code(n int) string {
+	html, err := TEMPLATEERRbasic_embedded_code(n)
 	if err != nil {
 		os.Stderr.WriteString("Error running template basic_embedded_code.tmpl:" + err.Error())
 	}
@@ -222,7 +222,7 @@ func T__basic_embedded_code(n int) string {
 
 // Generated code, do not edit!!!!
 
-func TE__basic_if_else(n int) (string, error) {
+func TEMPLATEERRbasic_if_else(n int) (string, error) {
 	__template__ := "basic_if_else.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -271,8 +271,8 @@ func TE__basic_if_else(n int) (string, error) {
 	return result.String(), nil
 }
 
-func T__basic_if_else(n int) string {
-	html, err := TE__basic_if_else(n)
+func TEMPLATEbasic_if_else(n int) string {
+	html, err := TEMPLATEERRbasic_if_else(n)
 	if err != nil {
 		os.Stderr.WriteString("Error running template basic_if_else.tmpl:" + err.Error())
 	}
@@ -281,7 +281,7 @@ func T__basic_if_else(n int) string {
 
 // Generated code, do not edit!!!!
 
-func TE__basic_if_elseif(n int) (string, error) {
+func TEMPLATEERRbasic_if_elseif(n int) (string, error) {
 	__template__ := "basic_if_elseif.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -317,8 +317,8 @@ func TE__basic_if_elseif(n int) (string, error) {
 	return result.String(), nil
 }
 
-func T__basic_if_elseif(n int) string {
-	html, err := TE__basic_if_elseif(n)
+func TEMPLATEbasic_if_elseif(n int) string {
+	html, err := TEMPLATEERRbasic_if_elseif(n)
 	if err != nil {
 		os.Stderr.WriteString("Error running template basic_if_elseif.tmpl:" + err.Error())
 	}
@@ -327,7 +327,7 @@ func T__basic_if_elseif(n int) string {
 
 // Generated code, do not edit!!!!
 
-func TE__comparison_with_gotemplates(params TemplateParam) (string, error) {
+func TEMPLATEERRcomparison_with_gotemplates(params TemplateParam) (string, error) {
 	__template__ := "comparison_with_gotemplates.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -406,8 +406,8 @@ func TE__comparison_with_gotemplates(params TemplateParam) (string, error) {
 	return result.String(), nil
 }
 
-func T__comparison_with_gotemplates(params TemplateParam) string {
-	html, err := TE__comparison_with_gotemplates(params)
+func TEMPLATEcomparison_with_gotemplates(params TemplateParam) string {
+	html, err := TEMPLATEERRcomparison_with_gotemplates(params)
 	if err != nil {
 		os.Stderr.WriteString("Error running template comparison_with_gotemplates.tmpl:" + err.Error())
 	}
@@ -416,7 +416,7 @@ func T__comparison_with_gotemplates(params TemplateParam) string {
 
 // Generated code, do not edit!!!!
 
-func TE__extends(title string, something int) (string, error) {
+func TEMPLATEERRextends(title string, something int) (string, error) {
 	__template__ := "extends.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -470,8 +470,8 @@ func TE__extends(title string, something int) (string, error) {
 	return result.String(), nil
 }
 
-func T__extends(title string, something int) string {
-	html, err := TE__extends(title, something)
+func TEMPLATEextends(title string, something int) string {
+	html, err := TEMPLATEERRextends(title, something)
 	if err != nil {
 		os.Stderr.WriteString("Error running template extends.tmpl:" + err.Error())
 	}
@@ -480,7 +480,7 @@ func T__extends(title string, something int) string {
 
 // Generated code, do not edit!!!!
 
-func TE__extends_embedded(title string, something int) (string, error) {
+func TEMPLATEERRextends_embedded(title string, something int) (string, error) {
 	__template__ := "extends_embedded.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -574,8 +574,8 @@ func TE__extends_embedded(title string, something int) (string, error) {
 	return result.String(), nil
 }
 
-func T__extends_embedded(title string, something int) string {
-	html, err := TE__extends_embedded(title, something)
+func TEMPLATEextends_embedded(title string, something int) string {
+	html, err := TEMPLATEERRextends_embedded(title, something)
 	if err != nil {
 		os.Stderr.WriteString("Error running template extends_embedded.tmpl:" + err.Error())
 	}
@@ -584,7 +584,7 @@ func T__extends_embedded(title string, something int) string {
 
 // Generated code, do not edit!!!!
 
-func TE__noncode_line_with_exclamation_mark() (string, error) {
+func TEMPLATEERRnoncode_line_with_exclamation_mark() (string, error) {
 	__template__ := "noncode_line_with_exclamation_mark.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -604,8 +604,8 @@ func TE__noncode_line_with_exclamation_mark() (string, error) {
 	return result.String(), nil
 }
 
-func T__noncode_line_with_exclamation_mark() string {
-	html, err := TE__noncode_line_with_exclamation_mark()
+func TEMPLATEnoncode_line_with_exclamation_mark() string {
+	html, err := TEMPLATEERRnoncode_line_with_exclamation_mark()
 	if err != nil {
 		os.Stderr.WriteString("Error running template noncode_line_with_exclamation_mark.tmpl:" + err.Error())
 	}
@@ -614,7 +614,7 @@ func T__noncode_line_with_exclamation_mark() string {
 
 // Generated code, do not edit!!!!
 
-func TE__return(a int) (string, error) {
+func TEMPLATEERRreturn(a int) (string, error) {
 	__template__ := "return.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -638,8 +638,8 @@ func TE__return(a int) (string, error) {
 	return result.String(), nil
 }
 
-func T__return(a int) string {
-	html, err := TE__return(a)
+func TEMPLATEreturn(a int) string {
+	html, err := TEMPLATEERRreturn(a)
 	if err != nil {
 		os.Stderr.WriteString("Error running template return.tmpl:" + err.Error())
 	}
@@ -648,7 +648,7 @@ func T__return(a int) string {
 
 // Generated code, do not edit!!!!
 
-func TE__with_end_instead_of_brackets() (string, error) {
+func TEMPLATEERRwith_end_instead_of_brackets() (string, error) {
 	__template__ := "with_end_instead_of_brackets.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -667,8 +667,8 @@ func TE__with_end_instead_of_brackets() (string, error) {
 	return result.String(), nil
 }
 
-func T__with_end_instead_of_brackets() string {
-	html, err := TE__with_end_instead_of_brackets()
+func TEMPLATEwith_end_instead_of_brackets() string {
+	html, err := TEMPLATEERRwith_end_instead_of_brackets()
 	if err != nil {
 		os.Stderr.WriteString("Error running template with_end_instead_of_brackets.tmpl:" + err.Error())
 	}
@@ -681,7 +681,7 @@ type Argument struct {
 	Bbb int
 }
 
-func TE__with_global_declaration(arg Argument) (string, error) {
+func TEMPLATEERRwith_global_declaration(arg Argument) (string, error) {
 	__template__ := "with_global_declaration.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -699,8 +699,8 @@ func TE__with_global_declaration(arg Argument) (string, error) {
 	return result.String(), nil
 }
 
-func T__with_global_declaration(arg Argument) string {
-	html, err := TE__with_global_declaration(arg)
+func TEMPLATEwith_global_declaration(arg Argument) string {
+	html, err := TEMPLATEERRwith_global_declaration(arg)
 	if err != nil {
 		os.Stderr.WriteString("Error running template with_global_declaration.tmpl:" + err.Error())
 	}
@@ -709,7 +709,7 @@ func T__with_global_declaration(arg Argument) string {
 
 // Generated code, do not edit!!!!
 
-func TE__with_percentage(str string) (string, error) {
+func TEMPLATEERRwith_percentage(str string) (string, error) {
 	__template__ := "with_percentage.tmpl"
 	_ = __template__
 	__escape__ := html.EscapeString
@@ -727,8 +727,8 @@ func TE__with_percentage(str string) (string, error) {
 	return result.String(), nil
 }
 
-func T__with_percentage(str string) string {
-	html, err := TE__with_percentage(str)
+func TEMPLATEwith_percentage(str string) string {
+	html, err := TEMPLATEERRwith_percentage(str)
 	if err != nil {
 		os.Stderr.WriteString("Error running template with_percentage.tmpl:" + err.Error())
 	}
