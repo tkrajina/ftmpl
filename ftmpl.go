@@ -475,12 +475,17 @@ func handleTemplateLine(line string) string {
 
 		forceUnquoted := false
 		s = strings.TrimSpace(s[2 : len(s)-2])
+
+		if len(s) == 0 {
+			return ""
+		}
+
 		if s[0] == '=' {
 			forceUnquoted = true
 			s = s[1:]
 		}
 
-		if len(s) > 0 && s[1] == ' ' {
+		if len(s) > 1 && s[1] == ' ' {
 			valueExpr = s[1:]
 			placeholder = "%" + string(s[0])
 		} else {
