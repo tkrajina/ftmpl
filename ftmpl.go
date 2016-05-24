@@ -66,7 +66,7 @@ func {{ .ErrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) (string, error) {
 func {{ .NoerrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) string {
 	html, err := {{ .ErrFuncPrefix }}{{ .FuncName }}({{ .ArgNamesJoined }})
 	if err != nil {
-		os.Stderr.WriteString("Error running template {{ .TemplateFile }}:" + err.Error())
+		_ ,_ = os.Stderr.WriteString("Error running template {{ .TemplateFile }}:" + err.Error())
 	}
 	return html
 }`))
@@ -118,11 +118,11 @@ type errParams struct {
 	Expression, Message string
 }
 
-var stringTemplate = texttmpl.Must(texttmpl.New("").Parse(`result.WriteString(` + "`" + `{{ . }}` + "`" + `)`))
+var stringTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = result.WriteString(` + "`" + `{{ . }}` + "`" + `)`))
 
-var patternTemplate = texttmpl.Must(texttmpl.New("").Parse(`result.WriteString(fmt.Sprintf(` + "`" + `{{ .Template }}` + "`" + `, {{ .ArgsJoined }}))`))
+var patternTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = result.WriteString(fmt.Sprintf(` + "`" + `{{ .Template }}` + "`" + `, {{ .ArgsJoined }}))`))
 
-var newlineTemplate = `result.WriteString("\\n")`
+var newlineTemplate = `_, _ = result.WriteString("\\n")`
 
 type patternTemplateParam struct {
 	Template string
@@ -213,18 +213,18 @@ func saveTemplates(destination string, compiled ...compiledTemplate) {
 	handleError(err, "Error creating file")
 	defer fOut.Close()
 
-	fOut.WriteString("package " + packageName + "\n\n")
-	fOut.WriteString("import (\n")
+	_, _ = fOut.WriteString("package " + packageName + "\n\n")
+	_, _ = fOut.WriteString("import (\n")
 	for _, i := range imports {
 		fOut.WriteString(i + "\n")
 	}
-	fOut.WriteString(")\n\n")
-	fOut.WriteString(initFunctionTemplate)
-	fOut.WriteString("\n\n")
+	_, _ = fOut.WriteString(")\n\n")
+	_, _ = fOut.WriteString(initFunctionTemplate)
+	_, _ = fOut.WriteString("\n\n")
 
 	for _, c := range compiled {
-		fOut.WriteString("\n\n")
-		fOut.WriteString(c.functionCode)
+		_, _ = fOut.WriteString("\n\n")
+		_, _ = fOut.WriteString(c.functionCode)
 
 		fmt.Printf("%-15s -> %-15s\n", c.originalFile, destination)
 	}
