@@ -50,7 +50,7 @@ const randomStringChars = "qwertyuiopasdfghjklzxcvbnm1234567890"
 var templateReplacementRegex = regexp.MustCompile("{{.*?}}")
 
 var generatorTemplate = texttmpl.Must(texttmpl.New("").Parse(`{{ .GlobalCode }}
-// {{ .ErrFuncPrefix }}{{ .FuncName }} evaluates a template .TemplateFile
+// {{ .ErrFuncPrefix }}{{ .FuncName }} evaluates a template {{ .TemplateFile }}
 func {{ .ErrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) (string, error) {
 	_template := "{{ .TemplateFile }}"
 	_ = _template
@@ -62,7 +62,7 @@ func {{ .ErrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) (string, error) {
 	return result.String(), nil
 }
 
-// {{ .NoerrFuncPrefix }}{{ .FuncName }} evaluates a template .TemplateFile
+// {{ .NoerrFuncPrefix }}{{ .FuncName }} evaluates a template {{ .TemplateFile }}
 func {{ .NoerrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) string {
 	html, err := {{ .ErrFuncPrefix }}{{ .FuncName }}({{ .ArgNamesJoined }})
 	if err != nil {
