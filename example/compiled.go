@@ -1,4 +1,4 @@
-/* Generated code, do not edit!!!! */
+// package example is generated, do not edit!!!! */
 package example
 
 import (
@@ -16,7 +16,7 @@ func init() {
 	_ = html.EscapeString
 }
 
-// TMPLERRbase evaluates a template .TemplateFile
+// TMPLERRbase evaluates a template base.tmpl
 func TMPLERRbase(title string) (string, error) {
 	_template := "base.tmpl"
 	_ = _template
@@ -53,7 +53,7 @@ func TMPLERRbase(title string) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLbase evaluates a template .TemplateFile
+// TMPLbase evaluates a template base.tmpl
 func TMPLbase(title string) string {
 	html, err := TMPLERRbase(title)
 	if err != nil {
@@ -62,7 +62,7 @@ func TMPLbase(title string) string {
 	return html
 }
 
-// TMPLERRbase_embedded evaluates a template .TemplateFile
+// TMPLERRbase_embedded evaluates a template base_embedded.tmpl
 func TMPLERRbase_embedded(title string) (string, error) {
 	_template := "base_embedded.tmpl"
 	_ = _template
@@ -119,7 +119,7 @@ func TMPLERRbase_embedded(title string) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLbase_embedded evaluates a template .TemplateFile
+// TMPLbase_embedded evaluates a template base_embedded.tmpl
 func TMPLbase_embedded(title string) string {
 	html, err := TMPLERRbase_embedded(title)
 	if err != nil {
@@ -128,7 +128,7 @@ func TMPLbase_embedded(title string) string {
 	return html
 }
 
-// TMPLERRbasic evaluates a template .TemplateFile
+// TMPLERRbasic evaluates a template basic.tmpl
 func TMPLERRbasic(str string, num int) (string, error) {
 	_template := "basic.tmpl"
 	_ = _template
@@ -150,7 +150,7 @@ func TMPLERRbasic(str string, num int) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLbasic evaluates a template .TemplateFile
+// TMPLbasic evaluates a template basic.tmpl
 func TMPLbasic(str string, num int) string {
 	html, err := TMPLERRbasic(str, num)
 	if err != nil {
@@ -159,7 +159,7 @@ func TMPLbasic(str string, num int) string {
 	return html
 }
 
-// TMPLERRbasic_code evaluates a template .TemplateFile
+// TMPLERRbasic_code evaluates a template basic_code.tmpl
 func TMPLERRbasic_code(s string, num int) (string, error) {
 	_template := "basic_code.tmpl"
 	_ = _template
@@ -179,7 +179,7 @@ func TMPLERRbasic_code(s string, num int) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLbasic_code evaluates a template .TemplateFile
+// TMPLbasic_code evaluates a template basic_code.tmpl
 func TMPLbasic_code(s string, num int) string {
 	html, err := TMPLERRbasic_code(s, num)
 	if err != nil {
@@ -188,7 +188,7 @@ func TMPLbasic_code(s string, num int) string {
 	return html
 }
 
-// TMPLERRbasic_embedded_code evaluates a template .TemplateFile
+// TMPLERRbasic_embedded_code evaluates a template basic_embedded_code.tmpl
 func TMPLERRbasic_embedded_code(n int) (string, error) {
 	_template := "basic_embedded_code.tmpl"
 	_ = _template
@@ -212,7 +212,7 @@ func TMPLERRbasic_embedded_code(n int) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLbasic_embedded_code evaluates a template .TemplateFile
+// TMPLbasic_embedded_code evaluates a template basic_embedded_code.tmpl
 func TMPLbasic_embedded_code(n int) string {
 	html, err := TMPLERRbasic_embedded_code(n)
 	if err != nil {
@@ -221,7 +221,7 @@ func TMPLbasic_embedded_code(n int) string {
 	return html
 }
 
-// TMPLERRbasic_if_else evaluates a template .TemplateFile
+// TMPLERRbasic_if_else evaluates a template basic_if_else.tmpl
 func TMPLERRbasic_if_else(n int) (string, error) {
 	_template := "basic_if_else.tmpl"
 	_ = _template
@@ -271,7 +271,7 @@ func TMPLERRbasic_if_else(n int) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLbasic_if_else evaluates a template .TemplateFile
+// TMPLbasic_if_else evaluates a template basic_if_else.tmpl
 func TMPLbasic_if_else(n int) string {
 	html, err := TMPLERRbasic_if_else(n)
 	if err != nil {
@@ -280,7 +280,7 @@ func TMPLbasic_if_else(n int) string {
 	return html
 }
 
-// TMPLERRbasic_if_elseif evaluates a template .TemplateFile
+// TMPLERRbasic_if_elseif evaluates a template basic_if_elseif.tmpl
 func TMPLERRbasic_if_elseif(n int) (string, error) {
 	_template := "basic_if_elseif.tmpl"
 	_ = _template
@@ -317,7 +317,7 @@ func TMPLERRbasic_if_elseif(n int) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLbasic_if_elseif evaluates a template .TemplateFile
+// TMPLbasic_if_elseif evaluates a template basic_if_elseif.tmpl
 func TMPLbasic_if_elseif(n int) string {
 	html, err := TMPLERRbasic_if_elseif(n)
 	if err != nil {
@@ -326,7 +326,7 @@ func TMPLbasic_if_elseif(n int) string {
 	return html
 }
 
-// TMPLERRcomparison_with_gotemplates evaluates a template .TemplateFile
+// TMPLERRcomparison_with_gotemplates evaluates a template comparison_with_gotemplates.tmpl
 func TMPLERRcomparison_with_gotemplates(params TemplateParam) (string, error) {
 	_template := "comparison_with_gotemplates.tmpl"
 	_ = _template
@@ -406,7 +406,7 @@ func TMPLERRcomparison_with_gotemplates(params TemplateParam) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLcomparison_with_gotemplates evaluates a template .TemplateFile
+// TMPLcomparison_with_gotemplates evaluates a template comparison_with_gotemplates.tmpl
 func TMPLcomparison_with_gotemplates(params TemplateParam) string {
 	html, err := TMPLERRcomparison_with_gotemplates(params)
 	if err != nil {
@@ -415,7 +415,7 @@ func TMPLcomparison_with_gotemplates(params TemplateParam) string {
 	return html
 }
 
-// TMPLERRextends evaluates a template .TemplateFile
+// TMPLERRextends evaluates a template extends.tmpl
 func TMPLERRextends(title string, something int) (string, error) {
 	_template := "extends.tmpl"
 	_ = _template
@@ -470,7 +470,7 @@ func TMPLERRextends(title string, something int) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLextends evaluates a template .TemplateFile
+// TMPLextends evaluates a template extends.tmpl
 func TMPLextends(title string, something int) string {
 	html, err := TMPLERRextends(title, something)
 	if err != nil {
@@ -479,7 +479,7 @@ func TMPLextends(title string, something int) string {
 	return html
 }
 
-// TMPLERRextends_embedded evaluates a template .TemplateFile
+// TMPLERRextends_embedded evaluates a template extends_embedded.tmpl
 func TMPLERRextends_embedded(title string, something int) (string, error) {
 	_template := "extends_embedded.tmpl"
 	_ = _template
@@ -574,7 +574,7 @@ func TMPLERRextends_embedded(title string, something int) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLextends_embedded evaluates a template .TemplateFile
+// TMPLextends_embedded evaluates a template extends_embedded.tmpl
 func TMPLextends_embedded(title string, something int) string {
 	html, err := TMPLERRextends_embedded(title, something)
 	if err != nil {
@@ -583,7 +583,7 @@ func TMPLextends_embedded(title string, something int) string {
 	return html
 }
 
-// TMPLERRnoncode_line_with_exclamation_mark evaluates a template .TemplateFile
+// TMPLERRnoncode_line_with_exclamation_mark evaluates a template noncode_line_with_exclamation_mark.tmpl
 func TMPLERRnoncode_line_with_exclamation_mark() (string, error) {
 	_template := "noncode_line_with_exclamation_mark.tmpl"
 	_ = _template
@@ -604,7 +604,7 @@ func TMPLERRnoncode_line_with_exclamation_mark() (string, error) {
 	return result.String(), nil
 }
 
-// TMPLnoncode_line_with_exclamation_mark evaluates a template .TemplateFile
+// TMPLnoncode_line_with_exclamation_mark evaluates a template noncode_line_with_exclamation_mark.tmpl
 func TMPLnoncode_line_with_exclamation_mark() string {
 	html, err := TMPLERRnoncode_line_with_exclamation_mark()
 	if err != nil {
@@ -613,7 +613,7 @@ func TMPLnoncode_line_with_exclamation_mark() string {
 	return html
 }
 
-// TMPLERRreturn evaluates a template .TemplateFile
+// TMPLERRreturn evaluates a template return.tmpl
 func TMPLERRreturn(a int) (string, error) {
 	_template := "return.tmpl"
 	_ = _template
@@ -638,7 +638,7 @@ func TMPLERRreturn(a int) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLreturn evaluates a template .TemplateFile
+// TMPLreturn evaluates a template return.tmpl
 func TMPLreturn(a int) string {
 	html, err := TMPLERRreturn(a)
 	if err != nil {
@@ -647,7 +647,7 @@ func TMPLreturn(a int) string {
 	return html
 }
 
-// TMPLERRwith_end_instead_of_brackets evaluates a template .TemplateFile
+// TMPLERRwith_end_instead_of_brackets evaluates a template with_end_instead_of_brackets.tmpl
 func TMPLERRwith_end_instead_of_brackets() (string, error) {
 	_template := "with_end_instead_of_brackets.tmpl"
 	_ = _template
@@ -667,7 +667,7 @@ func TMPLERRwith_end_instead_of_brackets() (string, error) {
 	return result.String(), nil
 }
 
-// TMPLwith_end_instead_of_brackets evaluates a template .TemplateFile
+// TMPLwith_end_instead_of_brackets evaluates a template with_end_instead_of_brackets.tmpl
 func TMPLwith_end_instead_of_brackets() string {
 	html, err := TMPLERRwith_end_instead_of_brackets()
 	if err != nil {
@@ -681,7 +681,7 @@ type Argument struct {
 	Bbb int
 }
 
-// TMPLERRwith_global_declaration evaluates a template .TemplateFile
+// TMPLERRwith_global_declaration evaluates a template with_global_declaration.tmpl
 func TMPLERRwith_global_declaration(arg Argument) (string, error) {
 	_template := "with_global_declaration.tmpl"
 	_ = _template
@@ -700,7 +700,7 @@ func TMPLERRwith_global_declaration(arg Argument) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLwith_global_declaration evaluates a template .TemplateFile
+// TMPLwith_global_declaration evaluates a template with_global_declaration.tmpl
 func TMPLwith_global_declaration(arg Argument) string {
 	html, err := TMPLERRwith_global_declaration(arg)
 	if err != nil {
@@ -709,7 +709,7 @@ func TMPLwith_global_declaration(arg Argument) string {
 	return html
 }
 
-// TMPLERRwith_percentage evaluates a template .TemplateFile
+// TMPLERRwith_percentage evaluates a template with_percentage.tmpl
 func TMPLERRwith_percentage(str string) (string, error) {
 	_template := "with_percentage.tmpl"
 	_ = _template
@@ -728,7 +728,7 @@ func TMPLERRwith_percentage(str string) (string, error) {
 	return result.String(), nil
 }
 
-// TMPLwith_percentage evaluates a template .TemplateFile
+// TMPLwith_percentage evaluates a template with_percentage.tmpl
 func TMPLwith_percentage(str string) string {
 	html, err := TMPLERRwith_percentage(str)
 	if err != nil {

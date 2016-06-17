@@ -213,7 +213,7 @@ func saveTemplates(destination string, compiled ...compiledTemplate) {
 	handleError(err, "Error creating file")
 	defer fOut.Close()
 
-	_, _ = fOut.WriteString("/* Generated code, do not edit!!!! */\n")
+	_, _ = fOut.WriteString("// package " + packageName + " is generated, do not edit!!!! */\n")
 	_, _ = fOut.WriteString("package " + packageName + "\n\n")
 	_, _ = fOut.WriteString("import (\n")
 	for _, i := range imports {
