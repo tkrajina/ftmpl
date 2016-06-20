@@ -184,7 +184,7 @@ The function will then be `func TMPLmy_page(baseParams BasePageParams, pageParam
 
 ## Inserting templates
 
-Sometimes you need part of the templates just copied in another template. You can do that with `!#insert`. For example
+Sometimes you need some templates just "copied" in other templates. You can do that with `!#insert`. For example:
 
     !#arg a int
     Will insert something here: {{!#insert "insertion.tmpl" }}
