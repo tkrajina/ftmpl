@@ -4,26 +4,13 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-	"math"
-	"math/rand"
 	"os"
 	"os/exec"
 	"path"
-	"path/filepath"
 	"regexp"
 	"sort"
-	"strconv"
 	"strings"
-	texttmpl "text/template"
 )
-
-type Params struct {
-	SourceDir     string
-	TargetDir     string
-	TargetGoFile  string
-	FuncPrefix    string
-	FuncPrefixErr string
-}
 
 const (
 	cmdPrefix    = "!#"
@@ -40,93 +27,21 @@ const (
 	cmdGlobal    = "!#global"
 )
 
-const randomStringChars = "qwertyuiopasdfghjklzxcvbnm1234567890"
+type Params struct {
+	SourceDir     string
+	TargetDir     string
+	TargetGoFile  string
+	FuncPrefix    string
+	FuncPrefixErr string
+}
+
+type compiledTemplate struct {
+	imports      []string
+	originalFile string
+	functionCode string
+}
 
 var templateReplacementRegex = regexp.MustCompile("{{.*?}}")
-
-var generatorTemplate = texttmpl.Must(texttmpl.New("").Parse(`{{ .GlobalCode }}
-// {{ .ErrFuncPrefix }}{{ .FuncName }} evaluates a template {{ .TemplateFile }}
-func {{ .ErrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) (string, error) {
-	_template := "{{ .TemplateFile }}"
-	_ = _template
-	_escape := {{ .EscapeFunc }}
-	_ = _escape
-	var result bytes.Buffer
-{{ range .Lines }}{{ . }}
-{{ end }}
-	return result.String(), nil
-}
-
-// {{ .NoerrFuncPrefix }}{{ .FuncName }} evaluates a template {{ .TemplateFile }}
-func {{ .NoerrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) string {
-	html, err := {{ .ErrFuncPrefix }}{{ .FuncName }}({{ .ArgNamesJoined }})
-	if err != nil {
-		_ ,_ = os.Stderr.WriteString("Error running template {{ .TemplateFile }}:" + err.Error())
-	}
-	return html
-}`))
-
-type templateParams struct {
-	GlobalCode      string
-	ErrFuncPrefix   string
-	NoerrFuncPrefix string
-	TemplateFile    string
-	EscapeFunc      string
-	FuncName        string
-	Args            []string
-	Lines           []string
-}
-
-func (tp templateParams) ArgsJoined() string {
-	return strings.Join(tp.Args, ", ")
-}
-
-func (tp templateParams) ArgNamesJoined() string {
-	var argNames []string
-	for _, arg := range tp.Args {
-		argNames = append(argNames, strings.Split(arg, " ")[0])
-	}
-	return strings.Join(argNames, ", ")
-}
-
-func (tp *templateParams) addComment(filename, line string) {
-	comment := fmt.Sprintf("//%s: %s", filename, strings.TrimRight(line, "\n\r \t"))
-	tp.Lines = append(tp.Lines, comment)
-}
-
-var initFunctionTemplate = `func init() {
-	_ = fmt.Sprintf
-	_ = errors.New
-	_ = os.Stderr
-	_ = html.EscapeString
-}`
-
-var defaultQuoteTemplate = `func(str string) string {
-	return str
-}`
-
-var errorTemplate = texttmpl.Must(texttmpl.New("").Parse(`if {{.Expression}} {
-	return "", errors.New({{.Message}})
-}`))
-
-type errParams struct {
-	Expression, Message string
-}
-
-var stringTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = result.WriteString(` + "`" + `{{ . }}` + "`" + `)`))
-
-var patternTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = result.WriteString(fmt.Sprintf(` + "`" + `{{ .Template }}` + "`" + `, {{ .ArgsJoined }}))`))
-
-var newlineTemplate = `_, _ = result.WriteString("\\n")`
-
-type patternTemplateParam struct {
-	Template string
-	Args     []string
-}
-
-func (ptp patternTemplateParam) ArgsJoined() string {
-	return strings.Join(ptp.Args, ", ")
-}
 
 func Do(ap Params) {
 	var compiledTemplates []compiledTemplate
@@ -212,47 +127,6 @@ func saveTemplates(destination string, compiled ...compiledTemplate) {
 	}
 }
 
-func parseGoFmtErrorOutput(out []byte) {
-	lines := strings.Split(string(out), "\n")
-	for _, line := range lines {
-		r := regexp.MustCompile("^(.*?):(\\d+):(\\d+):(.*)$")
-		groups := r.FindStringSubmatch(line)
-		fmt.Fprint(os.Stderr, line, "\n")
-		if len(groups) > 0 {
-			filename := groups[1]
-			line, _ := strconv.ParseInt(groups[2], 10, 64)
-			column, _ := strconv.ParseInt(groups[3], 10, 64)
-			msg := strings.TrimSpace(groups[4])
-			printTemplateErrDetails(filename, int(line), int(column), msg)
-		}
-	}
-}
-
-func printTemplateErrDetails(filename string, line, column int, msg string) {
-	contents, err := loadFile(filename)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "> Cannot open %s: %s", filename, err.Error())
-		return
-	}
-
-	lines := strings.Split(contents, "\n")
-
-	context := 5
-	fromLine := int(math.Max(float64(0), float64(line-context)))
-	toLine := int(math.Min(float64(line+context), float64(len(lines)-1)))
-	for i := fromLine; i < toLine; i++ {
-		currLine := "   "
-		if i+1 == line {
-			currLine = "-->"
-		}
-		prefix := fmt.Sprintf("%s %5d:    ", currLine, i+1)
-		fmt.Fprintln(os.Stderr, prefix+lines[i])
-		if i+1 == line {
-			fmt.Fprintln(os.Stderr, strings.Repeat(" ", len(prefix)+column-1)+"^")
-		}
-	}
-}
-
 func processExtending(pckg string, lines []string) []string {
 	extendingTemplate := ""
 	for _, line := range lines {
@@ -326,45 +200,6 @@ func loadTemplateSubChunks(lines []string) (general []string, subsections map[st
 	}
 
 	return general, subsections
-}
-
-func getLastPathElements(path string) (string, string) {
-	absPath, err := filepath.Abs(path)
-	handleError(err, "Error getting absolute path from "+path)
-	pathParts := strings.Split(absPath, string(os.PathSeparator))
-
-	var elements []string
-	for _, part := range pathParts {
-		part = strings.TrimSpace(part)
-		if len(part) > 0 {
-			elements = append(elements, part)
-		}
-	}
-
-	if len(pathParts) == 0 {
-		return "", ""
-	}
-
-	if len(elements) == 1 {
-		return "", elements[len(elements)-1]
-	}
-
-	return elements[len(elements)-2], elements[len(elements)-1]
-}
-
-type compiledTemplate struct {
-	imports      []string
-	originalFile string
-	functionCode string
-}
-
-func getRandomString(length int) string {
-	result := ""
-	for i := 0; i < length; i++ {
-		result += string(randomStringChars[rand.Int()%len(randomStringChars)])
-	}
-
-	return result
 }
 
 // Loads the file and process it to get lines.
@@ -574,50 +409,4 @@ func handleTemplateLine(line string) string {
 	result = strings.Replace(result, "%", "%%", -1)
 	result = strings.Replace(result, percentageCharReplacement, "%", -1)
 	return result
-}
-
-func quote(s string) string {
-	return strings.Replace(s, "`", "`+\"`\"+`", -1)
-}
-
-func handleError(err error, message string) {
-	if err == nil {
-		return
-	}
-	panic(message + ":" + err.Error())
-}
-
-func handleLineError(err error, line string) {
-	if err == nil {
-		return
-	}
-
-	panic("Error " + err.Error() + " in line:" + line)
-}
-
-func rmDoubleImports(list []string) []string {
-	var result []string
-	existing := make(map[string]bool)
-	for _, i := range list {
-		if _, ok := existing[i]; !ok {
-			result = append(result, i)
-		}
-		existing[i] = true
-	}
-	return result
-}
-
-func loadFile(filename string) (string, error) {
-	f, err := os.Open(path.Join(filename))
-	if err != nil {
-		return "", fmt.Errorf("Error reading %s: %s", filename, err.Error())
-	}
-	defer f.Close()
-
-	byts, err := ioutil.ReadAll(f)
-	if err != nil {
-		return "", fmt.Errorf("Error reading %s: %s", filename, err.Error())
-	}
-
-	return string(byts), nil
 }
