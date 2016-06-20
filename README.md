@@ -185,6 +185,31 @@ If the name of the extended template is `my_page.tmpl` then the resulting templa
 Typically you will have many template arguments, so the best way to deal with them is to pack them all into one "base page structure" and another struct for every page.
 The function will then be `func TMPLmy_page(baseParams BasePageParams, pageParams MyPageParams)`
 
+## Inserting templates
+
+Sometimes you need part of the templates just copied in another template. You can do that with `!#insert`. For example
+
+    !#arg a int
+    Will insert something here: {{!#insert "insertion.tmpl" }}
+
+The `insertion.tmpl` template file:
+
+    !#nocompile
+    a={{d a }}
+
+Is equivalent to:
+
+    !#arg a int
+    Will insert something here: a={{d a }}
+
+Note that the `insertion.tmpl` alone is an **invalid** template because it contains a previously undeclared variable `a`. But, when inserted, then the variable `a` is OK. That template makes sense only when included in another template. That's why it has `!#nocompile` in it.
+
+## No compile
+
+Some template files make no sense alone. For example, templates used only in `!#insert` directives or base templates (you never call them alone, but their extended templates).
+
+If you don't want to compile them into golang functions, add the `!#nocompile` directive.
+
 ## Invalid code
 
 Some errors in your templates will be reported immediately:
