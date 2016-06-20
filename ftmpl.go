@@ -33,16 +33,17 @@ type appParams struct {
 }
 
 const (
-	cmdPrefix  = "!#"
-	cmdArg     = "!#arg"
-	cmdEscape  = "!#escape"
-	cmdImport  = "!#import"
-	cmdErrorif = "!#errif"
-	cmdReturn  = "!#return"
-	cmdSub     = "!#sub"
-	cmdExtends = "!#extends"
-	cmdInclude = "!#include"
-	cmdGlobal  = "!#global"
+	cmdPrefix    = "!#"
+	cmdNocompile = "!#nocompile"
+	cmdArg       = "!#arg"
+	cmdEscape    = "!#escape"
+	cmdImport    = "!#import"
+	cmdErrorif   = "!#errif"
+	cmdReturn    = "!#return"
+	cmdSub       = "!#sub"
+	cmdExtends   = "!#extends"
+	cmdInclude   = "!#include"
+	cmdGlobal    = "!#global"
 )
 
 const randomStringChars = "qwertyuiopasdfghjklzxcvbnm1234567890"
@@ -423,6 +424,12 @@ type convertTemplateParams struct {
 
 func convertTemplate(packageDir, file string, params convertTemplateParams) compiledTemplate {
 	lines := loadTemplateAndGetLines(path.Join(packageDir, file))
+
+	for _, line := range lines {
+		if strings.HasPrefix(line, cmdNocompile) {
+			return compiledTemplate{}
+		}
+	}
 
 	result := compiledTemplate{}
 	result.originalFile = file

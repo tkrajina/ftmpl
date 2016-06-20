@@ -16,52 +16,6 @@ func init() {
 	_ = html.EscapeString
 }
 
-// TMPLERRbase evaluates a template base.tmpl
-func TMPLERRbase(title string) (string, error) {
-	_template := "base.tmpl"
-	_ = _template
-	_escape := html.EscapeString
-	_ = _escape
-	var result bytes.Buffer
-	//base.tmpl: <html>
-	_, _ = result.WriteString(`<html>
-`)
-	//base.tmpl:     <head>
-	_, _ = result.WriteString(`    <head>
-`)
-	//base.tmpl:         <title>{{s title }}</title>
-	_, _ = result.WriteString(fmt.Sprintf(`        <title>%s</title>
-`, _escape(title)))
-	//base.tmpl: !#include head
-	//base.tmpl:     </head>
-	_, _ = result.WriteString(`    </head>
-`)
-	//base.tmpl:     <body>
-	_, _ = result.WriteString(`    <body>
-`)
-	//base.tmpl: !#include body
-	//base.tmpl: !#include footer
-	//base.tmpl:     </body>
-	_, _ = result.WriteString(`    </body>
-`)
-	//base.tmpl: </html>
-	_, _ = result.WriteString(`</html>
-`)
-	//base.tmpl:
-	_, _ = result.WriteString(``)
-
-	return result.String(), nil
-}
-
-// TMPLbase evaluates a template base.tmpl
-func TMPLbase(title string) string {
-	html, err := TMPLERRbase(title)
-	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template base.tmpl:" + err.Error())
-	}
-	return html
-}
-
 // TMPLERRbase_embedded evaluates a template base_embedded.tmpl
 func TMPLERRbase_embedded(title string) (string, error) {
 	_template := "base_embedded.tmpl"
@@ -426,6 +380,7 @@ func TMPLERRextends(title string, something int) (string, error) {
 	//extends.tmpl:
 	_, _ = result.WriteString(`
 `)
+	//extends.tmpl: !#nocompile
 	//extends.tmpl: <html>
 	_, _ = result.WriteString(`<html>
 `)
