@@ -232,6 +232,14 @@ func TestComparisonWithGolangTemplates(t *testing.T) {
 	}
 }
 
+func TestInsert(t *testing.T) {
+	withInsert := example.TMPLwith_insert(5)
+	expected := `Will insert something here: a=5`
+	if explanation, ok := linesEquals(withInsert, expected); !ok {
+		t.Error(explanation)
+	}
+}
+
 func TestNoBrackets(t *testing.T) {
 	expected := `i=0
 i=1

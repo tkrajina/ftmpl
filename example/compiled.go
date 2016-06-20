@@ -380,7 +380,6 @@ func TMPLERRextends(title string, something int) (string, error) {
 	//extends.tmpl:
 	_, _ = result.WriteString(`
 `)
-	//extends.tmpl: !#nocompile
 	//extends.tmpl: <html>
 	_, _ = result.WriteString(`<html>
 `)
@@ -660,6 +659,38 @@ func TMPLwith_global_declaration(arg Argument) string {
 	html, err := TMPLERRwith_global_declaration(arg)
 	if err != nil {
 		_, _ = os.Stderr.WriteString("Error running template with_global_declaration.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// TMPLERRwith_insert evaluates a template with_insert.tmpl
+func TMPLERRwith_insert(a int) (string, error) {
+	_template := "with_insert.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	//with_insert.tmpl: Will insert something here:
+	_, _ = result.WriteString(`Will insert something here: `)
+	//with_insert.tmpl: a={{d a }}
+	_, _ = result.WriteString(fmt.Sprintf(`a=%d
+`, a))
+	//with_insert.tmpl:
+	_, _ = result.WriteString(``)
+	//with_insert.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//with_insert.tmpl:
+	_, _ = result.WriteString(``)
+
+	return result.String(), nil
+}
+
+// TMPLwith_insert evaluates a template with_insert.tmpl
+func TMPLwith_insert(a int) string {
+	html, err := TMPLERRwith_insert(a)
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template with_insert.tmpl:" + err.Error())
 	}
 	return html
 }

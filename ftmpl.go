@@ -43,6 +43,7 @@ const (
 	cmdSub       = "!#sub"
 	cmdExtends   = "!#extends"
 	cmdInclude   = "!#include"
+	cmdInsert    = "!#insert"
 	cmdGlobal    = "!#global"
 )
 
@@ -294,7 +295,7 @@ func processExtending(pckg string, lines []string) []string {
 	}
 
 	// Load base template:
-	mainTemplateLines := loadTemplateAndGetLines(path.Join(pckg, extendingTemplate) + ".tmpl")
+	mainTemplateLines := loadTemplateAndGetLines(path.Join(pckg, extendingTemplate)+".tmpl", false)
 
 	// Parse sub template chunks:
 	subTemplateCode, subTemplateChunks := loadTemplateSubChunks(lines)
@@ -398,7 +399,7 @@ func getRandomString(length int) string {
 // Loads the file and process it to get lines.
 //
 // Note that "line" is not always a line from the template it is part of the template which will be converted to a line of code.
-func loadTemplateAndGetLines(fileName string) []string {
+func loadTemplateAndGetLines(fileName string, keepNoCompile bool) []string {
 	str, err := loadFile(fileName)
 	handleError(err, "Error reading "+fileName)
 
@@ -415,7 +416,25 @@ func loadTemplateAndGetLines(fileName string) []string {
 		return result
 	})
 
-	return strings.Split(str, lineDelimiter)
+	lines := strings.Split(str, lineDelimiter)
+
+	// Process inserted templates:
+	var expandedLines []string
+	for _, line := range lines {
+		if !keepNoCompile && strings.HasPrefix(line, cmdNocompile) {
+			// Nothing
+		} else if strings.HasPrefix(line, cmdInsert) {
+			dir, _ := path.Split(fileName)
+			fileToInsert := line[len(cmdInsert):]
+			fileToInsert = strings.Trim(strings.TrimSpace(fileToInsert), "\"")
+			fileToInsert = path.Join(dir, fileToInsert)
+			expandedLines = append(expandedLines, loadTemplateAndGetLines(fileToInsert, false)...)
+		} else {
+			expandedLines = append(expandedLines, line)
+		}
+	}
+
+	return expandedLines
 }
 
 type convertTemplateParams struct {
@@ -423,8 +442,9 @@ type convertTemplateParams struct {
 }
 
 func convertTemplate(packageDir, file string, params convertTemplateParams) compiledTemplate {
-	lines := loadTemplateAndGetLines(path.Join(packageDir, file))
+	lines := loadTemplateAndGetLines(path.Join(packageDir, file), true)
 
+	// Some templates don't need to be "compiled" (for example base templates)
 	for _, line := range lines {
 		if strings.HasPrefix(line, cmdNocompile) {
 			return compiledTemplate{}
