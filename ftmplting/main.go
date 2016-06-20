@@ -47,7 +47,7 @@ func Do(ap Params) {
 	var compiledTemplates []compiledTemplate
 
 	fileInfos, err := ioutil.ReadDir(ap.SourceDir)
-	handleError(err, "Error listing directory")
+	HandleError(err, "Error listing directory")
 
 	var files []string
 	for _, fileInfo := range fileInfos {
@@ -98,7 +98,7 @@ func saveTemplates(destination string, compiled ...compiledTemplate) {
 	}
 
 	fOut, err := os.Create(destination)
-	handleError(err, "Error creating file")
+	HandleError(err, "Error creating file")
 	defer fOut.Close()
 
 	_, _ = fOut.WriteString("// package " + packageName + " is generated, do not edit!!!! */\n")
@@ -207,7 +207,7 @@ func loadTemplateSubChunks(lines []string) (general []string, subsections map[st
 // Note that "line" is not always a line from the template it is part of the template which will be converted to a line of code.
 func loadTemplateAndGetLines(fileName string, keepNoCompile bool) []string {
 	str, err := loadFile(fileName)
-	handleError(err, "Error reading "+fileName)
+	HandleError(err, "Error reading "+fileName)
 
 	lineDelimiter := getRandomString(15)
 	str = strings.Replace(str, "\n", "\n"+lineDelimiter, -1)

@@ -23,7 +23,7 @@ func getRandomString(length int) string {
 
 func getLastPathElements(path string) (string, string) {
 	absPath, err := filepath.Abs(path)
-	handleError(err, "Error getting absolute path from "+path)
+	HandleError(err, "Error getting absolute path from "+path)
 	pathParts := strings.Split(absPath, string(os.PathSeparator))
 
 	var elements []string
@@ -49,7 +49,7 @@ func quote(s string) string {
 	return strings.Replace(s, "`", "`+\"`\"+`", -1)
 }
 
-func handleError(err error, message string) {
+func HandleError(err error, message string) {
 	if err == nil {
 		return
 	}
