@@ -37,7 +37,17 @@ If you prefer using `go generate` add a comment...
 
 The prefix `TMPL` in the function name can be changed by a cmd line switch.
 
-## Arguments
+## Watch and recompile
+
+`ftmpl` can "watch" for changes in your source directory. When any of the `*.tmpl` files change there, it will "recompile" all the templates. Just add `-watch` when calling it:
+
+    ftmpl -watch -targetgo target_dir/templates_generated.go source_dir
+
+If you start multiple `ftmpl` "watch" processes, you can stop them all with:
+
+    ftmpl -unwatchall
+
+## Template files
 
 An example template `show_time.tmpl`
 
@@ -49,6 +59,8 @@ An example template `show_time.tmpl`
     </html>
 
 It will be compiled to the function `func TMPLshow_time()`
+
+## Templates with arguments
 
 If you want your template function to have arguments:
 
