@@ -35,6 +35,8 @@ If you prefer using `go generate` add a comment...
 
 ...anywhere in your code.
 
+The prefix `TMPL` in the function name can be changed by a cmd line switch.
+
 ## Arguments
 
 An example template `show_time.tmpl`
@@ -146,11 +148,6 @@ To prematurely end the execution with an error (depending on an expression), you
 
     !#return
 
-## Careful with Go code
-
-Ftmpl allows you to write go code (instead of templating "metalanguages", like other templating engines), but be careful to not write too much of it. 
-Ideally, the data should be prepared before the template function, and the only code in the template would be some basic formatting, a couple of `if`s and `for`loops.
-
 ## Base templates and extensions
 
 When you need a base website template, and pages "extending it":
@@ -180,7 +177,7 @@ And then a typical page will be something like:
     !#sub body
     <h1>Body!</h1>
 
-If the name of the extended template is `my_page.tmpl` then the resulting template function will have both the arguments from *that template* and arguments from the *base template*: `func TMPLmy_page(title string, something int)`. The prefix `TMPL` in the function name can be changed by a cmd line switch.
+If the name of the extended template is `my_page.tmpl` then the resulting template function will have both the arguments from *that template* and arguments from the *base template*: `func TMPLmy_page(title string, something int)`.
 
 Typically you will have many template arguments, so the best way to deal with them is to pack them all into one "base page structure" and another struct for every page.
 The function will then be `func TMPLmy_page(baseParams BasePageParams, pageParams MyPageParams)`
@@ -255,6 +252,12 @@ The `Argument` struct will be declared outside the function body, and the functi
 ## Special variables
 
 `_template` is defined in the function and contains the current template name.
+
+## Careful with Go code
+
+Ftmpl allows you to write go code (instead of templating "metalanguages", like other templating engines), but be careful to not write too much of it. 
+Ideally, the data should be prepared before the template function, and the only code in the template would be some basic formatting, a couple of `if`s and `for`loops.
+
 
 # License
 
