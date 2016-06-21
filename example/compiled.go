@@ -16,68 +16,580 @@ func init() {
 	_ = html.EscapeString
 }
 
-// TMPLERRbase_embedded evaluates a template base_embedded.tmpl
-func TMPLERRbase_embedded(title string) (string, error) {
-	_template := "base_embedded.tmpl"
+// TMPLERRBaseEmbedded evaluates a template BaseEmbedded.tmpl
+func TMPLERRBaseEmbedded(title string) (string, error) {
+	_template := "BaseEmbedded.tmpl"
 	_ = _template
 	_escape := html.EscapeString
 	_ = _escape
 	var result bytes.Buffer
-	//base_embedded.tmpl:
+	//BaseEmbedded.tmpl:
 	_, _ = result.WriteString(``)
-	//base_embedded.tmpl:
+	//BaseEmbedded.tmpl:
 	_, _ = result.WriteString(`
 `)
-	//base_embedded.tmpl: <html>
+	//BaseEmbedded.tmpl: <html>
 	_, _ = result.WriteString(`<html>
 `)
-	//base_embedded.tmpl:     <head>
+	//BaseEmbedded.tmpl:     <head>
 	_, _ = result.WriteString(`    <head>
 `)
-	//base_embedded.tmpl:         <title>{{s title }}</title>
+	//BaseEmbedded.tmpl:         <title>{{s title }}</title>
 	_, _ = result.WriteString(fmt.Sprintf(`        <title>%s</title>
 `, _escape(title)))
-	//base_embedded.tmpl:
+	//BaseEmbedded.tmpl:
 	_, _ = result.WriteString(``)
-	//base_embedded.tmpl: !#include head
-	//base_embedded.tmpl:
+	//BaseEmbedded.tmpl: !#include head
+	//BaseEmbedded.tmpl:
 	_, _ = result.WriteString(`
 `)
-	//base_embedded.tmpl:     </head>
+	//BaseEmbedded.tmpl:     </head>
 	_, _ = result.WriteString(`    </head>
 `)
-	//base_embedded.tmpl:     <body>
+	//BaseEmbedded.tmpl:     <body>
 	_, _ = result.WriteString(`    <body>
 `)
-	//base_embedded.tmpl:
+	//BaseEmbedded.tmpl:
 	_, _ = result.WriteString(``)
-	//base_embedded.tmpl: !#include body
-	//base_embedded.tmpl:
+	//BaseEmbedded.tmpl: !#include body
+	//BaseEmbedded.tmpl:
 	_, _ = result.WriteString(`
 `)
-	//base_embedded.tmpl:
+	//BaseEmbedded.tmpl:
 	_, _ = result.WriteString(``)
-	//base_embedded.tmpl: !#include footer
-	//base_embedded.tmpl:
+	//BaseEmbedded.tmpl: !#include footer
+	//BaseEmbedded.tmpl:
 	_, _ = result.WriteString(`
 `)
-	//base_embedded.tmpl:     </body>
+	//BaseEmbedded.tmpl:     </body>
 	_, _ = result.WriteString(`    </body>
 `)
-	//base_embedded.tmpl: </html>
+	//BaseEmbedded.tmpl: </html>
 	_, _ = result.WriteString(`</html>
 `)
-	//base_embedded.tmpl:
+	//BaseEmbedded.tmpl:
 	_, _ = result.WriteString(``)
 
 	return result.String(), nil
 }
 
-// TMPLbase_embedded evaluates a template base_embedded.tmpl
-func TMPLbase_embedded(title string) string {
-	html, err := TMPLERRbase_embedded(title)
+// TMPLBaseEmbedded evaluates a template BaseEmbedded.tmpl
+func TMPLBaseEmbedded(title string) string {
+	html, err := TMPLERRBaseEmbedded(title)
 	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template base_embedded.tmpl:" + err.Error())
+		_, _ = os.Stderr.WriteString("Error running template BaseEmbedded.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// TMPLERRBasicCode evaluates a template BasicCode.tmpl
+func TMPLERRBasicCode(s string, num int) (string, error) {
+	_template := "BasicCode.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	//BasicCode.tmpl: !for i := 0; i < num; i++ {
+	for i := 0; i < num; i++ {
+		//BasicCode.tmpl: {{d i}}
+		_, _ = result.WriteString(fmt.Sprintf(`%d
+`, i))
+		//BasicCode.tmpl: !}
+	}
+	//BasicCode.tmpl:
+	_, _ = result.WriteString(``)
+
+	return result.String(), nil
+}
+
+// TMPLBasicCode evaluates a template BasicCode.tmpl
+func TMPLBasicCode(s string, num int) string {
+	html, err := TMPLERRBasicCode(s, num)
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template BasicCode.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// TMPLERRBasicEmbeddedCode evaluates a template BasicEmbeddedCode.tmpl
+func TMPLERRBasicEmbeddedCode(n int) (string, error) {
+	_template := "BasicEmbeddedCode.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	//BasicEmbeddedCode.tmpl:
+	_, _ = result.WriteString(``)
+	//BasicEmbeddedCode.tmpl: !for i := 0; i < n; i++
+	for i := 0; i < n; i++ {
+		//BasicEmbeddedCode.tmpl: i={{d i }}
+		_, _ = result.WriteString(fmt.Sprintf(`i=%d `, i))
+		//BasicEmbeddedCode.tmpl: !end
+	}
+	//BasicEmbeddedCode.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//BasicEmbeddedCode.tmpl:
+	_, _ = result.WriteString(``)
+
+	return result.String(), nil
+}
+
+// TMPLBasicEmbeddedCode evaluates a template BasicEmbeddedCode.tmpl
+func TMPLBasicEmbeddedCode(n int) string {
+	html, err := TMPLERRBasicEmbeddedCode(n)
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template BasicEmbeddedCode.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// TMPLERRBasicIfElse evaluates a template BasicIfElse.tmpl
+func TMPLERRBasicIfElse(n int) (string, error) {
+	_template := "BasicIfElse.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	//BasicIfElse.tmpl:
+	_, _ = result.WriteString(``)
+	//BasicIfElse.tmpl: !if n < 10 {
+	if n < 10 {
+		//BasicIfElse.tmpl: {{d n }} less than 10
+		_, _ = result.WriteString(fmt.Sprintf(`%d less than 10`, n))
+		//BasicIfElse.tmpl: !}
+	}
+	//BasicIfElse.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//BasicIfElse.tmpl:
+	_, _ = result.WriteString(``)
+	//BasicIfElse.tmpl: !if n > 0
+	if n > 0 {
+		//BasicIfElse.tmpl: {{d n}} biger than 0
+		_, _ = result.WriteString(fmt.Sprintf(`%d biger than 0`, n))
+		//BasicIfElse.tmpl: !end
+	}
+	//BasicIfElse.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//BasicIfElse.tmpl:
+	_, _ = result.WriteString(``)
+	//BasicIfElse.tmpl: !if n > 5
+	if n > 5 {
+		//BasicIfElse.tmpl: {{d n}} biger than 5
+		_, _ = result.WriteString(fmt.Sprintf(`%d biger than 5`, n))
+		//BasicIfElse.tmpl: !else
+	} else {
+		//BasicIfElse.tmpl: {{d n}} smaller than 5
+		_, _ = result.WriteString(fmt.Sprintf(`%d smaller than 5`, n))
+		//BasicIfElse.tmpl: !end
+	}
+	//BasicIfElse.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//BasicIfElse.tmpl:
+	_, _ = result.WriteString(``)
+
+	return result.String(), nil
+}
+
+// TMPLBasicIfElse evaluates a template BasicIfElse.tmpl
+func TMPLBasicIfElse(n int) string {
+	html, err := TMPLERRBasicIfElse(n)
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template BasicIfElse.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// TMPLERRBasicIfElseif evaluates a template BasicIfElseif.tmpl
+func TMPLERRBasicIfElseif(n int) (string, error) {
+	_template := "BasicIfElseif.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	//BasicIfElseif.tmpl:
+	_, _ = result.WriteString(``)
+	//BasicIfElseif.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//BasicIfElseif.tmpl:
+	_, _ = result.WriteString(``)
+	//BasicIfElseif.tmpl: !if n < 10
+	if n < 10 {
+		//BasicIfElseif.tmpl: n less than 10
+		_, _ = result.WriteString(`n less than 10`)
+		//BasicIfElseif.tmpl: !else if n < 100
+	} else if n < 100 {
+		//BasicIfElseif.tmpl: n less than 100
+		_, _ = result.WriteString(`n less than 100`)
+		//BasicIfElseif.tmpl: !else
+	} else {
+		//BasicIfElseif.tmpl: n bigger than 100
+		_, _ = result.WriteString(`n bigger than 100`)
+		//BasicIfElseif.tmpl: !end
+	}
+	//BasicIfElseif.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//BasicIfElseif.tmpl:
+	_, _ = result.WriteString(``)
+
+	return result.String(), nil
+}
+
+// TMPLBasicIfElseif evaluates a template BasicIfElseif.tmpl
+func TMPLBasicIfElseif(n int) string {
+	html, err := TMPLERRBasicIfElseif(n)
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template BasicIfElseif.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// TMPLERRComparisonWithGoTemplates evaluates a template ComparisonWithGoTemplates.tmpl
+func TMPLERRComparisonWithGoTemplates(params TemplateParam) (string, error) {
+	_template := "ComparisonWithGoTemplates.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	//ComparisonWithGoTemplates.tmpl: <html>
+	_, _ = result.WriteString(`<html>
+`)
+	//ComparisonWithGoTemplates.tmpl:     <head>
+	_, _ = result.WriteString(`    <head>
+`)
+	//ComparisonWithGoTemplates.tmpl:         <title>{{s params.Title }}</title>
+	_, _ = result.WriteString(fmt.Sprintf(`        <title>%s</title>
+`, _escape(params.Title)))
+	//ComparisonWithGoTemplates.tmpl:     </head>
+	_, _ = result.WriteString(`    </head>
+`)
+	//ComparisonWithGoTemplates.tmpl:     <body>
+	_, _ = result.WriteString(`    <body>
+`)
+	//ComparisonWithGoTemplates.tmpl:         <h1>{{s params.Title }}</h1>
+	_, _ = result.WriteString(fmt.Sprintf(`        <h1>%s</h1>
+`, _escape(params.Title)))
+	//ComparisonWithGoTemplates.tmpl:
+	_, _ = result.WriteString(`        `)
+	//ComparisonWithGoTemplates.tmpl: !if len(params.Subtitle) > 0
+	if len(params.Subtitle) > 0 {
+		//ComparisonWithGoTemplates.tmpl: <h2>{{ params.Subtitle }}</h1>
+		_, _ = result.WriteString(fmt.Sprintf(`<h2>%v</h1>`, params.Subtitle))
+		//ComparisonWithGoTemplates.tmpl: !end
+	}
+	//ComparisonWithGoTemplates.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//ComparisonWithGoTemplates.tmpl:         <ul>
+	_, _ = result.WriteString(`        <ul>
+`)
+	//ComparisonWithGoTemplates.tmpl:
+	_, _ = result.WriteString(`            `)
+	//ComparisonWithGoTemplates.tmpl: !for _, item := range params.Items
+	for _, item := range params.Items {
+		//ComparisonWithGoTemplates.tmpl:
+		_, _ = result.WriteString(`
+`)
+		//ComparisonWithGoTemplates.tmpl:                 <li> {{s item }}
+		_, _ = result.WriteString(fmt.Sprintf(`                <li> %s
+`, _escape(item)))
+		//ComparisonWithGoTemplates.tmpl:
+		_, _ = result.WriteString(`            `)
+		//ComparisonWithGoTemplates.tmpl: !end
+	}
+	//ComparisonWithGoTemplates.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//ComparisonWithGoTemplates.tmpl:         </ul>
+	_, _ = result.WriteString(`        </ul>
+`)
+	//ComparisonWithGoTemplates.tmpl:         <p>
+	_, _ = result.WriteString(`        <p>
+`)
+	//ComparisonWithGoTemplates.tmpl:             Written {{d len(params.Items) }} items
+	_, _ = result.WriteString(fmt.Sprintf(`            Written %d items
+`, len(params.Items)))
+	//ComparisonWithGoTemplates.tmpl:         </p>
+	_, _ = result.WriteString(`        </p>
+`)
+	//ComparisonWithGoTemplates.tmpl:     </body>
+	_, _ = result.WriteString(`    </body>
+`)
+	//ComparisonWithGoTemplates.tmpl: </html>
+	_, _ = result.WriteString(`</html>
+`)
+	//ComparisonWithGoTemplates.tmpl:
+	_, _ = result.WriteString(``)
+
+	return result.String(), nil
+}
+
+// TMPLComparisonWithGoTemplates evaluates a template ComparisonWithGoTemplates.tmpl
+func TMPLComparisonWithGoTemplates(params TemplateParam) string {
+	html, err := TMPLERRComparisonWithGoTemplates(params)
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template ComparisonWithGoTemplates.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// TMPLERRExtendsEmbedded evaluates a template ExtendsEmbedded.tmpl
+func TMPLERRExtendsEmbedded(title string, something int) (string, error) {
+	_template := "ExtendsEmbedded.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(``)
+	//ExtendsEmbedded.tmpl: !#extends BaseEmbedded
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(``)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(``)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(``)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//ExtendsEmbedded.tmpl: <html>
+	_, _ = result.WriteString(`<html>
+`)
+	//ExtendsEmbedded.tmpl:     <head>
+	_, _ = result.WriteString(`    <head>
+`)
+	//ExtendsEmbedded.tmpl:         <title>{{s title }}</title>
+	_, _ = result.WriteString(fmt.Sprintf(`        <title>%s</title>
+`, _escape(title)))
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(``)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//ExtendsEmbedded.tmpl: <script>
+	_, _ = result.WriteString(`<script>
+`)
+	//ExtendsEmbedded.tmpl: alert("included")
+	_, _ = result.WriteString(`alert("included")
+`)
+	//ExtendsEmbedded.tmpl: </script>
+	_, _ = result.WriteString(`</script>
+`)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(``)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//ExtendsEmbedded.tmpl:     </head>
+	_, _ = result.WriteString(`    </head>
+`)
+	//ExtendsEmbedded.tmpl:     <body>
+	_, _ = result.WriteString(`    <body>
+`)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(``)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//ExtendsEmbedded.tmpl: <h1>Body!</h1>
+	_, _ = result.WriteString(`<h1>Body!</h1>
+`)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(``)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(``)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//ExtendsEmbedded.tmpl:     </body>
+	_, _ = result.WriteString(`    </body>
+`)
+	//ExtendsEmbedded.tmpl: </html>
+	_, _ = result.WriteString(`</html>
+`)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(``)
+
+	return result.String(), nil
+}
+
+// TMPLExtendsEmbedded evaluates a template ExtendsEmbedded.tmpl
+func TMPLExtendsEmbedded(title string, something int) string {
+	html, err := TMPLERRExtendsEmbedded(title, something)
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template ExtendsEmbedded.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// TMPLERRNoncodeLineWithExclamationMark evaluates a template NoncodeLineWithExclamationMark.tmpl
+func TMPLERRNoncodeLineWithExclamationMark() (string, error) {
+	_template := "NoncodeLineWithExclamationMark.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	//NoncodeLineWithExclamationMark.tmpl: !s1 := "This lins is not a code line"
+	_, _ = result.WriteString(`!s1 := "This lins is not a code line"
+`)
+	//NoncodeLineWithExclamationMark.tmpl: !s2 := "This *is* a line of code"
+	s2 := "This *is* a line of code"
+	//NoncodeLineWithExclamationMark.tmpl: {{s s2 }}
+	_, _ = result.WriteString(fmt.Sprintf(`%s
+`, _escape(s2)))
+	//NoncodeLineWithExclamationMark.tmpl:
+	_, _ = result.WriteString(``)
+
+	return result.String(), nil
+}
+
+// TMPLNoncodeLineWithExclamationMark evaluates a template NoncodeLineWithExclamationMark.tmpl
+func TMPLNoncodeLineWithExclamationMark() string {
+	html, err := TMPLERRNoncodeLineWithExclamationMark()
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template NoncodeLineWithExclamationMark.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// TMPLERRWithEndInsteadOfBrackets evaluates a template WithEndInsteadOfBrackets.tmpl
+func TMPLERRWithEndInsteadOfBrackets() (string, error) {
+	_template := "WithEndInsteadOfBrackets.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	//WithEndInsteadOfBrackets.tmpl: !for i:=0; i < 5; i++
+	for i := 0; i < 5; i++ {
+		//WithEndInsteadOfBrackets.tmpl: i={{d i }}
+		_, _ = result.WriteString(fmt.Sprintf(`i=%d
+`, i))
+		//WithEndInsteadOfBrackets.tmpl: !end
+	}
+	//WithEndInsteadOfBrackets.tmpl:
+	_, _ = result.WriteString(``)
+
+	return result.String(), nil
+}
+
+// TMPLWithEndInsteadOfBrackets evaluates a template WithEndInsteadOfBrackets.tmpl
+func TMPLWithEndInsteadOfBrackets() string {
+	html, err := TMPLERRWithEndInsteadOfBrackets()
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template WithEndInsteadOfBrackets.tmpl:" + err.Error())
+	}
+	return html
+}
+
+type Argument struct {
+	Aaa string
+	Bbb int
+}
+
+// TMPLERRWithGlobalDeclaration evaluates a template WithGlobalDeclaration.tmpl
+func TMPLERRWithGlobalDeclaration(arg Argument) (string, error) {
+	_template := "WithGlobalDeclaration.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	//WithGlobalDeclaration.tmpl: Aaa={{s arg.Aaa }}
+	_, _ = result.WriteString(fmt.Sprintf(`Aaa=%s
+`, _escape(arg.Aaa)))
+	//WithGlobalDeclaration.tmpl: Bbb={{d arg.Bbb }}
+	_, _ = result.WriteString(fmt.Sprintf(`Bbb=%d
+`, arg.Bbb))
+	//WithGlobalDeclaration.tmpl:
+	_, _ = result.WriteString(``)
+
+	return result.String(), nil
+}
+
+// TMPLWithGlobalDeclaration evaluates a template WithGlobalDeclaration.tmpl
+func TMPLWithGlobalDeclaration(arg Argument) string {
+	html, err := TMPLERRWithGlobalDeclaration(arg)
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template WithGlobalDeclaration.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// TMPLERRWithInsert evaluates a template WithInsert.tmpl
+func TMPLERRWithInsert(a int) (string, error) {
+	_template := "WithInsert.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	//WithInsert.tmpl: Will insert something here:
+	_, _ = result.WriteString(`Will insert something here: `)
+	//WithInsert.tmpl: a={{d a }}
+	_, _ = result.WriteString(fmt.Sprintf(`a=%d
+`, a))
+	//WithInsert.tmpl:
+	_, _ = result.WriteString(``)
+	//WithInsert.tmpl:
+	_, _ = result.WriteString(`
+`)
+	//WithInsert.tmpl:
+	_, _ = result.WriteString(``)
+
+	return result.String(), nil
+}
+
+// TMPLWithInsert evaluates a template WithInsert.tmpl
+func TMPLWithInsert(a int) string {
+	html, err := TMPLERRWithInsert(a)
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template WithInsert.tmpl:" + err.Error())
+	}
+	return html
+}
+
+// TMPLERRWithPercentage evaluates a template WithPercentage.tmpl
+func TMPLERRWithPercentage(str string) (string, error) {
+	_template := "WithPercentage.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	//WithPercentage.tmpl: %, str={{s str }}
+	_, _ = result.WriteString(fmt.Sprintf(`%%, str=%s
+`, _escape(str)))
+	//WithPercentage.tmpl: %, str={{s fmt.Sprintf("aaa%sccc", "bbb") }}
+	_, _ = result.WriteString(fmt.Sprintf(`%%, str=%s
+`, _escape(fmt.Sprintf("aaa%sccc", "bbb"))))
+	//WithPercentage.tmpl:
+	_, _ = result.WriteString(``)
+
+	return result.String(), nil
+}
+
+// TMPLWithPercentage evaluates a template WithPercentage.tmpl
+func TMPLWithPercentage(str string) string {
+	html, err := TMPLERRWithPercentage(str)
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template WithPercentage.tmpl:" + err.Error())
 	}
 	return html
 }
@@ -109,262 +621,6 @@ func TMPLbasic(str string, num int) string {
 	html, err := TMPLERRbasic(str, num)
 	if err != nil {
 		_, _ = os.Stderr.WriteString("Error running template basic.tmpl:" + err.Error())
-	}
-	return html
-}
-
-// TMPLERRbasic_code evaluates a template basic_code.tmpl
-func TMPLERRbasic_code(s string, num int) (string, error) {
-	_template := "basic_code.tmpl"
-	_ = _template
-	_escape := html.EscapeString
-	_ = _escape
-	var result bytes.Buffer
-	//basic_code.tmpl: !for i := 0; i < num; i++ {
-	for i := 0; i < num; i++ {
-		//basic_code.tmpl: {{d i}}
-		_, _ = result.WriteString(fmt.Sprintf(`%d
-`, i))
-		//basic_code.tmpl: !}
-	}
-	//basic_code.tmpl:
-	_, _ = result.WriteString(``)
-
-	return result.String(), nil
-}
-
-// TMPLbasic_code evaluates a template basic_code.tmpl
-func TMPLbasic_code(s string, num int) string {
-	html, err := TMPLERRbasic_code(s, num)
-	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template basic_code.tmpl:" + err.Error())
-	}
-	return html
-}
-
-// TMPLERRbasic_embedded_code evaluates a template basic_embedded_code.tmpl
-func TMPLERRbasic_embedded_code(n int) (string, error) {
-	_template := "basic_embedded_code.tmpl"
-	_ = _template
-	_escape := html.EscapeString
-	_ = _escape
-	var result bytes.Buffer
-	//basic_embedded_code.tmpl:
-	_, _ = result.WriteString(``)
-	//basic_embedded_code.tmpl: !for i := 0; i < n; i++
-	for i := 0; i < n; i++ {
-		//basic_embedded_code.tmpl: i={{d i }}
-		_, _ = result.WriteString(fmt.Sprintf(`i=%d `, i))
-		//basic_embedded_code.tmpl: !end
-	}
-	//basic_embedded_code.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//basic_embedded_code.tmpl:
-	_, _ = result.WriteString(``)
-
-	return result.String(), nil
-}
-
-// TMPLbasic_embedded_code evaluates a template basic_embedded_code.tmpl
-func TMPLbasic_embedded_code(n int) string {
-	html, err := TMPLERRbasic_embedded_code(n)
-	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template basic_embedded_code.tmpl:" + err.Error())
-	}
-	return html
-}
-
-// TMPLERRbasic_if_else evaluates a template basic_if_else.tmpl
-func TMPLERRbasic_if_else(n int) (string, error) {
-	_template := "basic_if_else.tmpl"
-	_ = _template
-	_escape := html.EscapeString
-	_ = _escape
-	var result bytes.Buffer
-	//basic_if_else.tmpl:
-	_, _ = result.WriteString(``)
-	//basic_if_else.tmpl: !if n < 10 {
-	if n < 10 {
-		//basic_if_else.tmpl: {{d n }} less than 10
-		_, _ = result.WriteString(fmt.Sprintf(`%d less than 10`, n))
-		//basic_if_else.tmpl: !}
-	}
-	//basic_if_else.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//basic_if_else.tmpl:
-	_, _ = result.WriteString(``)
-	//basic_if_else.tmpl: !if n > 0
-	if n > 0 {
-		//basic_if_else.tmpl: {{d n}} biger than 0
-		_, _ = result.WriteString(fmt.Sprintf(`%d biger than 0`, n))
-		//basic_if_else.tmpl: !end
-	}
-	//basic_if_else.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//basic_if_else.tmpl:
-	_, _ = result.WriteString(``)
-	//basic_if_else.tmpl: !if n > 5
-	if n > 5 {
-		//basic_if_else.tmpl: {{d n}} biger than 5
-		_, _ = result.WriteString(fmt.Sprintf(`%d biger than 5`, n))
-		//basic_if_else.tmpl: !else
-	} else {
-		//basic_if_else.tmpl: {{d n}} smaller than 5
-		_, _ = result.WriteString(fmt.Sprintf(`%d smaller than 5`, n))
-		//basic_if_else.tmpl: !end
-	}
-	//basic_if_else.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//basic_if_else.tmpl:
-	_, _ = result.WriteString(``)
-
-	return result.String(), nil
-}
-
-// TMPLbasic_if_else evaluates a template basic_if_else.tmpl
-func TMPLbasic_if_else(n int) string {
-	html, err := TMPLERRbasic_if_else(n)
-	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template basic_if_else.tmpl:" + err.Error())
-	}
-	return html
-}
-
-// TMPLERRbasic_if_elseif evaluates a template basic_if_elseif.tmpl
-func TMPLERRbasic_if_elseif(n int) (string, error) {
-	_template := "basic_if_elseif.tmpl"
-	_ = _template
-	_escape := html.EscapeString
-	_ = _escape
-	var result bytes.Buffer
-	//basic_if_elseif.tmpl:
-	_, _ = result.WriteString(``)
-	//basic_if_elseif.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//basic_if_elseif.tmpl:
-	_, _ = result.WriteString(``)
-	//basic_if_elseif.tmpl: !if n < 10
-	if n < 10 {
-		//basic_if_elseif.tmpl: n less than 10
-		_, _ = result.WriteString(`n less than 10`)
-		//basic_if_elseif.tmpl: !else if n < 100
-	} else if n < 100 {
-		//basic_if_elseif.tmpl: n less than 100
-		_, _ = result.WriteString(`n less than 100`)
-		//basic_if_elseif.tmpl: !else
-	} else {
-		//basic_if_elseif.tmpl: n bigger than 100
-		_, _ = result.WriteString(`n bigger than 100`)
-		//basic_if_elseif.tmpl: !end
-	}
-	//basic_if_elseif.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//basic_if_elseif.tmpl:
-	_, _ = result.WriteString(``)
-
-	return result.String(), nil
-}
-
-// TMPLbasic_if_elseif evaluates a template basic_if_elseif.tmpl
-func TMPLbasic_if_elseif(n int) string {
-	html, err := TMPLERRbasic_if_elseif(n)
-	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template basic_if_elseif.tmpl:" + err.Error())
-	}
-	return html
-}
-
-// TMPLERRcomparison_with_gotemplates evaluates a template comparison_with_gotemplates.tmpl
-func TMPLERRcomparison_with_gotemplates(params TemplateParam) (string, error) {
-	_template := "comparison_with_gotemplates.tmpl"
-	_ = _template
-	_escape := html.EscapeString
-	_ = _escape
-	var result bytes.Buffer
-	//comparison_with_gotemplates.tmpl: <html>
-	_, _ = result.WriteString(`<html>
-`)
-	//comparison_with_gotemplates.tmpl:     <head>
-	_, _ = result.WriteString(`    <head>
-`)
-	//comparison_with_gotemplates.tmpl:         <title>{{s params.Title }}</title>
-	_, _ = result.WriteString(fmt.Sprintf(`        <title>%s</title>
-`, _escape(params.Title)))
-	//comparison_with_gotemplates.tmpl:     </head>
-	_, _ = result.WriteString(`    </head>
-`)
-	//comparison_with_gotemplates.tmpl:     <body>
-	_, _ = result.WriteString(`    <body>
-`)
-	//comparison_with_gotemplates.tmpl:         <h1>{{s params.Title }}</h1>
-	_, _ = result.WriteString(fmt.Sprintf(`        <h1>%s</h1>
-`, _escape(params.Title)))
-	//comparison_with_gotemplates.tmpl:
-	_, _ = result.WriteString(`        `)
-	//comparison_with_gotemplates.tmpl: !if len(params.Subtitle) > 0
-	if len(params.Subtitle) > 0 {
-		//comparison_with_gotemplates.tmpl: <h2>{{ params.Subtitle }}</h1>
-		_, _ = result.WriteString(fmt.Sprintf(`<h2>%v</h1>`, params.Subtitle))
-		//comparison_with_gotemplates.tmpl: !end
-	}
-	//comparison_with_gotemplates.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//comparison_with_gotemplates.tmpl:         <ul>
-	_, _ = result.WriteString(`        <ul>
-`)
-	//comparison_with_gotemplates.tmpl:
-	_, _ = result.WriteString(`            `)
-	//comparison_with_gotemplates.tmpl: !for _, item := range params.Items
-	for _, item := range params.Items {
-		//comparison_with_gotemplates.tmpl:
-		_, _ = result.WriteString(`
-`)
-		//comparison_with_gotemplates.tmpl:                 <li> {{s item }}
-		_, _ = result.WriteString(fmt.Sprintf(`                <li> %s
-`, _escape(item)))
-		//comparison_with_gotemplates.tmpl:
-		_, _ = result.WriteString(`            `)
-		//comparison_with_gotemplates.tmpl: !end
-	}
-	//comparison_with_gotemplates.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//comparison_with_gotemplates.tmpl:         </ul>
-	_, _ = result.WriteString(`        </ul>
-`)
-	//comparison_with_gotemplates.tmpl:         <p>
-	_, _ = result.WriteString(`        <p>
-`)
-	//comparison_with_gotemplates.tmpl:             Written {{d len(params.Items) }} items
-	_, _ = result.WriteString(fmt.Sprintf(`            Written %d items
-`, len(params.Items)))
-	//comparison_with_gotemplates.tmpl:         </p>
-	_, _ = result.WriteString(`        </p>
-`)
-	//comparison_with_gotemplates.tmpl:     </body>
-	_, _ = result.WriteString(`    </body>
-`)
-	//comparison_with_gotemplates.tmpl: </html>
-	_, _ = result.WriteString(`</html>
-`)
-	//comparison_with_gotemplates.tmpl:
-	_, _ = result.WriteString(``)
-
-	return result.String(), nil
-}
-
-// TMPLcomparison_with_gotemplates evaluates a template comparison_with_gotemplates.tmpl
-func TMPLcomparison_with_gotemplates(params TemplateParam) string {
-	html, err := TMPLERRcomparison_with_gotemplates(params)
-	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template comparison_with_gotemplates.tmpl:" + err.Error())
 	}
 	return html
 }
@@ -433,140 +689,6 @@ func TMPLextends(title string, something int) string {
 	return html
 }
 
-// TMPLERRextends_embedded evaluates a template extends_embedded.tmpl
-func TMPLERRextends_embedded(title string, something int) (string, error) {
-	_template := "extends_embedded.tmpl"
-	_ = _template
-	_escape := html.EscapeString
-	_ = _escape
-	var result bytes.Buffer
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(``)
-	//extends_embedded.tmpl: !#extends base_embedded
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(``)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(``)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(``)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//extends_embedded.tmpl: <html>
-	_, _ = result.WriteString(`<html>
-`)
-	//extends_embedded.tmpl:     <head>
-	_, _ = result.WriteString(`    <head>
-`)
-	//extends_embedded.tmpl:         <title>{{s title }}</title>
-	_, _ = result.WriteString(fmt.Sprintf(`        <title>%s</title>
-`, _escape(title)))
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(``)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//extends_embedded.tmpl: <script>
-	_, _ = result.WriteString(`<script>
-`)
-	//extends_embedded.tmpl: alert("included")
-	_, _ = result.WriteString(`alert("included")
-`)
-	//extends_embedded.tmpl: </script>
-	_, _ = result.WriteString(`</script>
-`)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(``)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//extends_embedded.tmpl:     </head>
-	_, _ = result.WriteString(`    </head>
-`)
-	//extends_embedded.tmpl:     <body>
-	_, _ = result.WriteString(`    <body>
-`)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(``)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//extends_embedded.tmpl: <h1>Body!</h1>
-	_, _ = result.WriteString(`<h1>Body!</h1>
-`)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(``)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(``)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//extends_embedded.tmpl:     </body>
-	_, _ = result.WriteString(`    </body>
-`)
-	//extends_embedded.tmpl: </html>
-	_, _ = result.WriteString(`</html>
-`)
-	//extends_embedded.tmpl:
-	_, _ = result.WriteString(``)
-
-	return result.String(), nil
-}
-
-// TMPLextends_embedded evaluates a template extends_embedded.tmpl
-func TMPLextends_embedded(title string, something int) string {
-	html, err := TMPLERRextends_embedded(title, something)
-	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template extends_embedded.tmpl:" + err.Error())
-	}
-	return html
-}
-
-// TMPLERRnoncode_line_with_exclamation_mark evaluates a template noncode_line_with_exclamation_mark.tmpl
-func TMPLERRnoncode_line_with_exclamation_mark() (string, error) {
-	_template := "noncode_line_with_exclamation_mark.tmpl"
-	_ = _template
-	_escape := html.EscapeString
-	_ = _escape
-	var result bytes.Buffer
-	//noncode_line_with_exclamation_mark.tmpl: !s1 := "This lins is not a code line"
-	_, _ = result.WriteString(`!s1 := "This lins is not a code line"
-`)
-	//noncode_line_with_exclamation_mark.tmpl: !s2 := "This *is* a line of code"
-	s2 := "This *is* a line of code"
-	//noncode_line_with_exclamation_mark.tmpl: {{s s2 }}
-	_, _ = result.WriteString(fmt.Sprintf(`%s
-`, _escape(s2)))
-	//noncode_line_with_exclamation_mark.tmpl:
-	_, _ = result.WriteString(``)
-
-	return result.String(), nil
-}
-
-// TMPLnoncode_line_with_exclamation_mark evaluates a template noncode_line_with_exclamation_mark.tmpl
-func TMPLnoncode_line_with_exclamation_mark() string {
-	html, err := TMPLERRnoncode_line_with_exclamation_mark()
-	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template noncode_line_with_exclamation_mark.tmpl:" + err.Error())
-	}
-	return html
-}
-
 // TMPLERRreturn evaluates a template return.tmpl
 func TMPLERRreturn(a int) (string, error) {
 	_template := "return.tmpl"
@@ -597,128 +719,6 @@ func TMPLreturn(a int) string {
 	html, err := TMPLERRreturn(a)
 	if err != nil {
 		_, _ = os.Stderr.WriteString("Error running template return.tmpl:" + err.Error())
-	}
-	return html
-}
-
-// TMPLERRwith_end_instead_of_brackets evaluates a template with_end_instead_of_brackets.tmpl
-func TMPLERRwith_end_instead_of_brackets() (string, error) {
-	_template := "with_end_instead_of_brackets.tmpl"
-	_ = _template
-	_escape := html.EscapeString
-	_ = _escape
-	var result bytes.Buffer
-	//with_end_instead_of_brackets.tmpl: !for i:=0; i < 5; i++
-	for i := 0; i < 5; i++ {
-		//with_end_instead_of_brackets.tmpl: i={{d i }}
-		_, _ = result.WriteString(fmt.Sprintf(`i=%d
-`, i))
-		//with_end_instead_of_brackets.tmpl: !end
-	}
-	//with_end_instead_of_brackets.tmpl:
-	_, _ = result.WriteString(``)
-
-	return result.String(), nil
-}
-
-// TMPLwith_end_instead_of_brackets evaluates a template with_end_instead_of_brackets.tmpl
-func TMPLwith_end_instead_of_brackets() string {
-	html, err := TMPLERRwith_end_instead_of_brackets()
-	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template with_end_instead_of_brackets.tmpl:" + err.Error())
-	}
-	return html
-}
-
-type Argument struct {
-	Aaa string
-	Bbb int
-}
-
-// TMPLERRwith_global_declaration evaluates a template with_global_declaration.tmpl
-func TMPLERRwith_global_declaration(arg Argument) (string, error) {
-	_template := "with_global_declaration.tmpl"
-	_ = _template
-	_escape := html.EscapeString
-	_ = _escape
-	var result bytes.Buffer
-	//with_global_declaration.tmpl: Aaa={{s arg.Aaa }}
-	_, _ = result.WriteString(fmt.Sprintf(`Aaa=%s
-`, _escape(arg.Aaa)))
-	//with_global_declaration.tmpl: Bbb={{d arg.Bbb }}
-	_, _ = result.WriteString(fmt.Sprintf(`Bbb=%d
-`, arg.Bbb))
-	//with_global_declaration.tmpl:
-	_, _ = result.WriteString(``)
-
-	return result.String(), nil
-}
-
-// TMPLwith_global_declaration evaluates a template with_global_declaration.tmpl
-func TMPLwith_global_declaration(arg Argument) string {
-	html, err := TMPLERRwith_global_declaration(arg)
-	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template with_global_declaration.tmpl:" + err.Error())
-	}
-	return html
-}
-
-// TMPLERRwith_insert evaluates a template with_insert.tmpl
-func TMPLERRwith_insert(a int) (string, error) {
-	_template := "with_insert.tmpl"
-	_ = _template
-	_escape := html.EscapeString
-	_ = _escape
-	var result bytes.Buffer
-	//with_insert.tmpl: Will insert something here:
-	_, _ = result.WriteString(`Will insert something here: `)
-	//with_insert.tmpl: a={{d a }}
-	_, _ = result.WriteString(fmt.Sprintf(`a=%d
-`, a))
-	//with_insert.tmpl:
-	_, _ = result.WriteString(``)
-	//with_insert.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//with_insert.tmpl:
-	_, _ = result.WriteString(``)
-
-	return result.String(), nil
-}
-
-// TMPLwith_insert evaluates a template with_insert.tmpl
-func TMPLwith_insert(a int) string {
-	html, err := TMPLERRwith_insert(a)
-	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template with_insert.tmpl:" + err.Error())
-	}
-	return html
-}
-
-// TMPLERRwith_percentage evaluates a template with_percentage.tmpl
-func TMPLERRwith_percentage(str string) (string, error) {
-	_template := "with_percentage.tmpl"
-	_ = _template
-	_escape := html.EscapeString
-	_ = _escape
-	var result bytes.Buffer
-	//with_percentage.tmpl: %, str={{s str }}
-	_, _ = result.WriteString(fmt.Sprintf(`%%, str=%s
-`, _escape(str)))
-	//with_percentage.tmpl: %, str={{s fmt.Sprintf("aaa%sccc", "bbb") }}
-	_, _ = result.WriteString(fmt.Sprintf(`%%, str=%s
-`, _escape(fmt.Sprintf("aaa%sccc", "bbb"))))
-	//with_percentage.tmpl:
-	_, _ = result.WriteString(``)
-
-	return result.String(), nil
-}
-
-// TMPLwith_percentage evaluates a template with_percentage.tmpl
-func TMPLwith_percentage(str string) string {
-	html, err := TMPLERRwith_percentage(str)
-	if err != nil {
-		_, _ = os.Stderr.WriteString("Error running template with_percentage.tmpl:" + err.Error())
 	}
 	return html
 }

@@ -23,7 +23,7 @@ Num:10`
 }
 
 func TestWithPercentage(t *testing.T) {
-	result := example.TMPLwith_percentage("something")
+	result := example.TMPLWithPercentage("something")
 	expected := `%, str=something
 %, str=aaabbbccc`
 	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
@@ -42,7 +42,7 @@ Num:10`
 }
 
 func TestBasicCode(t *testing.T) {
-	result := example.TMPLbasic_code("aaa", 5)
+	result := example.TMPLBasicCode("aaa", 5)
 	expected := `0
 1
 2
@@ -54,7 +54,7 @@ func TestBasicCode(t *testing.T) {
 }
 
 func TestBasicEmbeddedCode(t *testing.T) {
-	result := example.TMPLbasic_embedded_code(3)
+	result := example.TMPLBasicEmbeddedCode(3)
 	expected := `i=0 i=1 i=2`
 	if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
 		t.Error(explanation)
@@ -63,7 +63,7 @@ func TestBasicEmbeddedCode(t *testing.T) {
 
 func TestBasicIfElse(t *testing.T) {
 	{
-		result := example.TMPLbasic_if_else(-10)
+		result := example.TMPLBasicIfElse(-10)
 		expected := `-10 less than 10
 
 -10 smaller than 5`
@@ -72,7 +72,7 @@ func TestBasicIfElse(t *testing.T) {
 		}
 	}
 	{
-		result := example.TMPLbasic_if_else(3)
+		result := example.TMPLBasicIfElse(3)
 		expected := `3 less than 10
 3 biger than 0
 3 smaller than 5`
@@ -81,7 +81,7 @@ func TestBasicIfElse(t *testing.T) {
 		}
 	}
 	{
-		result := example.TMPLbasic_if_else(100)
+		result := example.TMPLBasicIfElse(100)
 		expected := `100 biger than 0
 100 biger than 5`
 		if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
@@ -92,21 +92,21 @@ func TestBasicIfElse(t *testing.T) {
 
 func TestBasicIfElseIf(t *testing.T) {
 	{
-		result := example.TMPLbasic_if_elseif(-5)
+		result := example.TMPLBasicIfElseif(-5)
 		expected := `n less than 10`
 		if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
 			t.Error(explanation)
 		}
 	}
 	{
-		result := example.TMPLbasic_if_elseif(25)
+		result := example.TMPLBasicIfElseif(25)
 		expected := `n less than 100`
 		if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
 			t.Error(explanation)
 		}
 	}
 	{
-		result := example.TMPLbasic_if_elseif(2500)
+		result := example.TMPLBasicIfElseif(2500)
 		expected := `n bigger than 100`
 		if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
 			t.Error(explanation)
@@ -134,7 +134,7 @@ alert("included")
 }
 
 func TestExtendsWithEmbeddedPlaceholders(t *testing.T) {
-	result := example.TMPLextends_embedded("naslov", 12)
+	result := example.TMPLExtendsEmbedded("naslov", 12)
 	expected := `<html>
     <head>
         <title>naslov</title>
@@ -178,7 +178,7 @@ var golangTemplate = texttmpl.Must(texttmpl.New("").Parse(`
 `))
 
 func TestNonCodeStartingWithExclamationMark(t *testing.T) {
-	result := example.TMPLnoncode_line_with_exclamation_mark()
+	result := example.TMPLNoncodeLineWithExclamationMark()
 	expected := `!s1 := "This lins is not a code line"
 This *is* a line of code`
 	if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
@@ -187,7 +187,7 @@ This *is* a line of code`
 }
 
 func TestWithGLobalDeclaration(t *testing.T) {
-	result := example.TMPLwith_global_declaration(example.Argument{Aaa: "a", Bbb: 10})
+	result := example.TMPLWithGlobalDeclaration(example.Argument{Aaa: "a", Bbb: 10})
 	expected := `Aaa=a
 Bbb=10`
 	if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
@@ -216,7 +216,7 @@ func TestComparisonWithGolangTemplates(t *testing.T) {
 	goTmplFinished := time.Now().Nanosecond()
 
 	ftmplStarted := time.Now().Nanosecond()
-	withFtmpl := example.TMPLcomparison_with_gotemplates(param)
+	withFtmpl := example.TMPLComparisonWithGoTemplates(param)
 	ftmplFinished := time.Now().Nanosecond()
 
 	goTemplateTime := goTmplFinished - goTmplStarted
@@ -233,7 +233,7 @@ func TestComparisonWithGolangTemplates(t *testing.T) {
 }
 
 func TestInsert(t *testing.T) {
-	withInsert := example.TMPLwith_insert(5)
+	withInsert := example.TMPLWithInsert(5)
 	expected := `Will insert something here: a=5`
 	if explanation, ok := linesEquals(withInsert, expected); !ok {
 		t.Error(explanation)
@@ -247,7 +247,7 @@ i=2
 i=3
 i=4`
 
-	if explanation, ok := linesEquals(expected, example.TMPLwith_end_instead_of_brackets()); !ok {
+	if explanation, ok := linesEquals(expected, example.TMPLWithEndInsteadOfBrackets()); !ok {
 		t.Error(explanation)
 	}
 }

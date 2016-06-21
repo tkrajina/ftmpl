@@ -1,0 +1,13 @@
+mv base_embedded.tmpl BaseEmbedded.tmpl
+mv basic_code.tmpl BasicCode.tmpl
+mv basic_embedded_code.tmpl BasicEmbeddedCode.tmpl
+mv basic_if_else.tmpl BasicIfElse.tmpl
+mv basic_if_elseif.tmpl BasicIfElseif.tmpl
+mv comparison_with_gotemplates.tmpl ComparisonWithGoTemplates.tmpl
+mv extends_embedded.tmpl ExtendsEmbedded.tmpl
+mv noncode_line_with_exclamation_mark.tmpl NoncodeLineWithExclamationMark.tmpl
+mv test_params.go TestParams.go
+mv with_end_instead_of_brackets.tmpl WithEndInsteadOfBrackets.tmpl
+mv with_global_declaration.tmpl WithGlobalDeclaration.tmpl
+mv with_insert.tmpl WithInsert.tmpl
+mv with_percentage.tmpl WithPercentage.tmpl
