@@ -37,7 +37,7 @@ If you prefer using `go generate` add a comment...
 
 The prefix `TMPL` in the function name can be changed by a cmd line switch.
 
-## Watch and recompile
+### Watch and recompile
 
 `ftmpl` can "watch" for changes in your source directory. When any of the `*.tmpl` files change there, it will "recompile" all the templates. Just add `-watch` when calling it:
 
@@ -194,7 +194,7 @@ If the name of the extended template is `MyPage.tmpl` then the resulting templat
 Typically you will have many template arguments, so the best way to deal with them is to pack them all into one "base page structure" and another struct for every page.
 The function will then be `func TMPLMyPage(baseParams BasePageParams, pageParams MyPageParams)`
 
-## Inserting templates
+## Inserting (sub)templates
 
 Sometimes you need some templates just "copied" in other templates. You can do that with `!#insert`. For example:
 
@@ -212,6 +212,13 @@ Is equivalent to:
     Will insert something here: a={{d a }}
 
 Note that the `insertion.tmpl` alone is an **invalid** template because it contains a previously undeclared variable `a`. But, when inserted, then the variable `a` is OK. That template makes sense only when included in another template. That's why it has `!#nocompile` in it.
+
+Another way to do inserts is to just call the generated template function:
+
+    !#arg a int
+    Will insert something here: {{=s TMPLinsertion(a) }}
+
+In this case `insertion.tmpl` must **not** have `!#nocompile`, and the variable `a` must be declared with `!#arg a int`.
 
 ## No compile
 
