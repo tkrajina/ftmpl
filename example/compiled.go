@@ -24,40 +24,38 @@ func TMPLERRBaseEmbedded(title string) (string, error) {
 	_ = _escape
 	var result bytes.Buffer
 	//BaseEmbedded.tmpl:
-	_, _ = result.WriteString(`
-`)
+	//BaseEmbedded.tmpl:
 	//BaseEmbedded.tmpl: <html>
-	_, _ = result.WriteString(`<html>
-`)
 	//BaseEmbedded.tmpl:     <head>
-	_, _ = result.WriteString(`    <head>
-`)
 	//BaseEmbedded.tmpl:         <title>{{s title }}</title>
-	_, _ = result.WriteString(fmt.Sprintf(`        <title>%s</title>
+	//BaseEmbedded.tmpl:
+	_, _ = result.WriteString(fmt.Sprintf(`
+<html>
+    <head>
+        <title>%s</title>
 `, _escape(title)))
 	//BaseEmbedded.tmpl: !#include head
 	//BaseEmbedded.tmpl:
-	_, _ = result.WriteString(`
-`)
 	//BaseEmbedded.tmpl:     </head>
-	_, _ = result.WriteString(`    </head>
-`)
 	//BaseEmbedded.tmpl:     <body>
-	_, _ = result.WriteString(`    <body>
+	//BaseEmbedded.tmpl:
+	_, _ = result.WriteString(`
+    </head>
+    <body>
 `)
 	//BaseEmbedded.tmpl: !#include body
+	//BaseEmbedded.tmpl:
 	//BaseEmbedded.tmpl:
 	_, _ = result.WriteString(`
 `)
 	//BaseEmbedded.tmpl: !#include footer
 	//BaseEmbedded.tmpl:
-	_, _ = result.WriteString(`
-`)
 	//BaseEmbedded.tmpl:     </body>
-	_, _ = result.WriteString(`    </body>
-`)
 	//BaseEmbedded.tmpl: </html>
-	_, _ = result.WriteString(`</html>
+	//BaseEmbedded.tmpl:
+	_, _ = result.WriteString(`
+    </body>
+</html>
 `)
 
 	return result.String(), nil
@@ -86,6 +84,7 @@ func TMPLERRBasicCode(s string, num int) (string, error) {
 `, i))
 		//BasicCode.tmpl: !}
 	}
+	//BasicCode.tmpl:
 
 	return result.String(), nil
 }
@@ -106,12 +105,14 @@ func TMPLERRBasicEmbeddedCode(n int) (string, error) {
 	_escape := html.EscapeString
 	_ = _escape
 	var result bytes.Buffer
+	//BasicEmbeddedCode.tmpl:
 	//BasicEmbeddedCode.tmpl: !for i := 0; i < n; i++
 	for i := 0; i < n; i++ {
 		//BasicEmbeddedCode.tmpl: i={{d i }}
 		_, _ = result.WriteString(fmt.Sprintf(`i=%d `, i))
 		//BasicEmbeddedCode.tmpl: !end
 	}
+	//BasicEmbeddedCode.tmpl:
 	//BasicEmbeddedCode.tmpl:
 	_, _ = result.WriteString(`
 `)
@@ -135,12 +136,14 @@ func TMPLERRBasicIfElse(n int) (string, error) {
 	_escape := html.EscapeString
 	_ = _escape
 	var result bytes.Buffer
+	//BasicIfElse.tmpl:
 	//BasicIfElse.tmpl: !if n < 10 {
 	if n < 10 {
 		//BasicIfElse.tmpl: {{d n }} less than 10
 		_, _ = result.WriteString(fmt.Sprintf(`%d less than 10`, n))
 		//BasicIfElse.tmpl: !}
 	}
+	//BasicIfElse.tmpl:
 	//BasicIfElse.tmpl:
 	_, _ = result.WriteString(`
 `)
@@ -150,6 +153,7 @@ func TMPLERRBasicIfElse(n int) (string, error) {
 		_, _ = result.WriteString(fmt.Sprintf(`%d biger than 0`, n))
 		//BasicIfElse.tmpl: !end
 	}
+	//BasicIfElse.tmpl:
 	//BasicIfElse.tmpl:
 	_, _ = result.WriteString(`
 `)
@@ -163,6 +167,7 @@ func TMPLERRBasicIfElse(n int) (string, error) {
 		_, _ = result.WriteString(fmt.Sprintf(`%d smaller than 5`, n))
 		//BasicIfElse.tmpl: !end
 	}
+	//BasicIfElse.tmpl:
 	//BasicIfElse.tmpl:
 	_, _ = result.WriteString(`
 `)
@@ -187,6 +192,8 @@ func TMPLERRBasicIfElseif(n int) (string, error) {
 	_ = _escape
 	var result bytes.Buffer
 	//BasicIfElseif.tmpl:
+	//BasicIfElseif.tmpl:
+	//BasicIfElseif.tmpl:
 	_, _ = result.WriteString(`
 `)
 	//BasicIfElseif.tmpl: !if n < 10
@@ -203,6 +210,7 @@ func TMPLERRBasicIfElseif(n int) (string, error) {
 		_, _ = result.WriteString(`n bigger than 100`)
 		//BasicIfElseif.tmpl: !end
 	}
+	//BasicIfElseif.tmpl:
 	//BasicIfElseif.tmpl:
 	_, _ = result.WriteString(`
 `)
@@ -227,25 +235,19 @@ func TMPLERRComparisonWithGoTemplates(params TemplateParam) (string, error) {
 	_ = _escape
 	var result bytes.Buffer
 	//ComparisonWithGoTemplates.tmpl: <html>
-	_, _ = result.WriteString(`<html>
-`)
 	//ComparisonWithGoTemplates.tmpl:     <head>
-	_, _ = result.WriteString(`    <head>
-`)
 	//ComparisonWithGoTemplates.tmpl:         <title>{{s params.Title }}</title>
-	_, _ = result.WriteString(fmt.Sprintf(`        <title>%s</title>
-`, _escape(params.Title)))
 	//ComparisonWithGoTemplates.tmpl:     </head>
-	_, _ = result.WriteString(`    </head>
-`)
 	//ComparisonWithGoTemplates.tmpl:     <body>
-	_, _ = result.WriteString(`    <body>
-`)
 	//ComparisonWithGoTemplates.tmpl:         <h1>{{s params.Title }}</h1>
-	_, _ = result.WriteString(fmt.Sprintf(`        <h1>%s</h1>
-`, _escape(params.Title)))
 	//ComparisonWithGoTemplates.tmpl:
-	_, _ = result.WriteString(`        `)
+	_, _ = result.WriteString(fmt.Sprintf(`<html>
+    <head>
+        <title>%s</title>
+    </head>
+    <body>
+        <h1>%s</h1>
+        `, _escape(params.Title), _escape(params.Title)))
 	//ComparisonWithGoTemplates.tmpl: !if len(params.Subtitle) > 0
 	if len(params.Subtitle) > 0 {
 		//ComparisonWithGoTemplates.tmpl: <h2>{{ params.Subtitle }}</h1>
@@ -253,46 +255,37 @@ func TMPLERRComparisonWithGoTemplates(params TemplateParam) (string, error) {
 		//ComparisonWithGoTemplates.tmpl: !end
 	}
 	//ComparisonWithGoTemplates.tmpl:
-	_, _ = result.WriteString(`
-`)
 	//ComparisonWithGoTemplates.tmpl:         <ul>
-	_, _ = result.WriteString(`        <ul>
-`)
 	//ComparisonWithGoTemplates.tmpl:
-	_, _ = result.WriteString(`            `)
+	_, _ = result.WriteString(`
+        <ul>
+            `)
 	//ComparisonWithGoTemplates.tmpl: !for _, item := range params.Items
 	for _, item := range params.Items {
 		//ComparisonWithGoTemplates.tmpl:
-		_, _ = result.WriteString(`
-`)
 		//ComparisonWithGoTemplates.tmpl:                 <li> {{s item }}
-		_, _ = result.WriteString(fmt.Sprintf(`                <li> %s
-`, _escape(item)))
 		//ComparisonWithGoTemplates.tmpl:
-		_, _ = result.WriteString(`            `)
+		_, _ = result.WriteString(fmt.Sprintf(`
+                <li> %s
+            `, _escape(item)))
 		//ComparisonWithGoTemplates.tmpl: !end
 	}
 	//ComparisonWithGoTemplates.tmpl:
-	_, _ = result.WriteString(`
-`)
 	//ComparisonWithGoTemplates.tmpl:         </ul>
-	_, _ = result.WriteString(`        </ul>
-`)
 	//ComparisonWithGoTemplates.tmpl:         <p>
-	_, _ = result.WriteString(`        <p>
-`)
 	//ComparisonWithGoTemplates.tmpl:             Written {{d len(params.Items) }} items
-	_, _ = result.WriteString(fmt.Sprintf(`            Written %d items
-`, len(params.Items)))
 	//ComparisonWithGoTemplates.tmpl:         </p>
-	_, _ = result.WriteString(`        </p>
-`)
 	//ComparisonWithGoTemplates.tmpl:     </body>
-	_, _ = result.WriteString(`    </body>
-`)
 	//ComparisonWithGoTemplates.tmpl: </html>
-	_, _ = result.WriteString(`</html>
-`)
+	//ComparisonWithGoTemplates.tmpl:
+	_, _ = result.WriteString(fmt.Sprintf(`
+        </ul>
+        <p>
+            Written %d items
+        </p>
+    </body>
+</html>
+`, len(params.Items)))
 
 	return result.String(), nil
 }
@@ -313,70 +306,61 @@ func TMPLERRExtendsEmbedded(title string, something int) (string, error) {
 	_escape := html.EscapeString
 	_ = _escape
 	var result bytes.Buffer
+	//ExtendsEmbedded.tmpl:
 	//ExtendsEmbedded.tmpl: !#extends BaseEmbedded
 	//ExtendsEmbedded.tmpl:
-	_, _ = result.WriteString(`
-`)
+	//ExtendsEmbedded.tmpl:
+	//ExtendsEmbedded.tmpl:
+	//ExtendsEmbedded.tmpl:
+	//ExtendsEmbedded.tmpl:
 	//ExtendsEmbedded.tmpl:
 	_, _ = result.WriteString(`
+
+
 `)
 	//ExtendsEmbedded.tmpl:
-	_, _ = result.WriteString(`
-`)
-	//ExtendsEmbedded.tmpl:
-	_, _ = result.WriteString(`
-`)
 	//ExtendsEmbedded.tmpl: <html>
-	_, _ = result.WriteString(`<html>
-`)
 	//ExtendsEmbedded.tmpl:     <head>
-	_, _ = result.WriteString(`    <head>
-`)
 	//ExtendsEmbedded.tmpl:         <title>{{s title }}</title>
-	_, _ = result.WriteString(fmt.Sprintf(`        <title>%s</title>
-`, _escape(title)))
 	//ExtendsEmbedded.tmpl:
-	_, _ = result.WriteString(`
-`)
+	//ExtendsEmbedded.tmpl:
 	//ExtendsEmbedded.tmpl: <script>
-	_, _ = result.WriteString(`<script>
-`)
 	//ExtendsEmbedded.tmpl: alert("included")
-	_, _ = result.WriteString(`alert("included")
-`)
 	//ExtendsEmbedded.tmpl: </script>
-	_, _ = result.WriteString(`</script>
-`)
 	//ExtendsEmbedded.tmpl:
-	_, _ = result.WriteString(`
-`)
 	//ExtendsEmbedded.tmpl:
-	_, _ = result.WriteString(`
-`)
+	//ExtendsEmbedded.tmpl:
 	//ExtendsEmbedded.tmpl:     </head>
-	_, _ = result.WriteString(`    </head>
-`)
 	//ExtendsEmbedded.tmpl:     <body>
-	_, _ = result.WriteString(`    <body>
-`)
 	//ExtendsEmbedded.tmpl:
-	_, _ = result.WriteString(`
-`)
+	//ExtendsEmbedded.tmpl:
 	//ExtendsEmbedded.tmpl: <h1>Body!</h1>
-	_, _ = result.WriteString(`<h1>Body!</h1>
-`)
 	//ExtendsEmbedded.tmpl:
-	_, _ = result.WriteString(`
-`)
 	//ExtendsEmbedded.tmpl:
-	_, _ = result.WriteString(`
-`)
+	//ExtendsEmbedded.tmpl:
+	//ExtendsEmbedded.tmpl:
 	//ExtendsEmbedded.tmpl:     </body>
-	_, _ = result.WriteString(`    </body>
-`)
 	//ExtendsEmbedded.tmpl: </html>
-	_, _ = result.WriteString(`</html>
-`)
+	//ExtendsEmbedded.tmpl:
+	_, _ = result.WriteString(fmt.Sprintf(`
+<html>
+    <head>
+        <title>%s</title>
+
+<script>
+alert("included")
+</script>
+
+
+    </head>
+    <body>
+
+<h1>Body!</h1>
+
+
+    </body>
+</html>
+`, _escape(title)))
 
 	return result.String(), nil
 }
@@ -403,6 +387,7 @@ func TMPLERRNoncodeLineWithExclamationMark() (string, error) {
 	//NoncodeLineWithExclamationMark.tmpl: !s2 := "This *is* a line of code"
 	s2 := "This *is* a line of code"
 	//NoncodeLineWithExclamationMark.tmpl: {{s s2 }}
+	//NoncodeLineWithExclamationMark.tmpl:
 	_, _ = result.WriteString(fmt.Sprintf(`%s
 `, _escape(s2)))
 
@@ -432,6 +417,7 @@ func TMPLERRWithEndInsteadOfBrackets() (string, error) {
 `, i))
 		//WithEndInsteadOfBrackets.tmpl: !end
 	}
+	//WithEndInsteadOfBrackets.tmpl:
 
 	return result.String(), nil
 }
@@ -458,11 +444,11 @@ func TMPLERRWithGlobalDeclaration(arg Argument) (string, error) {
 	_ = _escape
 	var result bytes.Buffer
 	//WithGlobalDeclaration.tmpl: Aaa={{s arg.Aaa }}
-	_, _ = result.WriteString(fmt.Sprintf(`Aaa=%s
-`, _escape(arg.Aaa)))
 	//WithGlobalDeclaration.tmpl: Bbb={{d arg.Bbb }}
-	_, _ = result.WriteString(fmt.Sprintf(`Bbb=%d
-`, arg.Bbb))
+	//WithGlobalDeclaration.tmpl:
+	_, _ = result.WriteString(fmt.Sprintf(`Aaa=%s
+Bbb=%d
+`, _escape(arg.Aaa), arg.Bbb))
 
 	return result.String(), nil
 }
@@ -484,13 +470,13 @@ func TMPLERRWithInsert(a int) (string, error) {
 	_ = _escape
 	var result bytes.Buffer
 	//WithInsert.tmpl: Will insert something here:
-	_, _ = result.WriteString(`Will insert something here: `)
 	//WithInsert.tmpl: a={{d a }}
-	_, _ = result.WriteString(fmt.Sprintf(`a=%d
-`, a))
 	//WithInsert.tmpl:
-	_, _ = result.WriteString(`
-`)
+	//WithInsert.tmpl:
+	//WithInsert.tmpl:
+	_, _ = result.WriteString(fmt.Sprintf(`Will insert something here: a=%d
+
+`, a))
 
 	return result.String(), nil
 }
@@ -512,11 +498,11 @@ func TMPLERRWithPercentage(str string) (string, error) {
 	_ = _escape
 	var result bytes.Buffer
 	//WithPercentage.tmpl: %, str={{s str }}
-	_, _ = result.WriteString(fmt.Sprintf(`%%, str=%s
-`, _escape(str)))
 	//WithPercentage.tmpl: %, str={{s fmt.Sprintf("aaa%sccc", "bbb") }}
+	//WithPercentage.tmpl:
 	_, _ = result.WriteString(fmt.Sprintf(`%%, str=%s
-`, _escape(fmt.Sprintf("aaa%sccc", "bbb"))))
+%%, str=%s
+`, _escape(str), _escape(fmt.Sprintf("aaa%sccc", "bbb"))))
 
 	return result.String(), nil
 }
@@ -538,14 +524,13 @@ func TMPLERRbasic(str string, num int) (string, error) {
 	_ = _escape
 	var result bytes.Buffer
 	//basic.tmpl: String:{{s str}}
-	_, _ = result.WriteString(fmt.Sprintf(`String:%s
-`, _escape(str)))
 	//basic.tmpl: Unescaped:{{=s str}}
-	_, _ = result.WriteString(fmt.Sprintf(`Unescaped:%s
-`, str))
 	//basic.tmpl: Num:{{d num}}
-	_, _ = result.WriteString(fmt.Sprintf(`Num:%d
-`, num))
+	//basic.tmpl:
+	_, _ = result.WriteString(fmt.Sprintf(`String:%s
+Unescaped:%s
+Num:%d
+`, _escape(str), str, num))
 
 	return result.String(), nil
 }
@@ -571,41 +556,32 @@ func TMPLERRextends(title string, something int) (string, error) {
 	_, _ = result.WriteString(`
 `)
 	//extends.tmpl: <html>
-	_, _ = result.WriteString(`<html>
-`)
 	//extends.tmpl:     <head>
-	_, _ = result.WriteString(`    <head>
-`)
 	//extends.tmpl:         <title>{{s title }}</title>
-	_, _ = result.WriteString(fmt.Sprintf(`        <title>%s</title>
-`, _escape(title)))
 	//extends.tmpl: <script>
-	_, _ = result.WriteString(`<script>
-`)
 	//extends.tmpl: alert("included")
-	_, _ = result.WriteString(`alert("included")
-`)
 	//extends.tmpl: </script>
-	_, _ = result.WriteString(`</script>
-`)
 	//extends.tmpl:
-	_, _ = result.WriteString(`
-`)
 	//extends.tmpl:     </head>
-	_, _ = result.WriteString(`    </head>
-`)
 	//extends.tmpl:     <body>
-	_, _ = result.WriteString(`    <body>
-`)
 	//extends.tmpl: <h1>Body!</h1>
-	_, _ = result.WriteString(`<h1>Body!</h1>
-`)
+	//extends.tmpl:
 	//extends.tmpl:     </body>
-	_, _ = result.WriteString(`    </body>
-`)
 	//extends.tmpl: </html>
-	_, _ = result.WriteString(`</html>
-`)
+	//extends.tmpl:
+	_, _ = result.WriteString(fmt.Sprintf(`<html>
+    <head>
+        <title>%s</title>
+<script>
+alert("included")
+</script>
+
+    </head>
+    <body>
+<h1>Body!</h1>
+    </body>
+</html>
+`, _escape(title)))
 
 	return result.String(), nil
 }
@@ -627,14 +603,15 @@ func TMPLERRreturn(a int) (string, error) {
 	_ = _escape
 	var result bytes.Buffer
 	//return.tmpl: a is {{d a }}
+	//return.tmpl:
 	_, _ = result.WriteString(fmt.Sprintf(`a is %d
 `, a))
 	return result.String(), nil
 	//return.tmpl:
-	_, _ = result.WriteString(`
-`)
 	//return.tmpl: This line is ignored
-	_, _ = result.WriteString(`This line is ignored
+	//return.tmpl:
+	_, _ = result.WriteString(`
+This line is ignored
 `)
 
 	return result.String(), nil

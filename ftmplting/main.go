@@ -278,11 +278,20 @@ func convertTemplate(packageDir, file string, params convertTemplateParams) comp
 		EscapeFunc:      "html.EscapeString",
 	}
 
+	var verbatimLines []string
+
 	for _, line := range lines {
 
 		if strings.HasPrefix(line, cmdPrefix) {
 			// Remove spaces after !#
 			line = cmdPrefix + strings.TrimSpace(line[len(cmdPrefix):])
+		}
+
+		if len(line) > 0 && line[0] == '!' {
+			if l, ok := handleTemplateLine(strings.Join(verbatimLines, "")); ok {
+				tmplParams.Lines = append(tmplParams.Lines, l)
+			}
+			verbatimLines = []string{}
 		}
 
 		if strings.HasPrefix(line, cmdArg) {
@@ -319,10 +328,14 @@ func convertTemplate(packageDir, file string, params convertTemplateParams) comp
 			tmplParams.addComment(file, line)
 			tmplParams.Lines = append(tmplParams.Lines, prepareCommandLine(line[1:]))
 		} else {
-			if l, ok := handleTemplateLine(line); ok {
-				tmplParams.addComment(file, line)
-				tmplParams.Lines = append(tmplParams.Lines, l)
-			}
+			tmplParams.addComment(file, line)
+			verbatimLines = append(verbatimLines, line)
+		}
+	}
+
+	if len(verbatimLines) > 0 {
+		if l, ok := handleTemplateLine(strings.Join(verbatimLines, "")); ok {
+			tmplParams.Lines = append(tmplParams.Lines, l)
 		}
 	}
 
