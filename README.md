@@ -258,7 +258,7 @@ For others, you'll need to debug the Go code (every Go line is preceded with a G
 Every template will result in *two* template functions. Both will execute the same code, but:
 
  * Use `func TMPLERRMyTemplate(args) (string, error)` if you expect your template to return errors, use this one. Use `!return "", err` to prematurely exit from the template with a proper error value.
- * With `func TMPLMyTemplate(args) string` if template returns an error, the result is an empty string, and the error will be written in `os.Syserr`.
+ * With `func TMPLMyTemplate(args) string` if the template returns an error, the result is an empty string, and the error will be written in `os.Syserr`.
 
 ## Global declarations
 
