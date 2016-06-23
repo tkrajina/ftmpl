@@ -1,3 +1,5 @@
+[![Build Status](https://api.travis-ci.org/tkrajina/ftmpl.svg)](https://travis-ci.org/tkrajina/ftmpl)
+
 # FTMPL: fast (and typesafe) templating for Golang
 
 ftmpl is a fast/compiled/typesafe templating "language" for golang.
