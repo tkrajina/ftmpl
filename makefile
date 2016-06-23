@@ -2,8 +2,9 @@ build:
 	go build .
 install:
 	go install .
-test:
+compile-examples:
 	go run ftmpl.go -targetgo example/compiled.go example
+test: compile-examples
 	go test -v .
 
 install-tools:
