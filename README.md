@@ -268,7 +268,7 @@ In case you need a global declaration (outside of the template function), it can
     !#arg arg Argument
     Aaa is {{s arg.Aaa }}, and Bbb is {{d arg.Bbb }}
 
-The `Argument` struct will be declared outside the function body, and the function is now `T_my_template(Argument)`.
+The `Argument` struct will be declared outside the function body, and the function is now `TMPLMyTemplate(Argument)`.
 
 ## Special variables
 
