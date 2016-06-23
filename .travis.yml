@@ -5,4 +5,6 @@ go:
  - 1.5
  - 1.6
 
-install: make compile-examples
+install:
+ - go get github.com/howeyc/fsnotify
+ - make compile-examples
