@@ -7,4 +7,4 @@ go:
 
 install:
  - go get github.com/howeyc/fsnotify
- - make compile-examples
+ - make test
