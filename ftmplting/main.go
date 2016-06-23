@@ -311,14 +311,18 @@ func convertTemplate(packageDir, file string, params convertTemplateParams) comp
 			tmplParams.addComment(file, line)
 		} else if strings.HasPrefix(line, "!!") {
 			line = line[1:]
-			tmplParams.addComment(file, line)
-			tmplParams.Lines = append(tmplParams.Lines, handleTemplateLine(line))
+			if l, ok := handleTemplateLine(line); ok {
+				tmplParams.addComment(file, line)
+				tmplParams.Lines = append(tmplParams.Lines, l)
+			}
 		} else if strings.HasPrefix(line, "!") {
 			tmplParams.addComment(file, line)
 			tmplParams.Lines = append(tmplParams.Lines, prepareCommandLine(line[1:]))
 		} else {
-			tmplParams.addComment(file, line)
-			tmplParams.Lines = append(tmplParams.Lines, handleTemplateLine(line))
+			if l, ok := handleTemplateLine(line); ok {
+				tmplParams.addComment(file, line)
+				tmplParams.Lines = append(tmplParams.Lines, l)
+			}
 		}
 	}
 
@@ -354,12 +358,12 @@ func prepareCommandLine(line string) string {
 	return line
 }
 
-func handleTemplateLine(line string) string {
+func handleTemplateLine(line string) (string, bool) {
 	if !strings.Contains(line, "{{") {
 		var buf bytes.Buffer
 		err := stringTemplate.Execute(&buf, quote(line))
 		handleLineError(err, line)
-		return buf.String()
+		return buf.String(), len(line) > 0
 	}
 
 	// We need to change "%" to "%%" (otherwise it messes with replacements) but we need to leave them in the template
@@ -408,5 +412,5 @@ func handleTemplateLine(line string) string {
 	result := buf.String()
 	result = strings.Replace(result, "%", "%%", -1)
 	result = strings.Replace(result, percentageCharReplacement, "%", -1)
-	return result
+	return result, true
 }
