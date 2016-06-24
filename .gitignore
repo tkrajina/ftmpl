@@ -3,3 +3,4 @@ tags
 tmp_*
 tmp/*
 ftmpl
+.DS_Store
