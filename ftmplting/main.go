@@ -210,19 +210,31 @@ func loadTemplateAndGetLines(fileName string, keepNoCompile bool) []string {
 	HandleError(err, "Error reading "+fileName)
 
 	lineDelimiter := getRandomString(15)
-	str = strings.Replace(str, "\n", "\n"+lineDelimiter, -1)
 
-	r := regexp.MustCompile("{{!.*?}}")
-	str = r.ReplaceAllStringFunc(str, func(s string) string {
-		// In this case there is no \n before the line delimiter:
-		result := strings.TrimSpace(s[3 : len(s)-2])
+	str = regexp.MustCompile("!.*?\n").ReplaceAllStringFunc(str, func(s string) string {
+		return lineDelimiter + strings.TrimSpace(s) + lineDelimiter
+	})
+	str = regexp.MustCompile("{{.*?}}").ReplaceAllStringFunc(str, func(s string) string {
+		if s[0] == '!' {
+			// In this case there is no \n before the line delimiter:
+			result := strings.TrimSpace(s[2 : len(s)-2])
 
-		result = lineDelimiter + "!" + result + lineDelimiter
-
-		return result
+			return lineDelimiter + result + lineDelimiter
+		} else {
+			return lineDelimiter + prepareOutputLine(s) + lineDelimiter
+		}
 	})
 
 	lines := strings.Split(str, lineDelimiter)
+
+	fmt.Println("----------------------------------------------------------------------------------------------------")
+	for n := range lines {
+		if len(lines[n]) == 0 || lines[n][0] != '!' {
+			lines[n] = fmt.Sprintf("!_, _ = result.WriteString(`%s`)", lines[n])
+		}
+		fmt.Println(lines[n])
+		fmt.Println("----------------------------------------------------------------------------------------------------")
+	}
 
 	// Process inserted templates:
 	var expandedLines []string
@@ -358,6 +370,38 @@ func prepareCommandLine(line string) string {
 	return line
 }
 
+func prepareOutputLine(s string) string {
+	s = strings.TrimSpace(s[2 : len(s)-2])
+	if len(s) == 0 {
+		return ""
+	}
+
+	forceUnquoted := false
+	if s[0] == '=' {
+		forceUnquoted = true
+		s = s[1:]
+	}
+
+	placeholder := "%v"
+	var valueExpr string
+	if len(s) > 1 && s[1] == ' ' {
+		valueExpr = s[1:]
+		placeholder = "%" + string(s[0])
+	} else {
+		valueExpr = s
+	}
+
+	if !forceUnquoted && placeholder == "%s" {
+		valueExpr = "_escape(" + valueExpr + ")"
+	}
+
+	if strings.HasPrefix(s, "/*") && strings.HasSuffix(s, "*/") {
+		return ""
+	}
+
+	return fmt.Sprintf("!_, _ = result.WriteString(fmt.Sprintf(\"%s\", %s))", placeholder, valueExpr)
+}
+
 func handleTemplateLine(line string) (string, bool) {
 	if !strings.Contains(line, "{{") {
 		var buf bytes.Buffer
@@ -371,38 +415,7 @@ func handleTemplateLine(line string) (string, bool) {
 	percentageCharReplacement := getRandomString(10)
 
 	params := patternTemplateParam{}
-	str := templateReplacementRegex.ReplaceAllStringFunc(line, func(s string) string {
-		s = strings.TrimSpace(s[2 : len(s)-2])
-		if len(s) == 0 {
-			return ""
-		}
-
-		forceUnquoted := false
-		if s[0] == '=' {
-			forceUnquoted = true
-			s = s[1:]
-		}
-
-		placeholder := "%v"
-		var valueExpr string
-		if len(s) > 1 && s[1] == ' ' {
-			valueExpr = s[1:]
-			placeholder = "%" + string(s[0])
-		} else {
-			valueExpr = s
-		}
-
-		if !forceUnquoted && placeholder == "%s" {
-			valueExpr = "_escape(" + valueExpr + ")"
-		}
-
-		if strings.HasPrefix(s, "/*") && strings.HasSuffix(s, "*/") {
-			return ""
-		}
-
-		params.Args = append(params.Args, strings.Replace(valueExpr, "%", percentageCharReplacement, -1))
-		return strings.Replace(placeholder, "%", percentageCharReplacement, -1)
-	})
+	str := line
 	params.Template = quote(str)
 
 	var buf bytes.Buffer

@@ -52,6 +52,7 @@ func (tp templateParams) ArgNamesJoined() string {
 }
 
 func (tp *templateParams) addComment(filename, line string) {
+	return // TODO
 	comment := fmt.Sprintf("//%s: %s", filename, strings.TrimRight(line, "\n\r \t"))
 	tp.Lines = append(tp.Lines, comment)
 }
