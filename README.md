@@ -283,4 +283,3 @@ Ideally, the data should be prepared before the template function, and the only 
 # License
 
 ftmpl is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
-
