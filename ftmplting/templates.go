@@ -1,7 +1,6 @@
 package ftmplting
 
 import (
-	"fmt"
 	"strings"
 	texttmpl "text/template"
 )
@@ -49,11 +48,6 @@ func (tp templateParams) ArgNamesJoined() string {
 		argNames = append(argNames, strings.Split(arg, " ")[0])
 	}
 	return strings.Join(argNames, ", ")
-}
-
-func (tp *templateParams) addComment(filename, line string) {
-	comment := fmt.Sprintf("//%s: %s", filename, strings.TrimRight(line, "\n\r \t"))
-	tp.Lines = append(tp.Lines, comment)
 }
 
 var initFunctionTemplate = `func init() {

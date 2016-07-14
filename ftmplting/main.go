@@ -202,6 +202,63 @@ func loadTemplateSubChunks(lines []string) (general []string, subsections map[st
 	return general, subsections
 }
 
+func getLines(str string) []string {
+	delimiter := "<<<" + getRandomString(15) + ">>>"
+	res := ""
+	lines := strings.Split(str, "\n")
+	for n, line := range lines {
+		if n < len(lines)-1 {
+			line += "\n"
+		}
+
+		//fmt.Printf("line=%s\n", line)
+		if len(line) == 0 {
+		} else if strings.HasPrefix(line, "!!") {
+			res += line
+		} else if line[0] == '!' {
+			res += delimiter + line + delimiter
+		} else {
+			res += templateReplacementRegex.ReplaceAllStringFunc(line, func(s string) string {
+				s = strings.TrimSpace(s[2 : len(s)-2])
+				if len(s) == 0 {
+					return ""
+				}
+
+				if s[0] == '!' {
+					return delimiter + s + delimiter
+				}
+
+				forceUnquoted := false
+				if s[0] == '=' {
+					forceUnquoted = true
+					s = s[1:]
+				}
+
+				placeholder := "%v"
+				var valueExpr string
+				if len(s) > 1 && s[1] == ' ' {
+					valueExpr = s[1:]
+					placeholder = "%" + string(s[0])
+				} else {
+					valueExpr = s
+				}
+
+				if !forceUnquoted && placeholder == "%s" {
+					valueExpr = "_escape(" + valueExpr + ")"
+				}
+
+				if strings.HasPrefix(s, "/*") && strings.HasSuffix(s, "*/") {
+					return ""
+				}
+
+				line := fmt.Sprintf("!_, _ = result.WriteString(fmt.Sprintf(`%s`, %s))", placeholder, valueExpr)
+				return delimiter + line + delimiter
+			})
+		}
+	}
+	return strings.Split(res, delimiter)
+}
+
 // Loads the file and process it to get lines.
 //
 // Note that "line" is not always a line from the template it is part of the template which will be converted to a line of code.
@@ -209,20 +266,7 @@ func loadTemplateAndGetLines(fileName string, keepNoCompile bool) []string {
 	str, err := loadFile(fileName)
 	HandleError(err, "Error reading "+fileName)
 
-	lineDelimiter := getRandomString(15)
-	str = strings.Replace(str, "\n", "\n"+lineDelimiter, -1)
-
-	r := regexp.MustCompile("{{!.*?}}")
-	str = r.ReplaceAllStringFunc(str, func(s string) string {
-		// In this case there is no \n before the line delimiter:
-		result := strings.TrimSpace(s[3 : len(s)-2])
-
-		result = lineDelimiter + "!" + result + lineDelimiter
-
-		return result
-	})
-
-	lines := strings.Split(str, lineDelimiter)
+	lines := getLines(str)
 
 	// Process inserted templates:
 	var expandedLines []string
@@ -296,7 +340,6 @@ func convertTemplate(packageDir, file string, params convertTemplateParams) comp
 		} else if strings.HasPrefix(line, cmdReturn) {
 			tmplParams.Lines = append(tmplParams.Lines, "return result.String(), nil")
 		} else if strings.HasPrefix(line, cmdErrorif) {
-			tmplParams.addComment(file, line)
 			parts := strings.Split(line[len(cmdErrorif):], "???")
 			expression := parts[0]
 			message := fmt.Sprintf("Error checking %s", expression)
@@ -308,19 +351,16 @@ func convertTemplate(packageDir, file string, params convertTemplateParams) comp
 			handleLineError(err, line)
 			tmplParams.Lines = append(tmplParams.Lines, errBuffer.String())
 		} else if strings.HasPrefix(line, "!#") {
-			tmplParams.addComment(file, line)
+			// Ignore
 		} else if strings.HasPrefix(line, "!!") {
 			line = line[1:]
 			if l, ok := handleTemplateLine(line); ok {
-				tmplParams.addComment(file, line)
 				tmplParams.Lines = append(tmplParams.Lines, l)
 			}
 		} else if strings.HasPrefix(line, "!") {
-			tmplParams.addComment(file, line)
 			tmplParams.Lines = append(tmplParams.Lines, prepareCommandLine(line[1:]))
 		} else {
 			if l, ok := handleTemplateLine(line); ok {
-				tmplParams.addComment(file, line)
 				tmplParams.Lines = append(tmplParams.Lines, l)
 			}
 		}
@@ -359,58 +399,8 @@ func prepareCommandLine(line string) string {
 }
 
 func handleTemplateLine(line string) (string, bool) {
-	if !strings.Contains(line, "{{") {
-		var buf bytes.Buffer
-		err := stringTemplate.Execute(&buf, quote(line))
-		handleLineError(err, line)
-		return buf.String(), len(line) > 0
-	}
-
-	// We need to change "%" to "%%" (otherwise it messes with replacements) but we need to leave them in the template
-	// expressions {{d 15 % 3 }}!
-	percentageCharReplacement := getRandomString(10)
-
-	params := patternTemplateParam{}
-	str := templateReplacementRegex.ReplaceAllStringFunc(line, func(s string) string {
-		s = strings.TrimSpace(s[2 : len(s)-2])
-		if len(s) == 0 {
-			return ""
-		}
-
-		forceUnquoted := false
-		if s[0] == '=' {
-			forceUnquoted = true
-			s = s[1:]
-		}
-
-		placeholder := "%v"
-		var valueExpr string
-		if len(s) > 1 && s[1] == ' ' {
-			valueExpr = s[1:]
-			placeholder = "%" + string(s[0])
-		} else {
-			valueExpr = s
-		}
-
-		if !forceUnquoted && placeholder == "%s" {
-			valueExpr = "_escape(" + valueExpr + ")"
-		}
-
-		if strings.HasPrefix(s, "/*") && strings.HasSuffix(s, "*/") {
-			return ""
-		}
-
-		params.Args = append(params.Args, strings.Replace(valueExpr, "%", percentageCharReplacement, -1))
-		return strings.Replace(placeholder, "%", percentageCharReplacement, -1)
-	})
-	params.Template = quote(str)
-
 	var buf bytes.Buffer
-	err := patternTemplate.Execute(&buf, params)
+	err := stringTemplate.Execute(&buf, quote(line))
 	handleLineError(err, line)
-
-	result := buf.String()
-	result = strings.Replace(result, "%", "%%", -1)
-	result = strings.Replace(result, percentageCharReplacement, "%", -1)
-	return result, true
+	return buf.String(), len(line) > 0
 }
