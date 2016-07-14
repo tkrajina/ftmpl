@@ -8,6 +8,7 @@ compile-examples:
 	rm example/invalid/invalid.go
 test: compile-examples
 	go test -v .
+	cd ftmplting && go test -v .
 
 install-tools:
 	go get -u github.com/fzipp/gocyclo
