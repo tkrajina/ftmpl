@@ -44,11 +44,11 @@ Num:10`
 
 func TestBasicCode(t *testing.T) {
 	result := example.TMPLBasicCode("aaa", 5)
-	expected := `0
-1
-2
-3
-4`
+	expected := `0!...
+1!...
+2!...
+3!...
+4!...`
 	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
 		t.Error("Expected:", expected, "was:", result)
 	}
