@@ -4,6 +4,8 @@ install:
 	go install .
 compile-examples:
 	go run ftmpl.go -targetgo example/compiled.go example
+	# Don't leave invalid go files in the repository
+	rm example/invalid/invalid.go
 test: compile-examples
 	go test -v .
 
