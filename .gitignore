@@ -4,3 +4,4 @@ tmp_*
 tmp/*
 ftmpl
 .DS_Store
+example/invalid/*.go
