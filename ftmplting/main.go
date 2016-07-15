@@ -41,6 +41,7 @@ type compiledTemplate struct {
 	functionCode string
 }
 
+var exclamationMarkFixRegex = regexp.MustCompile("{{.*?}}\\!")
 var templateReplacementRegex = regexp.MustCompile("{{.*?}}")
 
 func Do(ap Params) {
@@ -218,6 +219,9 @@ func getLines(str string) []string {
 		} else if line[0] == '!' {
 			res += delimiter + line + delimiter
 		} else {
+			line = exclamationMarkFixRegex.ReplaceAllStringFunc(line, func(s string) string {
+				return s + "!"
+			})
 			res += templateReplacementRegex.ReplaceAllStringFunc(line, func(s string) string {
 				s = strings.TrimSpace(s[2 : len(s)-2])
 				if len(s) == 0 {

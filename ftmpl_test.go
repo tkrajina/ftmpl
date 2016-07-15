@@ -42,6 +42,15 @@ Num:10`
 	}
 }
 
+func TestWithExclamationMark(t *testing.T) {
+	result := example.TMPLWithExclamationMark()
+	expected := `Something here 5! And something here.
+And something here: true!`
+	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
+		t.Error("Expected:", expected, "was:", result)
+	}
+}
+
 func TestBasicCode(t *testing.T) {
 	result := example.TMPLBasicCode("aaa", 5)
 	expected := `0

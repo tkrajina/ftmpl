@@ -336,6 +336,35 @@ func TMPLWithEndInsteadOfBrackets() string {
 	return html
 }
 
+// TMPLERRWithExclamationMark evaluates a template WithExclamationMark.tmpl
+func TMPLERRWithExclamationMark() (string, error) {
+	_template := "WithExclamationMark.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var result bytes.Buffer
+	_, _ = result.WriteString(`Something here `)
+	_, _ = result.WriteString(fmt.Sprintf(`%d`, 5))
+	_, _ = result.WriteString(`! And something `)
+	_, _ = result.WriteString(fmt.Sprintf(`%s`, _escape("here")))
+	_, _ = result.WriteString(`.
+And something here: `)
+	_, _ = result.WriteString(fmt.Sprintf(`%t`, true))
+	_, _ = result.WriteString(`!
+`)
+
+	return result.String(), nil
+}
+
+// TMPLWithExclamationMark evaluates a template WithExclamationMark.tmpl
+func TMPLWithExclamationMark() string {
+	html, err := TMPLERRWithExclamationMark()
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template WithExclamationMark.tmpl:" + err.Error())
+	}
+	return html
+}
+
 type Argument struct {
 	Aaa string
 	Bbb int
