@@ -51,6 +51,14 @@ And something here: true!`
 	}
 }
 
+func TestWithDirectWriting(t *testing.T) {
+	result := example.TMPLWithDirectWriting()
+	expected := `This is Written directly to ftmplresult`
+	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
+		t.Error("Expected:", expected, "was:", result)
+	}
+}
+
 func TestBasicCode(t *testing.T) {
 	result := example.TMPLBasicCode("aaa", 5)
 	expected := `0

@@ -12,10 +12,10 @@ func {{ .ErrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) (string, error) {
 	_ = _template
 	_escape := {{ .EscapeFunc }}
 	_ = _escape
-	var result bytes.Buffer
+	var _ftmpl bytes.Buffer
 {{ range .Lines }}{{ . }}
 {{ end }}
-	return result.String(), nil
+	return _ftmpl.String(), nil
 }
 
 // {{ .NoerrFuncPrefix }}{{ .FuncName }} evaluates a template {{ .TemplateFile }}
@@ -69,11 +69,11 @@ type errParams struct {
 	Expression, Message string
 }
 
-var stringTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = result.WriteString(` + "`" + `{{ . }}` + "`" + `)`))
+var stringTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = _ftmpl.WriteString(` + "`" + `{{ . }}` + "`" + `)`))
 
-var newlineTemplate = `_, _ = result.WriteString("\\n")`
+var newlineTemplate = `_, _ = _ftmpl.WriteString("\\n")`
 
-var patternTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = result.WriteString(fmt.Sprintf(` + "`" + `{{ .Template }}` + "`" + `, {{ .ArgsJoined }}))`))
+var patternTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = _ftmpl.WriteString(fmt.Sprintf(` + "`" + `{{ .Template }}` + "`" + `, {{ .ArgsJoined }}))`))
 
 type patternTemplateParam struct {
 	Template string

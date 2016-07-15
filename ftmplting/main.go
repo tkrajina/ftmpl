@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-const VERSION = "v0.2.1"
+const VERSION = "v0.2.2"
 
 const (
 	cmdPrefix    = "!#"
@@ -293,7 +293,7 @@ func getChunks(str string) []string {
 					return ""
 				}
 
-				res := fmt.Sprintf("!_, _ = result.WriteString(fmt.Sprintf(`%s`, %s))", placeholder, valueExpr)
+				res := fmt.Sprintf("!_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, %s))", placeholder, valueExpr)
 				return delimiter + res + delimiter
 			})
 		}
@@ -380,7 +380,7 @@ func convertTemplate(packageDir, file string, params convertTemplateParams) comp
 		} else if strings.HasPrefix(chunk, cmdImport) {
 			result.imports = append(result.imports, strings.TrimSpace(chunk[len(cmdImport):]))
 		} else if strings.HasPrefix(chunk, cmdReturn) {
-			tmplParams.Lines = append(tmplParams.Lines, "return result.String(), nil")
+			tmplParams.Lines = append(tmplParams.Lines, "return _ftmpl.String(), nil")
 		} else if strings.HasPrefix(chunk, cmdErrorif) {
 			parts := strings.Split(chunk[len(cmdErrorif):], "???")
 			expression := parts[0]

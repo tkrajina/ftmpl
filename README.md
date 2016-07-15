@@ -276,6 +276,8 @@ The `Argument` struct will be declared outside the function body, and the functi
 
 `_template` is defined in the function and contains the current template name.
 
+`_ftmpl` is a `bytes.Buffer` which contains the result of the template. It means that `{{! _ftmpl.WriteString("something") }}` is equivalent to `{{=s "something" }}`.
+
 ## Careful with Go code
 
 Ftmpl allows you to write go code (instead of templating "metalanguages", like other templating engines), but be careful to not write too much of it. 
