@@ -1,4 +1,4 @@
-// package example is generated with ftmpl {{{v0.2.0}}}, do not edit!!!! */
+// package example is generated with ftmpl {{{v0.2.1}}}, do not edit!!!! */
 package example
 
 import (
@@ -240,11 +240,6 @@ func TMPLERRExtendsEmbedded(title string, something int) (string, error) {
 	_escape := html.EscapeString
 	_ = _escape
 	var result bytes.Buffer
-	_, _ = result.WriteString(`
-`)
-	_, _ = result.WriteString(`
-
-`)
 	_, _ = result.WriteString(`
 <html>
     <head>

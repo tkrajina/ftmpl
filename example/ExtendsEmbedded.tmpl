@@ -1,5 +1,7 @@
-{{!#extends BaseEmbedded}}
-{{!#arg something int}}
+!#extends BaseEmbedded
+!#arg something int
+!#sub unused
+This code will not be used in the base template, but the compiler should write a warning about it!!!
 
 {{!#sub head}}
 <script>

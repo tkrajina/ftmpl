@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-const VERSION = "v0.2.0"
+const VERSION = "v0.2.1"
 
 const (
 	cmdPrefix    = "!#"
@@ -84,6 +84,15 @@ func Do(ap Params) {
 	}
 }
 
+func printfWarning(str string, args ...interface{}) {
+	if !strings.HasSuffix(str, "\n") {
+		str += "\n"
+	}
+	fmt.Fprintln(os.Stderr, "----------------------------------------------------------------------------------------------------")
+	fmt.Fprintf(os.Stderr, str, args...)
+	fmt.Fprintln(os.Stderr, "----------------------------------------------------------------------------------------------------")
+}
+
 func saveTemplates(destination string, compiled ...compiledTemplate) {
 	fmt.Sprintln("destination=", destination)
 
@@ -92,16 +101,12 @@ func saveTemplates(destination string, compiled ...compiledTemplate) {
 		_, _ = f.Read(bytes)
 		previousVersion := regexp.MustCompile("{{{.*?}}}").Find(bytes)
 		if len(previousVersion) == 0 {
-			fmt.Fprintln(os.Stderr, "----------------------------------------------------------------------------------------------------")
-			fmt.Fprintf(os.Stderr, "Previous version not found in %s!\n", destination)
-			fmt.Fprintln(os.Stderr, "----------------------------------------------------------------------------------------------------")
+			printfWarning("Previous version not found in %s!\n", destination)
 		} else {
 			prev := strings.Replace(string(previousVersion), "{{{", "", 1)
 			prev = strings.Replace(prev, "}}}", "", 1)
 			if prev != VERSION {
-				fmt.Fprintln(os.Stderr, "----------------------------------------------------------------------------------------------------")
-				fmt.Fprintf(os.Stderr, "%s was previously compiled with %s, new version is %s!\n", destination, prev, VERSION)
-				fmt.Fprintln(os.Stderr, "----------------------------------------------------------------------------------------------------")
+				printfWarning("%s was previously compiled with %s, new version is %s!\n", destination, prev, VERSION)
 			}
 		}
 	}
@@ -167,6 +172,11 @@ func processExtending(pckg string, chunks []string) []string {
 	// Parse sub template chunks:
 	subTemplateCode, subTemplateChunks := loadTemplateSubChunks(chunks)
 
+	var usedSubtemplateChunks = map[string]bool{}
+	for k, _ := range subTemplateChunks {
+		usedSubtemplateChunks[k] = false
+	}
+
 	// Merge them together:
 	var result []string
 
@@ -183,6 +193,7 @@ func processExtending(pckg string, chunks []string) []string {
 		if strings.HasPrefix(chunk, cmdInclude) {
 			subName := strings.TrimSpace(chunk[len(cmdInclude):])
 			if subLines, found := subTemplateChunks[subName]; found {
+				usedSubtemplateChunks[subName] = true
 				for _, subChunk := range subLines {
 					result = append(result, subChunk)
 				}
@@ -195,6 +206,12 @@ func processExtending(pckg string, chunks []string) []string {
 	// This is because we want the subtemplate args to be after the base template args in the function definition:
 	for _, chunk := range subTemplateArgsCode {
 		result = append(result, chunk)
+	}
+
+	for name, used := range usedSubtemplateChunks {
+		if !used {
+			printfWarning("Sub %s is declared but never used", name)
+		}
 	}
 
 	return result
