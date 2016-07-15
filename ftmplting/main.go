@@ -12,6 +12,8 @@ import (
 	"strings"
 )
 
+const VERSION = "v0.2.0"
+
 const (
 	cmdPrefix    = "!#"
 	cmdNocompile = "!#nocompile"
@@ -85,6 +87,25 @@ func Do(ap Params) {
 func saveTemplates(destination string, compiled ...compiledTemplate) {
 	fmt.Sprintln("destination=", destination)
 
+	if f, err := os.Open(destination); err == nil {
+		var bytes = make([]byte, 200)
+		_, _ = f.Read(bytes)
+		previousVersion := regexp.MustCompile("{{{.*?}}}").Find(bytes)
+		if len(previousVersion) == 0 {
+			fmt.Fprintln(os.Stderr, "----------------------------------------------------------------------------------------------------")
+			fmt.Fprintf(os.Stderr, "Previous version not found in %s!\n", destination)
+			fmt.Fprintln(os.Stderr, "----------------------------------------------------------------------------------------------------")
+		} else {
+			prev := strings.Replace(string(previousVersion), "{{{", "", 1)
+			prev = strings.Replace(prev, "}}}", "", 1)
+			if prev != VERSION {
+				fmt.Fprintln(os.Stderr, "----------------------------------------------------------------------------------------------------")
+				fmt.Fprintf(os.Stderr, "%s was previously compiled with %s, new version is %s!\n", destination, prev, VERSION)
+				fmt.Fprintln(os.Stderr, "----------------------------------------------------------------------------------------------------")
+			}
+		}
+	}
+
 	var imports []string
 	for _, c := range compiled {
 		imports = append(imports, c.imports...)
@@ -102,7 +123,7 @@ func saveTemplates(destination string, compiled ...compiledTemplate) {
 	HandleError(err, "Error creating file")
 	defer fOut.Close()
 
-	_, _ = fOut.WriteString("// package " + packageName + " is generated, do not edit!!!! */\n")
+	_, _ = fOut.WriteString("// package " + packageName + " is generated with ftmpl {{{" + VERSION + "}}}, do not edit!!!! */\n")
 	_, _ = fOut.WriteString("package " + packageName + "\n\n")
 	_, _ = fOut.WriteString("import (\n")
 	for _, i := range imports {
