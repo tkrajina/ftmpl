@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"math"
 	"strings"
 	"testing"
 	texttmpl "text/template"
@@ -38,6 +39,23 @@ Unescaped:<aaa&...
 Num:10`
 	if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
 		t.Error(explanation)
+	}
+}
+
+func TestWithExclamationMark(t *testing.T) {
+	result := example.TMPLWithExclamationMark()
+	expected := `Something here 5! And something here.
+And something here: true!`
+	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
+		t.Error("Expected:", expected, "was:", result)
+	}
+}
+
+func TestWithDirectWriting(t *testing.T) {
+	result := example.TMPLWithDirectWriting()
+	expected := `This is Written directly to ftmplresult`
+	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
+		t.Error("Expected:", expected, "was:", result)
 	}
 }
 
@@ -179,7 +197,7 @@ var golangTemplate = texttmpl.Must(texttmpl.New("").Parse(`
 
 func TestNonCodeStartingWithExclamationMark(t *testing.T) {
 	result := example.TMPLNoncodeLineWithExclamationMark()
-	expected := `!s1 := "This lins is not a code line"
+	expected := `!s1 := "This line is not a code line"
 This *is* a line of code`
 	if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
 		t.Error(explanation)
@@ -277,6 +295,13 @@ func linesEquals(str1, str2 string) (explanation string, equals bool) {
 	for i := 0; i < len(lines1); i++ {
 		line1 := lines1[i]
 		line2 := lines2[i]
+		for i := 0; i < int(math.Min(float64(len(line1)), float64(len(line2)))); i++ {
+			ch1 := line1[i]
+			ch2 := line2[i]
+			if ch1 != ch2 {
+				return fmt.Sprintf("Line #%d don't match \"%s\"!=\"%s\" in character #%d: %c!=%c", i, line1, line2, i, ch1, ch2), false
+			}
+		}
 		if line1 != line2 {
 			return fmt.Sprintf("Line #%d don't match \"%s\"!=\"%s\"", i, line1, line2), false
 		}

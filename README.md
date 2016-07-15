@@ -196,6 +196,8 @@ If the name of the extended template is `MyPage.tmpl` then the resulting templat
 Typically you will have many template arguments, so the best way to deal with them is to pack them all into one "base page structure" and another struct for every page.
 The function will then be `func TMPLMyPage(baseParams BasePageParams, pageParams MyPageParams)`
 
+If a `!#sub` chunk is declared in the extended template, but not in the base -- `ftmpl` will show you a warning during compilation, but it will be present int the compiled code.
+
 ## Inserting (sub)templates
 
 Sometimes you need some templates just "copied" in other templates. You can do that with `!#insert`. For example:
@@ -273,6 +275,8 @@ The `Argument` struct will be declared outside the function body, and the functi
 ## Special variables
 
 `_template` is defined in the function and contains the current template name.
+
+`_ftmpl` is a `bytes.Buffer` which contains the result of the template. It means that `{{! _ftmpl.WriteString("something") }}` is equivalent to `{{=s "something" }}`.
 
 ## Careful with Go code
 

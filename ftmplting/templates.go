@@ -1,7 +1,6 @@
 package ftmplting
 
 import (
-	"fmt"
 	"strings"
 	texttmpl "text/template"
 )
@@ -13,10 +12,10 @@ func {{ .ErrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) (string, error) {
 	_ = _template
 	_escape := {{ .EscapeFunc }}
 	_ = _escape
-	var result bytes.Buffer
+	var _ftmpl bytes.Buffer
 {{ range .Lines }}{{ . }}
 {{ end }}
-	return result.String(), nil
+	return _ftmpl.String(), nil
 }
 
 // {{ .NoerrFuncPrefix }}{{ .FuncName }} evaluates a template {{ .TemplateFile }}
@@ -51,11 +50,6 @@ func (tp templateParams) ArgNamesJoined() string {
 	return strings.Join(argNames, ", ")
 }
 
-func (tp *templateParams) addComment(filename, line string) {
-	comment := fmt.Sprintf("//%s: %s", filename, strings.TrimRight(line, "\n\r \t"))
-	tp.Lines = append(tp.Lines, comment)
-}
-
 var initFunctionTemplate = `func init() {
 	_ = fmt.Sprintf
 	_ = errors.New
@@ -75,11 +69,11 @@ type errParams struct {
 	Expression, Message string
 }
 
-var stringTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = result.WriteString(` + "`" + `{{ . }}` + "`" + `)`))
+var stringTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = _ftmpl.WriteString(` + "`" + `{{ . }}` + "`" + `)`))
 
-var newlineTemplate = `_, _ = result.WriteString("\\n")`
+var newlineTemplate = `_, _ = _ftmpl.WriteString("\\n")`
 
-var patternTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = result.WriteString(fmt.Sprintf(` + "`" + `{{ .Template }}` + "`" + `, {{ .ArgsJoined }}))`))
+var patternTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = _ftmpl.WriteString(fmt.Sprintf(` + "`" + `{{ .Template }}` + "`" + `, {{ .ArgsJoined }}))`))
 
 type patternTemplateParam struct {
 	Template string

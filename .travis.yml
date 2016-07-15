@@ -6,5 +6,6 @@ go:
  - 1.6
 
 install:
+ - go get github.com/stretchr/testify/assert
  - go get github.com/howeyc/fsnotify
  - make test

@@ -6,6 +6,7 @@ compile-examples:
 	go run ftmpl.go -targetgo example/compiled.go example
 test: compile-examples
 	go test -v .
+	cd ftmplting && go test -v .
 
 install-tools:
 	go get -u github.com/fzipp/gocyclo
