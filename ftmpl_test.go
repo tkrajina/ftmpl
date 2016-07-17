@@ -17,7 +17,9 @@ func TestBasic(t *testing.T) {
 	result := example.TMPLbasic("aaa", 10)
 	expected := `String:aaa
 Unescaped:aaa
-Num:10`
+Num:10
+This {{ is ignored
+So is this }} !`
 	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
 		t.Error("Expected:", expected, "was:", result)
 	}
@@ -36,7 +38,9 @@ func TestBasicEscaped(t *testing.T) {
 	result := example.TMPLbasic("<aaa&...", 10)
 	expected := `String:&lt;aaa&amp;...
 Unescaped:<aaa&...
-Num:10`
+Num:10
+This {{ is ignored
+So is this }} !`
 	if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
 		t.Error(explanation)
 	}
@@ -45,7 +49,7 @@ Num:10`
 func TestWithExclamationMark(t *testing.T) {
 	result := example.TMPLWithExclamationMark()
 	expected := `Something here 5! And something here.
-And something here: true!`
+And something here: true! And here, too!! Hey, one more!!!`
 	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
 		t.Error("Expected:", expected, "was:", result)
 	}

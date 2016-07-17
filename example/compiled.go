@@ -369,7 +369,11 @@ func TMPLERRWithExclamationMark() (string, error) {
 	_, _ = _ftmpl.WriteString(`.
 And something here: `)
 	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%t`, true))
-	_, _ = _ftmpl.WriteString(`!
+	_, _ = _ftmpl.WriteString(`! And `)
+	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape("here, too")))
+	_, _ = _ftmpl.WriteString(`!! Hey, one `)
+	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape("more")))
+	_, _ = _ftmpl.WriteString(`!!!
 `)
 
 	return _ftmpl.String(), nil
@@ -486,6 +490,8 @@ Unescaped:`)
 Num:`)
 	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, num))
 	_, _ = _ftmpl.WriteString(`
+This {{ is ignored
+So is this }} !
 `)
 
 	return _ftmpl.String(), nil
