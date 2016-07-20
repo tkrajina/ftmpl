@@ -286,7 +286,10 @@ func TMPLERRFmtFormat() (string, error) {
 	_escape := html.EscapeString
 	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`A number:`)
+	_, _ = _ftmpl.WriteString(`A simple int:`)
+	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d `, 10))
+	_, _ = _ftmpl.WriteString(`
+A number:`)
 	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%1.2f `, 2.3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333))
 	_, _ = _ftmpl.WriteString(`
 A padded string:`)
