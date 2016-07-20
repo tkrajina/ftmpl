@@ -287,13 +287,19 @@ func TMPLERRFmtFormat() (string, error) {
 	_ = _escape
 	var _ftmpl bytes.Buffer
 	_, _ = _ftmpl.WriteString(`A simple int:`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d `, 10))
+	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, 10))
 	_, _ = _ftmpl.WriteString(`
 A number:`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%1.2f `, 2.3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333))
+	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%1.2f`, 2.3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333))
 	_, _ = _ftmpl.WriteString(`
 A padded string:`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`% 10s `, "padded"))
+	_, _ = _ftmpl.WriteString(fmt.Sprintf(`% 10s`, _escape("padded")))
+	_, _ = _ftmpl.WriteString(`
+A padded string #2:`)
+	_, _ = _ftmpl.WriteString(fmt.Sprintf(`% 10s`, _escape("&&&&")))
+	_, _ = _ftmpl.WriteString(`
+A padded string #3:`)
+	_, _ = _ftmpl.WriteString(fmt.Sprintf(`% 10s`, "&&&&"))
 	_, _ = _ftmpl.WriteString(`
 `)
 

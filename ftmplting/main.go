@@ -295,7 +295,8 @@ func getChunks(str string) []string {
 
 				placeholder = strings.TrimSpace(placeholder)
 				valueExpr = strings.TrimSpace(valueExpr)
-				if !forceUnquoted && placeholder == "%s" {
+
+				if !forceUnquoted && strings.HasSuffix(placeholder, "s") {
 					valueExpr = "_escape(" + valueExpr + ")"
 				}
 

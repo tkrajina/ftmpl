@@ -264,9 +264,11 @@ func TestInsert(t *testing.T) {
 
 func TestFmtFormat(t *testing.T) {
 	withInsert := example.TMPLFmtFormat()
-	expected := `A simple int:10 
-A number:2.33 
-A padded string:    padded `
+	expected := `A simple int:10
+A number:2.33
+A padded string:    padded
+A padded string #2:&amp;&amp;&amp;&amp;
+A padded string #3:      &&&&`
 	if explanation, ok := linesEquals(withInsert, expected); !ok {
 		t.Error(explanation)
 	}
