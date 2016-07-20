@@ -92,6 +92,11 @@ It's simple, when compiled `{{s expression }}` will end up as `fmt.Sprintf("...%
 
 `{{ expression }}` is the same as `{{v expression }}`.
 
+For more complex formatting, prefix with `%`:
+
+ * `{{%5.5f 1.222222222 }}` is equivalent to `fmt.Sprintf("%5.5f", 1.222222222)`
+ * `{{% 15f "padded" }}` is equivalent to `fmt.Sprintf("% 15f", "padded")`
+
 ### Escape and unsecape
 
 If you use `{{s expresssion }}` the result will be escaped using `html.EscapeString()`. If you want to write *the exact same string* (without escaping), use `{{=s expression }}`.
