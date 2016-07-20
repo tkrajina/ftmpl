@@ -88,7 +88,7 @@ Use:
  * `{{t expression }}` for bool expressions
  * ...
 
-It's simple, when compiled `{{s expression }}` will end up as `fmt.Sprintf("...%s...", expression)`, `{{v expression }}` as `fmt.Sprintf("...%v...", expression)`, etc.
+It's simple, when compiled `{{s expression }}` will end up as `fmt.Sprintf("%s", expression)`, `{{v expression }}` as `fmt.Sprintf("%v", expression)`, etc.
 
 `{{ expression }}` is the same as `{{v expression }}`.
 
