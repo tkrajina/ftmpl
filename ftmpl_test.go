@@ -262,6 +262,15 @@ func TestInsert(t *testing.T) {
 	}
 }
 
+func TestFmtFormat(t *testing.T) {
+	withInsert := example.TMPLFmtFormat()
+	expected := `A number:2.33 
+A padded string:    padded `
+	if explanation, ok := linesEquals(withInsert, expected); !ok {
+		t.Error(explanation)
+	}
+}
+
 func TestNoBrackets(t *testing.T) {
 	expected := `i=0
 i=1

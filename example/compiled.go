@@ -279,6 +279,33 @@ func TMPLExtendsEmbedded(title string, something int) string {
 	return html
 }
 
+// TMPLERRFmtFormat evaluates a template FmtFormat.tmpl
+func TMPLERRFmtFormat() (string, error) {
+	_template := "FmtFormat.tmpl"
+	_ = _template
+	_escape := html.EscapeString
+	_ = _escape
+	var _ftmpl bytes.Buffer
+	_, _ = _ftmpl.WriteString(`A number:`)
+	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%1.2f `, 2.3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333))
+	_, _ = _ftmpl.WriteString(`
+A padded string:`)
+	_, _ = _ftmpl.WriteString(fmt.Sprintf(`% 10s `, "padded"))
+	_, _ = _ftmpl.WriteString(`
+`)
+
+	return _ftmpl.String(), nil
+}
+
+// TMPLFmtFormat evaluates a template FmtFormat.tmpl
+func TMPLFmtFormat() string {
+	html, err := TMPLERRFmtFormat()
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template FmtFormat.tmpl:" + err.Error())
+	}
+	return html
+}
+
 // TMPLERRNoncodeLineWithExclamationMark evaluates a template NoncodeLineWithExclamationMark.tmpl
 func TMPLERRNoncodeLineWithExclamationMark() (string, error) {
 	_template := "NoncodeLineWithExclamationMark.tmpl"
