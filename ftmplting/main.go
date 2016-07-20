@@ -293,6 +293,8 @@ func getChunks(str string) []string {
 					valueExpr = s
 				}
 
+				placeholder = strings.TrimSpace(placeholder)
+				valueExpr = strings.TrimSpace(valueExpr)
 				if !forceUnquoted && placeholder == "%s" {
 					valueExpr = "_escape(" + valueExpr + ")"
 				}
