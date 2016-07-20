@@ -201,7 +201,7 @@ If the name of the extended template is `MyPage.tmpl` then the resulting templat
 Typically you will have many template arguments, so the best way to deal with them is to pack them all into one "base page structure" and another struct for every page.
 The function will then be `func TMPLMyPage(baseParams BasePageParams, pageParams MyPageParams)`
 
-If a `!#sub` chunk is declared in the extended template, but not in the base -- `ftmpl` will show you a warning during compilation, but it will be present int the compiled code.
+If a `!#sub` chunk is declared in the extended template, but not in the base -- `ftmpl` will show you a warning during compilation.
 
 ## Inserting (sub)templates
 
