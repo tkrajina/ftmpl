@@ -101,7 +101,7 @@ For more complex formatting, prefix with `%`:
 
 If you use `{{s expresssion }}` the result will be escaped using `html.EscapeString()`. If you want to write *the exact same string* (without escaping), use `{{=s expression }}`.
 
-**Important** that `{{v expression }}` *is not escaped* even when the resulting expression is a string!
+**Important** `{{v expression }}` *is not escaped* even when the resulting expression is a string!
 
 ## Code
 
