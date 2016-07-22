@@ -17,7 +17,9 @@ func TestBasic(t *testing.T) {
 	result := example.TMPLbasic("aaa", 10)
 	expected := `String:aaa
 Unescaped:aaa
-Num:10`
+Num:10
+This {{ is ignored
+So is this }} !`
 	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
 		t.Error("Expected:", expected, "was:", result)
 	}
@@ -36,7 +38,9 @@ func TestBasicEscaped(t *testing.T) {
 	result := example.TMPLbasic("<aaa&...", 10)
 	expected := `String:&lt;aaa&amp;...
 Unescaped:<aaa&...
-Num:10`
+Num:10
+This {{ is ignored
+So is this }} !`
 	if explanation, ok := linesEquals(strings.TrimSpace(expected), strings.TrimSpace(result)); !ok {
 		t.Error(explanation)
 	}
@@ -45,7 +49,7 @@ Num:10`
 func TestWithExclamationMark(t *testing.T) {
 	result := example.TMPLWithExclamationMark()
 	expected := `Something here 5! And something here.
-And something here: true!`
+And something here: true! And here, too!! Hey, one more!!!`
 	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
 		t.Error("Expected:", expected, "was:", result)
 	}
@@ -53,7 +57,7 @@ And something here: true!`
 
 func TestWithDirectWriting(t *testing.T) {
 	result := example.TMPLWithDirectWriting()
-	expected := `This is Written directly to ftmplresult`
+	expected := `This is Written directly to ftmplresult!`
 	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
 		t.Error("Expected:", expected, "was:", result)
 	}
@@ -253,6 +257,18 @@ func TestComparisonWithGolangTemplates(t *testing.T) {
 func TestInsert(t *testing.T) {
 	withInsert := example.TMPLWithInsert(5)
 	expected := `Will insert something here: a=5`
+	if explanation, ok := linesEquals(withInsert, expected); !ok {
+		t.Error(explanation)
+	}
+}
+
+func TestFmtFormat(t *testing.T) {
+	withInsert := example.TMPLFmtFormat()
+	expected := `A simple int:10
+A number:2.33
+A padded string:    padded
+A padded string #2:&amp;&amp;&amp;&amp;
+A padded string #3:      &&&&`
 	if explanation, ok := linesEquals(withInsert, expected); !ok {
 		t.Error(explanation)
 	}

@@ -9,10 +9,11 @@ var generatorTemplate = texttmpl.Must(texttmpl.New("").Parse(`{{ .GlobalCode }}
 // {{ .ErrFuncPrefix }}{{ .FuncName }} evaluates a template {{ .TemplateFile }}
 func {{ .ErrFuncPrefix }}{{ .FuncName }}({{ .ArgsJoined }}) (string, error) {
 	_template := "{{ .TemplateFile }}"
-	_ = _template
 	_escape := {{ .EscapeFunc }}
-	_ = _escape
 	var _ftmpl bytes.Buffer
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
 {{ range .Lines }}{{ . }}
 {{ end }}
 	return _ftmpl.String(), nil
@@ -69,17 +70,4 @@ type errParams struct {
 	Expression, Message string
 }
 
-var stringTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = _ftmpl.WriteString(` + "`" + `{{ . }}` + "`" + `)`))
-
-var newlineTemplate = `_, _ = _ftmpl.WriteString("\\n")`
-
-var patternTemplate = texttmpl.Must(texttmpl.New("").Parse(`_, _ = _ftmpl.WriteString(fmt.Sprintf(` + "`" + `{{ .Template }}` + "`" + `, {{ .ArgsJoined }}))`))
-
-type patternTemplateParam struct {
-	Template string
-	Args     []string
-}
-
-func (ptp patternTemplateParam) ArgsJoined() string {
-	return strings.Join(ptp.Args, ", ")
-}
+var stringTemplate = texttmpl.Must(texttmpl.New("").Parse(`_w(` + "`" + `{{ . }}` + "`" + `)`))

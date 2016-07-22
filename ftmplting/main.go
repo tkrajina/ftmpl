@@ -12,8 +12,6 @@ import (
 	"strings"
 )
 
-const VERSION = "v0.2.2"
-
 const (
 	cmdPrefix    = "!#"
 	cmdNocompile = "!#nocompile"
@@ -45,6 +43,7 @@ type compiledTemplate struct {
 
 var exclamationMarkFixRegex = regexp.MustCompile("{{.*?}}\\!")
 var templateReplacementRegex = regexp.MustCompile("{{.*?}}")
+var fmtFormatRegex = regexp.MustCompile("\\%\\s{0,1}[\\d\\.]*\\w\\s+")
 
 func Do(ap Params) {
 	var compiledTemplates []compiledTemplate
@@ -278,14 +277,24 @@ func getChunks(str string) []string {
 
 				placeholder := "%v"
 				var valueExpr string
-				if len(s) > 1 && s[1] == ' ' {
+				if len(s) > 0 && s[0] == '%' {
+					placeholders := fmtFormatRegex.FindAllString(s, -1)
+					if len(placeholders) == 0 {
+						panic("Cannot find valid fmt format in:" + s)
+					}
+					placeholder = placeholders[0]
+					valueExpr = s[len(placeholder):]
+				} else if len(s) > 1 && s[1] == ' ' {
 					valueExpr = s[1:]
 					placeholder = "%" + string(s[0])
 				} else {
 					valueExpr = s
 				}
 
-				if !forceUnquoted && placeholder == "%s" {
+				placeholder = strings.TrimSpace(placeholder)
+				valueExpr = strings.TrimSpace(valueExpr)
+
+				if !forceUnquoted && strings.HasSuffix(placeholder, "s") {
 					valueExpr = "_escape(" + valueExpr + ")"
 				}
 
@@ -293,7 +302,7 @@ func getChunks(str string) []string {
 					return ""
 				}
 
-				res := fmt.Sprintf("!_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, %s))", placeholder, valueExpr)
+				res := fmt.Sprintf("!_w(fmt.Sprintf(`%s`, %s))", placeholder, valueExpr)
 				return delimiter + res + delimiter
 			})
 		}

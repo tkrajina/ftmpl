@@ -88,15 +88,20 @@ Use:
  * `{{t expression }}` for bool expressions
  * ...
 
-It's simple, when compiled `{{s expression }}` will end up as `fmt.Sprintf("...%s...", expression)`, `{{v expression }}` as `fmt.Sprintf("...%v...", expression)`, etc.
+It's simple, when compiled `{{s expression }}` will end up as `fmt.Sprintf("%s", expression)`, `{{v expression }}` as `fmt.Sprintf("%v", expression)`, etc.
 
 `{{ expression }}` is the same as `{{v expression }}`.
+
+For more complex formatting, prefix with `%`:
+
+ * `{{%5.5f 1.222222222 }}` is equivalent to `fmt.Sprintf("%5.5f", 1.222222222)`
+ * `{{% 15f "padded" }}` is equivalent to `fmt.Sprintf("% 15f", "padded")`
 
 ### Escape and unsecape
 
 If you use `{{s expresssion }}` the result will be escaped using `html.EscapeString()`. If you want to write *the exact same string* (without escaping), use `{{=s expression }}`.
 
-**Important** that `{{v expression }}` *is not escaped* even when the resulting expression is a string!
+**Important** `{{v expression }}` *is not escaped* even when the resulting expression is a string!
 
 ## Code
 
@@ -196,7 +201,7 @@ If the name of the extended template is `MyPage.tmpl` then the resulting templat
 Typically you will have many template arguments, so the best way to deal with them is to pack them all into one "base page structure" and another struct for every page.
 The function will then be `func TMPLMyPage(baseParams BasePageParams, pageParams MyPageParams)`
 
-If a `!#sub` chunk is declared in the extended template, but not in the base -- `ftmpl` will show you a warning during compilation, but it will be present int the compiled code.
+If a `!#sub` chunk is declared in the extended template, but not in the base -- `ftmpl` will show you a warning during compilation.
 
 ## Inserting (sub)templates
 
@@ -276,7 +281,7 @@ The `Argument` struct will be declared outside the function body, and the functi
 
 `_template` is defined in the function and contains the current template name.
 
-`_ftmpl` is a `bytes.Buffer` which contains the result of the template. It means that `{{! _ftmpl.WriteString("something") }}` is equivalent to `{{=s "something" }}`.
+`_ftmpl` is a `bytes.Buffer` which contains the result of the template. `_w` is an alias to `_ftmpl.WriteString`. It means that `{{! _ftmpl.WriteString("something") }}` is equivalent to `{{! _w("something") }} which in turn is the same as `{{=s "something" }}`.
 
 ## Careful with Go code
 
