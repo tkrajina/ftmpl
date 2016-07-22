@@ -12,8 +12,6 @@ import (
 	"strings"
 )
 
-const VERSION = "v0.2.2"
-
 const (
 	cmdPrefix    = "!#"
 	cmdNocompile = "!#nocompile"
