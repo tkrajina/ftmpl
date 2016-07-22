@@ -71,16 +71,3 @@ type errParams struct {
 }
 
 var stringTemplate = texttmpl.Must(texttmpl.New("").Parse(`_w(` + "`" + `{{ . }}` + "`" + `)`))
-
-var newlineTemplate = `_w("\\n")`
-
-var patternTemplate = texttmpl.Must(texttmpl.New("").Parse(`_w(fmt.Sprintf(` + "`" + `{{ .Template }}` + "`" + `, {{ .ArgsJoined }}))`))
-
-type patternTemplateParam struct {
-	Template string
-	Args     []string
-}
-
-func (ptp patternTemplateParam) ArgsJoined() string {
-	return strings.Join(ptp.Args, ", ")
-}
