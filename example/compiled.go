@@ -19,24 +19,25 @@ func init() {
 // TMPLERRBaseEmbedded evaluates a template BaseEmbedded.tmpl
 func TMPLERRBaseEmbedded(title string) (string, error) {
 	_template := "BaseEmbedded.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`
 <html>
     <head>
         <title>`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape(title)))
-	_, _ = _ftmpl.WriteString(`</title>
+	_w(fmt.Sprintf(`%s`, _escape(title)))
+	_w(`</title>
 `)
-	_, _ = _ftmpl.WriteString(`
+	_w(`
     </head>
     <body>
 `)
-	_, _ = _ftmpl.WriteString(`
+	_w(`
 `)
-	_, _ = _ftmpl.WriteString(`
+	_w(`
     </body>
 </html>
 `)
@@ -56,13 +57,14 @@ func TMPLBaseEmbedded(title string) string {
 // TMPLERRBasicCode evaluates a template BasicCode.tmpl
 func TMPLERRBasicCode(s string, num int) (string, error) {
 	_template := "BasicCode.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
 	for i := 0; i < num; i++ {
-		_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, i))
-		_, _ = _ftmpl.WriteString(`
+		_w(fmt.Sprintf(`%d`, i))
+		_w(`
 `)
 	}
 
@@ -81,16 +83,17 @@ func TMPLBasicCode(s string, num int) string {
 // TMPLERRBasicEmbeddedCode evaluates a template BasicEmbeddedCode.tmpl
 func TMPLERRBasicEmbeddedCode(n int) (string, error) {
 	_template := "BasicEmbeddedCode.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
 	for i := 0; i < n; i++ {
-		_, _ = _ftmpl.WriteString(`i=`)
-		_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, i))
-		_, _ = _ftmpl.WriteString(` `)
+		_w(`i=`)
+		_w(fmt.Sprintf(`%d`, i))
+		_w(` `)
 	}
-	_, _ = _ftmpl.WriteString(`
+	_w(`
 `)
 
 	return _ftmpl.String(), nil
@@ -108,30 +111,31 @@ func TMPLBasicEmbeddedCode(n int) string {
 // TMPLERRBasicIfElse evaluates a template BasicIfElse.tmpl
 func TMPLERRBasicIfElse(n int) (string, error) {
 	_template := "BasicIfElse.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
 	if n < 10 {
-		_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, n))
-		_, _ = _ftmpl.WriteString(` less than 10`)
+		_w(fmt.Sprintf(`%d`, n))
+		_w(` less than 10`)
 	}
-	_, _ = _ftmpl.WriteString(`
+	_w(`
 `)
 	if n > 0 {
-		_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, n))
-		_, _ = _ftmpl.WriteString(` biger than 0`)
+		_w(fmt.Sprintf(`%d`, n))
+		_w(` biger than 0`)
 	}
-	_, _ = _ftmpl.WriteString(`
+	_w(`
 `)
 	if n > 5 {
-		_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, n))
-		_, _ = _ftmpl.WriteString(` biger than 5`)
+		_w(fmt.Sprintf(`%d`, n))
+		_w(` biger than 5`)
 	} else {
-		_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, n))
-		_, _ = _ftmpl.WriteString(` smaller than 5`)
+		_w(fmt.Sprintf(`%d`, n))
+		_w(` smaller than 5`)
 	}
-	_, _ = _ftmpl.WriteString(`
+	_w(`
 `)
 
 	return _ftmpl.String(), nil
@@ -149,20 +153,21 @@ func TMPLBasicIfElse(n int) string {
 // TMPLERRBasicIfElseif evaluates a template BasicIfElseif.tmpl
 func TMPLERRBasicIfElseif(n int) (string, error) {
 	_template := "BasicIfElseif.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`
 `)
 	if n < 10 {
-		_, _ = _ftmpl.WriteString(`n less than 10`)
+		_w(`n less than 10`)
 	} else if n < 100 {
-		_, _ = _ftmpl.WriteString(`n less than 100`)
+		_w(`n less than 100`)
 	} else {
-		_, _ = _ftmpl.WriteString(`n bigger than 100`)
+		_w(`n bigger than 100`)
 	}
-	_, _ = _ftmpl.WriteString(`
+	_w(`
 `)
 
 	return _ftmpl.String(), nil
@@ -180,42 +185,43 @@ func TMPLBasicIfElseif(n int) string {
 // TMPLERRComparisonWithGoTemplates evaluates a template ComparisonWithGoTemplates.tmpl
 func TMPLERRComparisonWithGoTemplates(params TemplateParam) (string, error) {
 	_template := "ComparisonWithGoTemplates.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`<html>
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`<html>
     <head>
         <title>`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape(params.Title)))
-	_, _ = _ftmpl.WriteString(`</title>
+	_w(fmt.Sprintf(`%s`, _escape(params.Title)))
+	_w(`</title>
     </head>
     <body>
         <h1>`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape(params.Title)))
-	_, _ = _ftmpl.WriteString(`</h1>
+	_w(fmt.Sprintf(`%s`, _escape(params.Title)))
+	_w(`</h1>
         `)
 	if len(params.Subtitle) > 0 {
-		_, _ = _ftmpl.WriteString(`<h2>`)
-		_, _ = _ftmpl.WriteString(fmt.Sprintf(`%v`, params.Subtitle))
-		_, _ = _ftmpl.WriteString(`</h1>`)
+		_w(`<h2>`)
+		_w(fmt.Sprintf(`%v`, params.Subtitle))
+		_w(`</h1>`)
 	}
-	_, _ = _ftmpl.WriteString(`
+	_w(`
         <ul>
             `)
 	for _, item := range params.Items {
-		_, _ = _ftmpl.WriteString(`
+		_w(`
                 <li> `)
-		_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape(item)))
-		_, _ = _ftmpl.WriteString(`
+		_w(fmt.Sprintf(`%s`, _escape(item)))
+		_w(`
             `)
 	}
-	_, _ = _ftmpl.WriteString(`
+	_w(`
         </ul>
         <p>
             Written `)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, len(params.Items)))
-	_, _ = _ftmpl.WriteString(` items
+	_w(fmt.Sprintf(`%d`, len(params.Items)))
+	_w(` items
         </p>
     </body>
 </html>
@@ -236,33 +242,34 @@ func TMPLComparisonWithGoTemplates(params TemplateParam) string {
 // TMPLERRExtendsEmbedded evaluates a template ExtendsEmbedded.tmpl
 func TMPLERRExtendsEmbedded(title string, something int) (string, error) {
 	_template := "ExtendsEmbedded.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`
 <html>
     <head>
         <title>`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape(title)))
-	_, _ = _ftmpl.WriteString(`</title>
+	_w(fmt.Sprintf(`%s`, _escape(title)))
+	_w(`</title>
 `)
-	_, _ = _ftmpl.WriteString(`
+	_w(`
 <script>
 alert("included")
 </script>
 
 `)
-	_, _ = _ftmpl.WriteString(`
+	_w(`
     </head>
     <body>
 `)
-	_, _ = _ftmpl.WriteString(`
+	_w(`
 <h1>Body!</h1>
 `)
-	_, _ = _ftmpl.WriteString(`
+	_w(`
 `)
-	_, _ = _ftmpl.WriteString(`
+	_w(`
     </body>
 </html>
 `)
@@ -282,25 +289,26 @@ func TMPLExtendsEmbedded(title string, something int) string {
 // TMPLERRFmtFormat evaluates a template FmtFormat.tmpl
 func TMPLERRFmtFormat() (string, error) {
 	_template := "FmtFormat.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`A simple int:`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, 10))
-	_, _ = _ftmpl.WriteString(`
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`A simple int:`)
+	_w(fmt.Sprintf(`%d`, 10))
+	_w(`
 A number:`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%1.2f`, 2.3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333))
-	_, _ = _ftmpl.WriteString(`
+	_w(fmt.Sprintf(`%1.2f`, 2.3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333))
+	_w(`
 A padded string:`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`% 10s`, _escape("padded")))
-	_, _ = _ftmpl.WriteString(`
+	_w(fmt.Sprintf(`% 10s`, _escape("padded")))
+	_w(`
 A padded string #2:`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`% 10s`, _escape("&&&&")))
-	_, _ = _ftmpl.WriteString(`
+	_w(fmt.Sprintf(`% 10s`, _escape("&&&&")))
+	_w(`
 A padded string #3:`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`% 10s`, "&&&&"))
-	_, _ = _ftmpl.WriteString(`
+	_w(fmt.Sprintf(`% 10s`, "&&&&"))
+	_w(`
 `)
 
 	return _ftmpl.String(), nil
@@ -318,15 +326,16 @@ func TMPLFmtFormat() string {
 // TMPLERRNoncodeLineWithExclamationMark evaluates a template NoncodeLineWithExclamationMark.tmpl
 func TMPLERRNoncodeLineWithExclamationMark() (string, error) {
 	_template := "NoncodeLineWithExclamationMark.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`!s1 := "This line is not a code line"
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`!s1 := "This line is not a code line"
 `)
 	s2 := "This *is* a line of code"
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape(s2)))
-	_, _ = _ftmpl.WriteString(`
+	_w(fmt.Sprintf(`%s`, _escape(s2)))
+	_w(`
 `)
 
 	return _ftmpl.String(), nil
@@ -344,13 +353,15 @@ func TMPLNoncodeLineWithExclamationMark() string {
 // TMPLERRWithDirectWriting evaluates a template WithDirectWriting.tmpl
 func TMPLERRWithDirectWriting() (string, error) {
 	_template := "WithDirectWriting.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`This is `)
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`This is `)
 	_ftmpl.WriteString("Written directly to ftmplresult")
-	_, _ = _ftmpl.WriteString(`
+	_w("!")
+	_w(`
 `)
 
 	return _ftmpl.String(), nil
@@ -368,14 +379,15 @@ func TMPLWithDirectWriting() string {
 // TMPLERRWithEndInsteadOfBrackets evaluates a template WithEndInsteadOfBrackets.tmpl
 func TMPLERRWithEndInsteadOfBrackets() (string, error) {
 	_template := "WithEndInsteadOfBrackets.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
 	for i := 0; i < 5; i++ {
-		_, _ = _ftmpl.WriteString(`i=`)
-		_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, i))
-		_, _ = _ftmpl.WriteString(`
+		_w(`i=`)
+		_w(fmt.Sprintf(`%d`, i))
+		_w(`
 `)
 	}
 
@@ -394,22 +406,23 @@ func TMPLWithEndInsteadOfBrackets() string {
 // TMPLERRWithExclamationMark evaluates a template WithExclamationMark.tmpl
 func TMPLERRWithExclamationMark() (string, error) {
 	_template := "WithExclamationMark.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`Something here `)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, 5))
-	_, _ = _ftmpl.WriteString(`! And something `)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape("here")))
-	_, _ = _ftmpl.WriteString(`.
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`Something here `)
+	_w(fmt.Sprintf(`%d`, 5))
+	_w(`! And something `)
+	_w(fmt.Sprintf(`%s`, _escape("here")))
+	_w(`.
 And something here: `)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%t`, true))
-	_, _ = _ftmpl.WriteString(`! And `)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape("here, too")))
-	_, _ = _ftmpl.WriteString(`!! Hey, one `)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape("more")))
-	_, _ = _ftmpl.WriteString(`!!!
+	_w(fmt.Sprintf(`%t`, true))
+	_w(`! And `)
+	_w(fmt.Sprintf(`%s`, _escape("here, too")))
+	_w(`!! Hey, one `)
+	_w(fmt.Sprintf(`%s`, _escape("more")))
+	_w(`!!!
 `)
 
 	return _ftmpl.String(), nil
@@ -432,16 +445,17 @@ type Argument struct {
 // TMPLERRWithGlobalDeclaration evaluates a template WithGlobalDeclaration.tmpl
 func TMPLERRWithGlobalDeclaration(arg Argument) (string, error) {
 	_template := "WithGlobalDeclaration.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`Aaa=`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape(arg.Aaa)))
-	_, _ = _ftmpl.WriteString(`
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`Aaa=`)
+	_w(fmt.Sprintf(`%s`, _escape(arg.Aaa)))
+	_w(`
 Bbb=`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, arg.Bbb))
-	_, _ = _ftmpl.WriteString(`
+	_w(fmt.Sprintf(`%d`, arg.Bbb))
+	_w(`
 `)
 
 	return _ftmpl.String(), nil
@@ -459,16 +473,17 @@ func TMPLWithGlobalDeclaration(arg Argument) string {
 // TMPLERRWithInsert evaluates a template WithInsert.tmpl
 func TMPLERRWithInsert(a int) (string, error) {
 	_template := "WithInsert.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`Will insert something here: `)
-	_, _ = _ftmpl.WriteString(`a=`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, a))
-	_, _ = _ftmpl.WriteString(`
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`Will insert something here: `)
+	_w(`a=`)
+	_w(fmt.Sprintf(`%d`, a))
+	_w(`
 `)
-	_, _ = _ftmpl.WriteString(`
+	_w(`
 `)
 
 	return _ftmpl.String(), nil
@@ -486,16 +501,17 @@ func TMPLWithInsert(a int) string {
 // TMPLERRWithPercentage evaluates a template WithPercentage.tmpl
 func TMPLERRWithPercentage(str string) (string, error) {
 	_template := "WithPercentage.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`%, str=`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape(str)))
-	_, _ = _ftmpl.WriteString(`
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`%, str=`)
+	_w(fmt.Sprintf(`%s`, _escape(str)))
+	_w(`
 %, str=`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape(fmt.Sprintf("aaa%sccc", "bbb"))))
-	_, _ = _ftmpl.WriteString(`
+	_w(fmt.Sprintf(`%s`, _escape(fmt.Sprintf("aaa%sccc", "bbb"))))
+	_w(`
 `)
 
 	return _ftmpl.String(), nil
@@ -513,19 +529,20 @@ func TMPLWithPercentage(str string) string {
 // TMPLERRbasic evaluates a template basic.tmpl
 func TMPLERRbasic(str string, num int) (string, error) {
 	_template := "basic.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`String:`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape(str)))
-	_, _ = _ftmpl.WriteString(`
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`String:`)
+	_w(fmt.Sprintf(`%s`, _escape(str)))
+	_w(`
 Unescaped:`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, str))
-	_, _ = _ftmpl.WriteString(`
+	_w(fmt.Sprintf(`%s`, str))
+	_w(`
 Num:`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, num))
-	_, _ = _ftmpl.WriteString(`
+	_w(fmt.Sprintf(`%d`, num))
+	_w(`
 This {{ is ignored
 So is this }} !
 `)
@@ -545,29 +562,30 @@ func TMPLbasic(str string, num int) string {
 // TMPLERRextends evaluates a template extends.tmpl
 func TMPLERRextends(title string, something int) (string, error) {
 	_template := "extends.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`
 `)
-	_, _ = _ftmpl.WriteString(`<html>
+	_w(`<html>
     <head>
         <title>`)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, _escape(title)))
-	_, _ = _ftmpl.WriteString(`</title>
+	_w(fmt.Sprintf(`%s`, _escape(title)))
+	_w(`</title>
 `)
-	_, _ = _ftmpl.WriteString(`<script>
+	_w(`<script>
 alert("included")
 </script>
 
 `)
-	_, _ = _ftmpl.WriteString(`    </head>
+	_w(`    </head>
     <body>
 `)
-	_, _ = _ftmpl.WriteString(`<h1>Body!</h1>
+	_w(`<h1>Body!</h1>
 `)
-	_, _ = _ftmpl.WriteString(`    </body>
+	_w(`    </body>
 </html>
 `)
 
@@ -586,16 +604,17 @@ func TMPLextends(title string, something int) string {
 // TMPLERRreturn evaluates a template return.tmpl
 func TMPLERRreturn(a int) (string, error) {
 	_template := "return.tmpl"
-	_ = _template
 	_escape := html.EscapeString
-	_ = _escape
 	var _ftmpl bytes.Buffer
-	_, _ = _ftmpl.WriteString(`a is `)
-	_, _ = _ftmpl.WriteString(fmt.Sprintf(`%d`, a))
-	_, _ = _ftmpl.WriteString(`
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`a is `)
+	_w(fmt.Sprintf(`%d`, a))
+	_w(`
 `)
 	return _ftmpl.String(), nil
-	_, _ = _ftmpl.WriteString(`
+	_w(`
 This line is ignored
 `)
 

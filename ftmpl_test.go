@@ -57,7 +57,7 @@ And something here: true! And here, too!! Hey, one more!!!`
 
 func TestWithDirectWriting(t *testing.T) {
 	result := example.TMPLWithDirectWriting()
-	expected := `This is Written directly to ftmplresult`
+	expected := `This is Written directly to ftmplresult!`
 	if strings.TrimSpace(expected) != strings.TrimSpace(result) {
 		t.Error("Expected:", expected, "was:", result)
 	}

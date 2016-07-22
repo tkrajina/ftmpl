@@ -304,7 +304,7 @@ func getChunks(str string) []string {
 					return ""
 				}
 
-				res := fmt.Sprintf("!_, _ = _ftmpl.WriteString(fmt.Sprintf(`%s`, %s))", placeholder, valueExpr)
+				res := fmt.Sprintf("!_w(fmt.Sprintf(`%s`, %s))", placeholder, valueExpr)
 				return delimiter + res + delimiter
 			})
 		}
