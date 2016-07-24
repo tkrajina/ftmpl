@@ -125,13 +125,13 @@ func saveTemplates(destination string, compiled ...compiledTemplate) {
 
 	fOut, err := os.Create(destination)
 	HandleError(err, "Error creating file")
-	defer fOut.Close()
+	defer func() { _ = fOut.Close() }()
 
 	_, _ = fOut.WriteString("// package " + packageName + " is generated with ftmpl {{{" + VERSION + "}}}, do not edit!!!! */\n")
 	_, _ = fOut.WriteString("package " + packageName + "\n\n")
 	_, _ = fOut.WriteString("import (\n")
 	for _, i := range imports {
-		fOut.WriteString(i + "\n")
+		_, _ = fOut.WriteString(i + "\n")
 	}
 	_, _ = fOut.WriteString(")\n\n")
 	_, _ = fOut.WriteString(initFunctionTemplate)
@@ -425,7 +425,9 @@ func convertTemplate(packageDir, file string, params convertTemplateParams) comp
 	tmplParams.Args = rmDoubleImports(tmplParams.Args)
 
 	var buf bytes.Buffer
-	generatorTemplate.Execute(&buf, tmplParams)
+	err := generatorTemplate.Execute(&buf, tmplParams)
+	HandleError(err, "Error executing template")
+
 	result.functionCode = buf.String()
 
 	return result

@@ -10,6 +10,7 @@ import (
 	texttmpl "text/template"
 	"time"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/tkrajina/ftmpl/example"
 )
 
@@ -234,7 +235,8 @@ func TestComparisonWithGolangTemplates(t *testing.T) {
 	}
 	var buf bytes.Buffer
 	goTmplStarted := time.Now().Nanosecond()
-	golangTemplate.Execute(&buf, param)
+	err := golangTemplate.Execute(&buf, param)
+	assert.Nil(t, err)
 	goTmplFinished := time.Now().Nanosecond()
 
 	ftmplStarted := time.Now().Nanosecond()
