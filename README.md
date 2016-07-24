@@ -281,7 +281,7 @@ The `Argument` struct will be declared outside the function body, and the functi
 
 `_template` is defined in the function and contains the current template name.
 
-`_ftmpl` is a `bytes.Buffer` which contains the result of the template. `_w` is an alias to `_ftmpl.WriteString`. It means that `{{! _ftmpl.WriteString("something") }}` is equivalent to `{{! _w("something") }} which in turn is the same as `{{=s "something" }}`.
+`_ftmpl` is a `bytes.Buffer` which contains the result of the template. `_w` is an alias to `_ftmpl.WriteString`. It means that `{{! _ftmpl.WriteString("something") }}` is equivalent to `{{! _w("something") }}` which in turn is the same as `{{=s "something" }}`.
 
 ## Careful with Go code
 
