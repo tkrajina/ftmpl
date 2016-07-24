@@ -313,9 +313,9 @@ func linesEquals(str1, str2 string) (explanation string, equals bool) {
 	for i := 0; i < len(lines1); i++ {
 		line1 := lines1[i]
 		line2 := lines2[i]
-		for i := 0; i < int(math.Min(float64(len(line1)), float64(len(line2)))); i++ {
-			ch1 := line1[i]
-			ch2 := line2[i]
+		for j := 0; j < int(math.Min(float64(len(line1)), float64(len(line2)))); j++ {
+			ch1 := line1[j]
+			ch2 := line2[j]
 			if ch1 != ch2 {
 				return fmt.Sprintf("Line #%d don't match \"%s\"!=\"%s\" in character #%d: %c!=%c", i, line1, line2, i, ch1, ch2), false
 			}
