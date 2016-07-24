@@ -127,7 +127,7 @@ func saveTemplates(destination string, compiled ...compiledTemplate) {
 	HandleError(err, "Error creating file")
 	defer func() { _ = fOut.Close() }()
 
-	_, _ = fOut.WriteString("// package " + packageName + " is generated with ftmpl {{{" + VERSION + "}}}, do not edit!!!! */\n")
+	_, _ = fOut.WriteString("// Package " + packageName + " is generated with ftmpl {{{" + VERSION + "}}}, do not edit!!!! */\n")
 	_, _ = fOut.WriteString("package " + packageName + "\n\n")
 	_, _ = fOut.WriteString("import (\n")
 	for _, i := range imports {
@@ -172,7 +172,7 @@ func processExtending(pckg string, chunks []string) []string {
 	subTemplateCode, subTemplateChunks := loadTemplateSubChunks(chunks)
 
 	var usedSubtemplateChunks = map[string]bool{}
-	for k, _ := range subTemplateChunks {
+	for k := range subTemplateChunks {
 		usedSubtemplateChunks[k] = false
 	}
 

@@ -115,5 +115,5 @@ func watchAndRecompile(params ftmplting.Params) {
 
 	<-done
 
-	watcher.Close()
+	_ = watcher.Close()
 }
