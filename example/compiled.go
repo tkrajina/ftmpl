@@ -1,4 +1,4 @@
-// package example is generated with ftmpl {{{v0.2.5-beta}}}, do not edit!!!! */
+// package example is generated with ftmpl {{{v0.3.0}}}, do not edit!!!! */
 package example
 
 import (
