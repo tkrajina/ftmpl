@@ -309,6 +309,9 @@ A padded string #2:`)
 A padded string #3:`)
 	_w(fmt.Sprintf(`% 10s`, "&&&&"))
 	_w(`
+A +v formatting: `)
+	_w(fmt.Sprintf(`%+v`, []string{"aaa"}))
+	_w(`
 `)
 
 	return _ftmpl.String(), nil

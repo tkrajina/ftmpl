@@ -43,7 +43,7 @@ type compiledTemplate struct {
 
 var exclamationMarkFixRegex = regexp.MustCompile("{{.*?}}\\!")
 var templateReplacementRegex = regexp.MustCompile("{{.*?}}")
-var fmtFormatRegex = regexp.MustCompile("\\%\\s{0,1}[\\d\\.]*\\w\\s+")
+var fmtFormatRegex = regexp.MustCompile("\\%.*?\\w\\s+")
 
 func Do(ap Params) {
 	var compiledTemplates []compiledTemplate

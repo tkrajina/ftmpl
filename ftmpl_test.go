@@ -270,7 +270,8 @@ func TestFmtFormat(t *testing.T) {
 A number:2.33
 A padded string:    padded
 A padded string #2:&amp;&amp;&amp;&amp;
-A padded string #3:      &&&&`
+A padded string #3:      &&&&
+A +v formatting: [aaa]`
 	if explanation, ok := linesEquals(withInsert, expected); !ok {
 		t.Error(explanation)
 	}
