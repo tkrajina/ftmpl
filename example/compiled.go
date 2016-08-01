@@ -1,4 +1,4 @@
-// package example is generated with ftmpl {{{v0.2.5-beta}}}, do not edit!!!! */
+// Package example is generated with ftmpl {{{v0.3.0-beta}}}, do not edit!!!! */
 package example
 
 import (
@@ -308,6 +308,9 @@ A padded string #2:`)
 	_w(`
 A padded string #3:`)
 	_w(fmt.Sprintf(`% 10s`, "&&&&"))
+	_w(`
+A +v formatting: `)
+	_w(fmt.Sprintf(`%+v`, []string{"aaa"}))
 	_w(`
 `)
 

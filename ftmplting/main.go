@@ -43,7 +43,7 @@ type compiledTemplate struct {
 
 var exclamationMarkFixRegex = regexp.MustCompile("{{.*?}}\\!")
 var templateReplacementRegex = regexp.MustCompile("{{.*?}}")
-var fmtFormatRegex = regexp.MustCompile("\\%\\s{0,1}[\\d\\.]*\\w\\s+")
+var fmtFormatRegex = regexp.MustCompile("\\%.*?\\w\\s+")
 
 func Do(ap Params) {
 	var compiledTemplates []compiledTemplate
@@ -125,13 +125,13 @@ func saveTemplates(destination string, compiled ...compiledTemplate) {
 
 	fOut, err := os.Create(destination)
 	HandleError(err, "Error creating file")
-	defer fOut.Close()
+	defer func() { _ = fOut.Close() }()
 
-	_, _ = fOut.WriteString("// package " + packageName + " is generated with ftmpl {{{" + VERSION + "}}}, do not edit!!!! */\n")
+	_, _ = fOut.WriteString("// Package " + packageName + " is generated with ftmpl {{{" + VERSION + "}}}, do not edit!!!! */\n")
 	_, _ = fOut.WriteString("package " + packageName + "\n\n")
 	_, _ = fOut.WriteString("import (\n")
 	for _, i := range imports {
-		fOut.WriteString(i + "\n")
+		_, _ = fOut.WriteString(i + "\n")
 	}
 	_, _ = fOut.WriteString(")\n\n")
 	_, _ = fOut.WriteString(initFunctionTemplate)
@@ -172,7 +172,7 @@ func processExtending(pckg string, chunks []string) []string {
 	subTemplateCode, subTemplateChunks := loadTemplateSubChunks(chunks)
 
 	var usedSubtemplateChunks = map[string]bool{}
-	for k, _ := range subTemplateChunks {
+	for k := range subTemplateChunks {
 		usedSubtemplateChunks[k] = false
 	}
 
@@ -302,8 +302,7 @@ func getChunks(str string) []string {
 					return ""
 				}
 
-				res := fmt.Sprintf("!_w(fmt.Sprintf(`%s`, %s))", placeholder, valueExpr)
-				return delimiter + res + delimiter
+				return fmt.Sprintf("%s!_w(fmt.Sprintf(`%s`, %s))%s", delimiter, placeholder, valueExpr, delimiter)
 			})
 		}
 	}
@@ -426,7 +425,9 @@ func convertTemplate(packageDir, file string, params convertTemplateParams) comp
 	tmplParams.Args = rmDoubleImports(tmplParams.Args)
 
 	var buf bytes.Buffer
-	generatorTemplate.Execute(&buf, tmplParams)
+	err := generatorTemplate.Execute(&buf, tmplParams)
+	HandleError(err, "Error executing template")
+
 	result.functionCode = buf.String()
 
 	return result
