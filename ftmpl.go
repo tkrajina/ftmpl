@@ -42,14 +42,12 @@ func main() {
 	}
 
 	if len(flag.Args()) != 1 {
-		fmt.Fprintln(os.Stderr, "Need one source directory with templates")
-		os.Exit(1)
+		usageAndExit("Need one source directory with templates")
 	}
 	params.SourceDir = flag.Arg(0)
 
 	if len(params.TargetDir) > 0 && len(params.TargetGoFile) > 0 {
-		fmt.Fprintln(os.Stderr, fmt.Sprintf("Only %s or %s (or none) can be used, not both", cmdlineTargetGo, cmdlineTargetDir))
-		os.Exit(1)
+		usageAndExit(fmt.Sprintf("Only %s or %s (or none) can be used, not both", cmdlineTargetGo, cmdlineTargetDir))
 	}
 
 	if len(params.TargetDir) == 0 && len(params.TargetGoFile) == 0 {
@@ -61,6 +59,13 @@ func main() {
 	if watch {
 		watchAndRecompile(params)
 	}
+}
+
+func usageAndExit(msg string) {
+	fmt.Fprintln(os.Stderr, msg)
+	fmt.Fprintln(os.Stderr, "\nUsage:\n\tftmpl [options] source_dir\n\n")
+	flag.PrintDefaults()
+	os.Exit(1)
 }
 
 func unwatchAll() {
