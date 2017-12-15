@@ -326,6 +326,38 @@ func TMPLFmtFormat() string {
 	return html
 }
 
+// TMPLERRInsertWithSubExtends evaluates a template InsertWithSubExtends.tmpl
+func TMPLERRInsertWithSubExtends() (string, error) {
+	_template := "InsertWithSubExtends.tmpl"
+	_escape := html.EscapeString
+	var _ftmpl bytes.Buffer
+	_w := func(str string) { _, _ = _ftmpl.WriteString(str) }
+	_, _, _ = _template, _escape, _w
+
+	_w(`<html>
+`)
+	_w(`aaa
+`)
+	_w(`sub-something
+`)
+	_w(`bbb
+`)
+	_w(`
+</html>
+`)
+
+	return _ftmpl.String(), nil
+}
+
+// TMPLInsertWithSubExtends evaluates a template InsertWithSubExtends.tmpl
+func TMPLInsertWithSubExtends() string {
+	html, err := TMPLERRInsertWithSubExtends()
+	if err != nil {
+		_, _ = os.Stderr.WriteString("Error running template InsertWithSubExtends.tmpl:" + err.Error())
+	}
+	return html
+}
+
 // TMPLERRNoncodeLineWithExclamationMark evaluates a template NoncodeLineWithExclamationMark.tmpl
 func TMPLERRNoncodeLineWithExclamationMark() (string, error) {
 	_template := "NoncodeLineWithExclamationMark.tmpl"

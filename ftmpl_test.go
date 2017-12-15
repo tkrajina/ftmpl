@@ -289,6 +289,18 @@ i=4`
 	}
 }
 
+func TestInsertWithSub(t *testing.T) {
+	res := example.TMPLInsertWithSubExtends()
+	if explanation, ok := linesEquals(`<html>
+aaa
+sub-something
+bbb
+
+</html>`, res); !ok {
+		t.Error(explanation)
+	}
+}
+
 func linesEquals(str1, str2 string) (explanation string, equals bool) {
 	if str1 == str2 {
 		return "", true
