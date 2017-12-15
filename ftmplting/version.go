@@ -1,3 +1,3 @@
 package ftmplting
 
-const VERSION = "v0.3.0-beta"
+const VERSION = "v0.3.1"
