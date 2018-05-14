@@ -21,6 +21,7 @@ const (
 	cmdlineUnwatchAll    = "unwatchall"
 	cmdlineTargetGo      = "targetgo"
 	cmdlineTargetDir     = "targetdir"
+	cmdlinePackage       = "package"
 	cmdlineFuncPrefix    = "prefix"
 	cmdlineFuncPrefixErr = "prefixerr"
 )
@@ -32,6 +33,7 @@ func main() {
 	flag.StringVar(&(params.TargetDir), cmdlineTargetDir, "", "Save the result in this directory")
 	flag.StringVar(&(params.FuncPrefix), cmdlineFuncPrefix, "TMPL", "Prefix to be used with generated functions")
 	flag.StringVar(&(params.FuncPrefixErr), cmdlineFuncPrefixErr, "TMPLERR", "Prefix to be used with generated functions (returning error)")
+	flag.StringVar(&(params.Package), cmdlinePackage, "", "Specify package (for example use 'main' instead of directory name)")
 	flag.BoolVar(&watch, cmdlineWatch, false, "Watch source directory and recompile templates if anything changes there")
 	flag.BoolVar(&unwatch, cmdlineUnwatchAll, false, "Stop all ftmpl watching processes started in this directory")
 	flag.Parse()

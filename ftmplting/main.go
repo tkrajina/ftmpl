@@ -33,6 +33,7 @@ type Params struct {
 	TargetGoFile  string
 	FuncPrefix    string
 	FuncPrefixErr string
+	Package       string
 }
 
 type compiledTemplate struct {
@@ -70,7 +71,7 @@ func Do(ap Params) {
 				fileName = strings.Replace(fileName, ".tmpl", ".go", -1)
 				fileName = path.Join(ap.TargetDir, fileName)
 				if len(compiled.functionCode) > 0 {
-					saveTemplates(fileName, compiled)
+					saveTemplates(ap, fileName, compiled)
 				}
 			} else {
 				compiledTemplates = append(compiledTemplates, compiled)
@@ -79,7 +80,7 @@ func Do(ap Params) {
 	}
 
 	if len(ap.TargetGoFile) > 0 {
-		saveTemplates(ap.TargetGoFile, compiledTemplates...)
+		saveTemplates(ap, ap.TargetGoFile, compiledTemplates...)
 	}
 }
 
@@ -92,7 +93,7 @@ func printfWarning(str string, args ...interface{}) {
 	fmt.Fprintln(os.Stderr, "----------------------------------------------------------------------------------------------------")
 }
 
-func saveTemplates(destination string, compiled ...compiledTemplate) {
+func saveTemplates(ap Params, destination string, compiled ...compiledTemplate) {
 	fmt.Sprintln("destination=", destination)
 
 	if f, err := os.Open(destination); err == nil {
@@ -121,6 +122,9 @@ func saveTemplates(destination string, compiled ...compiledTemplate) {
 	packageName := pathElem2
 	if strings.Contains(pathElem2, ".go") {
 		packageName = pathElem1
+	}
+	if len(ap.Package) > 0 {
+		packageName = ap.Package
 	}
 
 	fOut, err := os.Create(destination)
